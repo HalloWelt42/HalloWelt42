@@ -1,7 +1,7 @@
 ### Hi Leute 👋
 
 ❄️
- ☃️ Advent of Code 🎄 : https://github.com/HalloWelt42/snippets/tree/master/app/src/advent_of_code/y2022
+ ☃️ Advent of Code 🎄 : https://github.com/HalloWelt42/Advent-Of-Code
 ❄️
 
 Discord: https://discord.gg/bJfWzddC7P
