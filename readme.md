@@ -1,7 +1,7 @@
-### Hi Leute 👋 ᓚᘏᗢ
+### Hi 👋 ᓚᘏᗢ
 
 ❄️
- ☃️ Advent of Code 🎄 : https://github.com/HalloWelt42/Advent-Of-Code
+ ☃️ Advent of Code 🎄 : https://github.com/HalloWelt42/AoC24
 ❄️
 
 <img align="left" src="https://github-readme-stats.vercel.app/api?username=hallowelt42&theme=dark#">
