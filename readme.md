@@ -27,7 +27,13 @@
 
 **Was TubeVault kann:**
 
-🔻 Videos in jeder Qualität lokal speichern · 📡 Kanäle per RSS verfolgen · ▶️ Im Browser streamen mit MiniPlayer · 📚 Bibliothek mit Playlists, Favoriten & Volltextsuche · 🔄 Backup & Restore · 🌙 Dark Mode
+- Videos in jeder Qualität lokal speichern 
+- Kanäle per RSS verfolgen
+- Im Browser streamen mit MiniPlayer
+- Bibliothek mit Playlists
+- Favoriten & Volltextsuche
+- Backup & Restore
+- 🌙 Dark Mode
 
 **Tech:** Python 3.12 · FastAPI · Svelte 5 · SQLite · Docker Compose · Nginx  
 **Läuft auf:** Raspberry Pi 4/5, Linux-Server, macOS
