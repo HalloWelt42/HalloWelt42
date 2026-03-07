@@ -14,30 +14,6 @@
 
 ---
 
-## 🔒 Warum Self-Hosted?
-
-Ich baue Tools, die auf **deiner** Hardware laufen – nicht in irgendeiner Cloud.  
-Deine Videos, deine Musik, deine Daten bleiben bei dir zu Hause.
-
-Alles was du brauchst: Ein Raspberry Pi, eine Steckdose und WLAN.
-
----
-
-## 🛠️ Tech Stack
-
-Meine Projekte folgen einem einheitlichen Stack:
-
-| Schicht | Technologie |
-|---------|------------|
-| Backend | Python, FastAPI, SQLite |
-| Frontend | Svelte 5, Vite, Vanilla CSS |
-| Deployment | Docker Compose |
-| Zielplattform | Raspberry Pi 5, ARM64 |
-
----
-
-## ☕ Unterstützen
-
 Alle Projekte sind kostenlos und werbefrei.  
 Wenn dir gefällt was ich mache:
 
