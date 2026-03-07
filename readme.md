@@ -14,36 +14,6 @@
 
 ---
 
-## 🎬 TubeVault – Dein privates Video-Archiv
-
-> Videos herunterladen, archivieren und streamen – alles lokal auf deinem eigenen Server.  
-> Kein YouTube-Konto nötig, kein Algorithmus, keine Werbung.
-
-<p align="center">
-  <a href="https://github.com/HalloWelt42/TubeVault">
-    <img src="https://raw.githubusercontent.com/HalloWelt42/TubeVault/master/media/screen_1.png" width="720" alt="TubeVault Screenshot" />
-  </a>
-</p>
-
-**Was TubeVault kann:**
-
-- Videos in jeder Qualität lokal speichern 
-- Kanäle per RSS verfolgen
-- Im Browser streamen mit MiniPlayer
-- Bibliothek mit Playlists
-- Favoriten & Volltextsuche
-- Backup & Restore
-- 🌙 Dark Mode
-
-**Tech:** Python 3.12 · FastAPI · Svelte 5 · SQLite · Docker Compose · Nginx  
-**Läuft auf:** Raspberry Pi 4/5, Linux-Server, macOS
-
-<p align="center">
-  <a href="https://github.com/HalloWelt42/TubeVault"><strong>→ Zum Projekt</strong></a>
-</p>
-
----
-
 ## 🔒 Warum Self-Hosted?
 
 Ich baue Tools, die auf **deiner** Hardware laufen – nicht in irgendeiner Cloud.  
