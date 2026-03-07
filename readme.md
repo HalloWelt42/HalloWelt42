@@ -18,9 +18,3 @@ Alle Projekte sind kostenlos und werbefrei.
 Wenn dir gefällt was ich mache:
 
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/HalloWelt42)
-
----
-
-<p align="center">
-  <sub>© 2025–2026 HalloWelt42 · Sachsen-Anhalt · Nicht-kommerzielle Nutzung</sub>
-</p>
