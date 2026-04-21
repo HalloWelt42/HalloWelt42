@@ -15,13 +15,13 @@
 <table align="center">
   <tr>
     <td width="80" align="center">
-      <a href="https://hallowelt42.github.io/PalaeddyFix/">
+      <a href="https://hallowelt42.github.io/PalaeddyFix/" target="_blank" rel="noopener noreferrer">
         <img src="https://raw.githubusercontent.com/HalloWelt42/PalaeddyFix/main/public/icon-192.png" width="64" height="64" alt="PaläddyFix" />
       </a>
     </td>
     <td>
-      <strong><a href="https://hallowelt42.github.io/PalaeddyFix/">PaläddyFix</a></strong>
-      · <a href="https://github.com/HalloWelt42/PalaeddyFix">Repo</a><br>
+      <strong><a href="https://hallowelt42.github.io/PalaeddyFix/" target="_blank" rel="noopener noreferrer">PaläddyFix</a></strong>
+      · <a href="https://github.com/HalloWelt42/PalaeddyFix" target="_blank" rel="noopener noreferrer">Repo</a><br>
       Farbanalyse- und Paletten-Werkzeug, komplett lokal im Browser.
     </td>
   </tr>
