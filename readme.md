@@ -28,7 +28,7 @@
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/CuttOffl" title="Webbased Video Cut Studio">
-        <img src="icons/cuttoffl.svg" width="52" height="52" alt="CuttOffl" />
+        <img src="icons/cuttoffl.png" width="52" height="52" alt="CuttOffl" />
       </a>
       <sub><b>CuttOffl</b></sub>
     </td>
@@ -39,20 +39,20 @@
       <sub><b>PyroPlus</b></sub>
     </td>
     <td align="center" width="80">
-      <a href="https://github.com/HalloWelt42/chrome-favoriten-manager" title="Favorit Manager for Chrome Browser">
+      <a href="https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejnpkdghbagijcpenmpaggcpbcancg" title="Favorit Manager for Chrome Browser">
         <img src="icons/favmanager.svg" width="52" height="52" alt="FavManager" />
       </a>
       <sub><b>FavManager</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/translatr-chrome-extention" title="LLM & Libre Translator — Better than GoogleTranslate & DeepL">
-        <img src="icons/translatr.svg" width="52" height="52" alt="Translatr" />
+        <img src="icons/translatr.png" width="52" height="52" alt="Translatr" />
       </a>
       <sub><b>Translatr</b></sub>
     </td>
     <td align="center" width="80">
-      <a href="https://github.com/HalloWelt42/claude-limit-chrome-addon" title="Usage Tracker for Claude AI">
-        <img src="icons/claudelimit.svg" width="52" height="52" alt="ClaudeLimit" />
+      <a href="https://chromewebstore.google.com/detail/dashboard-for-claude/iiimpoehijcfemfgpngdogcnaaooajhf" title="Usage Tracker for Claude AI">
+        <img src="icons/claudelimit.png" width="52" height="52" alt="ClaudeLimit" />
       </a>
       <sub><b>ClaudeLimit</b></sub>
     </td>
