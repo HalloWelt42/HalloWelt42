@@ -17,49 +17,49 @@
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/TubeVault" title="Better than FreeTube — YouTube ohne Tracking">
         <img src="icons/tubevault.svg" width="52" height="52" alt="TubeVault" />
-      </a><br>
+      </a>
       <sub><b>TubeVault</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/RadioHub" title="All in One — Radio, Record, PodCast, Audio-Cutter, Antispam">
         <img src="icons/radiohub.svg" width="52" height="52" alt="RadioHub" />
-      </a><br>
+      </a>
       <sub><b>RadioHub</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/CuttOffl" title="Webbased Video Cut Studio">
         <img src="icons/cuttoffl.svg" width="52" height="52" alt="CuttOffl" />
-      </a><br>
+      </a>
       <sub><b>CuttOffl</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/PyroPlus" title="Raspberry Pi 5 Hardware Management — Fan, LED, OLED Display">
         <img src="icons/pyroplus.svg" width="52" height="52" alt="PyroPlus" />
-      </a><br>
+      </a>
       <sub><b>PyroPlus</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/chrome-favoriten-manager" title="Favorit Manager for Chrome Browser">
         <img src="icons/favmanager.svg" width="52" height="52" alt="FavManager" />
-      </a><br>
+      </a>
       <sub><b>FavManager</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/translatr-chrome-extention" title="LLM & Libre Translator — Better than GoogleTranslate & DeepL">
         <img src="icons/translatr.svg" width="52" height="52" alt="Translatr" />
-      </a><br>
+      </a>
       <sub><b>Translatr</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://github.com/HalloWelt42/claude-limit-chrome-addon" title="Usage Tracker for Claude AI">
         <img src="icons/claudelimit.svg" width="52" height="52" alt="ClaudeLimit" />
-      </a><br>
+      </a>
       <sub><b>ClaudeLimit</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://hallowelt42.github.io/PalaeddyFix/" title="Farbanalyse- und Paletten-Werkzeug, lokal im Browser">
         <img src="https://raw.githubusercontent.com/HalloWelt42/PalaeddyFix/main/public/icon-192.png" width="52" height="52" alt="PaläddyFix" />
-      </a><br>
+      </a>
       <sub><b>PaläddyFix</b></sub>
     </td>
   </tr>
