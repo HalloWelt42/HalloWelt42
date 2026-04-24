@@ -33,8 +33,8 @@
       <sub><b>CuttOffl</b></sub>
     </td>
     <td align="center" width="80">
-      <a href="https://github.com/HalloWelt42/PyroPlus" title="Raspberry Pi 5 Hardware Management — Fan, LED, OLED Display">
-        <img src="icons/pyroplus.svg" width="52" height="52" alt="PyroPlus" />
+      <a href="https://chromewebstore.google.com/detail/video-hls-stream-download/pdhppamhikghebahhelhinciheheajaa" title="Browsererweiterung Video HLS-Stream Downloader">
+        <img src="icons/hsl-downloader.png" width="52" height="52" alt="HSL-Downloader" />
       </a>
       <sub><b>PyroPlus</b></sub>
     </td>
