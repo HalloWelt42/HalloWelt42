@@ -36,7 +36,7 @@
       <a href="https://chromewebstore.google.com/detail/video-hls-stream-download/pdhppamhikghebahhelhinciheheajaa" title="Browsererweiterung Video HLS-Stream Downloader">
         <img src="icons/hsl-downloader.png" width="52" height="52" alt="HSL-Downloader" />
       </a>
-      <sub><b>PyroPlus</b></sub>
+      <sub><b>HSL Stream REC</b></sub>
     </td>
     <td align="center" width="80">
       <a href="https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejnpkdghbagijcpenmpaggcpbcancg" title="Favorit Manager for Chrome Browser">
