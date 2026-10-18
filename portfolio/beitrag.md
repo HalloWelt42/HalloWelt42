@@ -4,19 +4,13 @@ Dokumenttitel beim Hochladen: HalloWelt42 Jahresbilanz 2026
 
 ---
 
-Mein Jahr 2026 in Projekten
+Jahresbilanz 2026: 48 Projekte, eine Frage
 
-7.257 Beiträge auf GitHub, zehnmal so viel wie 2025. 48 Projekte sind öffentlich, 43 weitere sind in Arbeit.
+Wo liegen meine Daten? Meine Antwort sind selbst gehostete Werkzeuge auf eigener Hardware, ohne fremde Dienste dazwischen.
 
-Alles dreht sich um eine Frage: Wo liegen meine Daten? Meine Antwort sind selbst gehostete Werkzeuge auf eigener Hardware, vom Raspberry Pi bis zum Mac, ohne fremde Dienste dazwischen.
+7.257 Beiträge auf GitHub, zehnmal so viel wie im Vorjahr. 48 Projekte sind öffentlich, 43 weitere in Arbeit. Die größten: TubeVault, das eigene Videoarchiv für zu Hause, und Orbit, ein Strategiespiel im Browser (https://orbit.antwort42.de).
 
-Die zwei größten:
-TubeVault, das eigene Videoarchiv für zu Hause, auf Rechner, Handy und Uhr.
-Orbit, ein Aufbau- und Strategiespiel im Browser, live spielbar: https://orbit.antwort42.de
-
-Im Dokument stehen alle Projekte nach Themen: Video und Audio, Sprache und Text mit lokaler KI, der eigene KI-Verbund, Ordnen und Teilen, Lernen, Alltag und Spiel, Hardware und Server, Werkzeuge für Entwickler.
-
-Die öffentlichen Projekte sind kostenlos, werbefrei und quelloffen:
+Alles zum Durchblättern im Dokument, der Code auf GitHub:
 https://github.com/HalloWelt42
 
-#SelfHosting #OpenSource #Datenschutz #LokaleKI
+#SelfHosting #OpenSource #Datenschutz #LokaleKI #Softwareentwicklung #Webentwicklung #RaspberryPi #Python #Jahresbilanz
