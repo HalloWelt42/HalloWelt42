@@ -1,0 +1,9 @@
+{
+  "name": "hallowelt42-portfolio",
+  "private": true,
+  "description": "Schriften für das Portfolio-PDF",
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/chakra-petch": "^5.3.0"
+  }
+}

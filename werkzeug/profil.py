@@ -13,17 +13,14 @@ import base64
 import html
 import pathlib
 import sys
-import tomllib
 from dataclasses import dataclass
 
-WURZEL = pathlib.Path(__file__).resolve().parent.parent
-DATEN = WURZEL / "projekte.toml"
+from projekte import WURZEL, Gruppe, Liste, Profil, Projekt, icon_fehler, laden, repo_adresse, ungenutzte_icons
+
 VORLAGE = WURZEL / "vorlage.md"
 README = WURZEL / "readme.md"
-ICONS = WURZEL / "icons"
 KACHELN = WURZEL / "kacheln"
 
-KONTO = "HalloWelt42"
 PLATZHALTER = "{{projekte}}"
 HINWEIS = "<!-- Erzeugt aus projekte.toml und vorlage.md mit werkzeug/profil.py - nicht von Hand bearbeiten. -->"
 
@@ -46,88 +43,6 @@ class Farbschema:
 HELL = Farbschema("hell", "#1f2328", None)
 DUNKEL = Farbschema("dunkel", "#e6edf3", "(prefers-color-scheme: dark)")
 FARBSCHEMATA = (HELL, DUNKEL)
-
-
-@dataclass(frozen=True)
-class Projekt:
-    name: str
-    info: str
-    icon: str
-    repo: str
-    link: str | None = None
-
-    @property
-    def ziel(self) -> str:
-        return self.link or repo_adresse(self.repo)
-
-    @property
-    def schluessel(self) -> str:
-        return pathlib.Path(self.icon).stem
-
-
-@dataclass(frozen=True)
-class Gruppe:
-    titel: str
-    text: str
-    projekte: tuple[Projekt, ...]
-
-
-@dataclass(frozen=True)
-class Eintrag:
-    repo: str
-    info: str
-
-
-@dataclass(frozen=True)
-class Liste:
-    titel: str
-    eintraege: tuple[Eintrag, ...]
-
-
-@dataclass(frozen=True)
-class Profil:
-    gruppen: tuple[Gruppe, ...]
-    listen: tuple[Liste, ...]
-
-    @property
-    def projekte(self) -> tuple[Projekt, ...]:
-        return tuple(p for g in self.gruppen for p in g.projekte)
-
-
-def repo_adresse(repo: str) -> str:
-    return f"https://github.com/{KONTO}/{repo}"
-
-
-def laden(pfad: pathlib.Path) -> Profil:
-    daten = tomllib.loads(pfad.read_text(encoding="utf-8"))
-    gruppen = tuple(
-        Gruppe(g["titel"], g["text"], tuple(Projekt(**p) for p in g["projekt"]))
-        for g in daten["gruppe"]
-    )
-    listen = tuple(
-        Liste(l["titel"], tuple(Eintrag(**e) for e in l["eintrag"]))
-        for l in daten.get("liste", [])
-    )
-    return Profil(gruppen, listen)
-
-
-def pruefen(profil: Profil) -> list[str]:
-    fehler = []
-    gesehen: set[str] = set()
-    for projekt in profil.projekte:
-        if not (ICONS / projekt.icon).is_file():
-            fehler.append(f"{projekt.name}: Icon fehlt: icons/{projekt.icon}")
-        if pathlib.Path(projekt.icon).suffix not in MEDIENTYPEN:
-            fehler.append(f"{projekt.name}: Icon-Format nicht unterstützt: {projekt.icon}")
-        if projekt.schluessel in gesehen:
-            fehler.append(f"{projekt.name}: Icon wird schon von einem anderen Projekt genutzt: {projekt.icon}")
-        gesehen.add(projekt.schluessel)
-    return fehler
-
-
-def ungenutzte_icons(profil: Profil) -> list[str]:
-    genutzt = {p.icon for p in profil.projekte}
-    return sorted(d.name for d in ICONS.iterdir() if d.is_file() and d.name not in genutzt)
 
 
 def zeilen(name: str) -> list[str]:
@@ -160,7 +75,7 @@ def kachel_svg(projekt: Projekt, schema: Farbschema) -> str:
         f'viewBox="0 0 {KACHEL_BREITE} {KACHEL_HOEHE}">'
         f"<title>{html.escape(projekt.name)}</title>"
         f"<style>text{{font:600 12px {SCHRIFTEN};fill:{schema.schrift};text-anchor:middle}}</style>"
-        f'<image href="{eingebettet(ICONS / projekt.icon)}" x="{links:g}" y="{ICON_OBEN}" '
+        f'<image href="{eingebettet(projekt.icon_pfad)}" x="{links:g}" y="{ICON_OBEN}" '
         f'width="{ICON_KANTE}" height="{ICON_KANTE}" preserveAspectRatio="xMidYMid meet"/>'
         f"{texte}</svg>\n"
     )
@@ -224,8 +139,8 @@ def readme_schreiben(profil: Profil) -> None:
 
 
 def main() -> int:
-    profil = laden(DATEN)
-    fehler = pruefen(profil)
+    profil = laden()
+    fehler = icon_fehler(profil, set(MEDIENTYPEN))
     if fehler:
         print("\n".join(fehler), file=sys.stderr)
         return 1

@@ -1,0 +1,49 @@
+# Portfolio zum Durchblättern (quadratisches PDF, durchgehend dunkel).
+# Seite 1: Jahresbilanz, Banner oben, Mosaik aller Projekte, Banner unten.
+# Danach je Gruppe eine Seite mit Begleittext und Icons.
+# Gruppen, Projekte, Icons und Begleittexte kommen aus ../projekte.toml.
+#
+# Erzeugen: python3 werkzeug/portfolio.py   (einmalig vorher: npm install in portfolio/)
+
+marke = "HalloWelt42"
+titel = "Jahresbilanz 2026"
+leitsatz = "Selbstgehostete Tools für Leute, die wissen wollen, wo ihre Daten liegen."
+seitenkopf = "Portfolio 2026"
+datei = "HalloWelt42-Portfolio-2026"
+
+# Kennzahlen des Deckblatts. Werte sind Momentaufnahmen; die Quelle steht dabei,
+# damit jede Zahl nachprüfbar bleibt. "projekte" zählt die Kacheln aus projekte.toml.
+[[kennzahl]]
+wert = "7.257"
+text = "Beiträge auf GitHub"
+quelle = "GitHub-Beitragskalender, 01.01. bis 19.10.2026"
+
+[[kennzahl]]
+wert = "10x"
+text = "so viel wie 2025"
+quelle = "712 Beiträge im Jahr 2025"
+
+[[kennzahl]]
+wert = "projekte"
+text = "öffentliche Projekte"
+quelle = "Kacheln in projekte.toml"
+
+[[kennzahl]]
+wert = "+43"
+text = "weitere in Arbeit, noch unveröffentlicht"
+quelle = """Stand 19.10.2026, nur Projekte mit Arbeit in 2026, ohne Bücher, Übungen und fremde Klone:
+21 private Repos (Orbit nicht mitgezählt, es hat ein eigenes Banner) und 22 Projekte nur auf dem Rechner"""
+
+[banner_oben]
+name = "TubeVault"
+zeile = "Das eigene Videoarchiv für zu Hause"
+punkte = ["Abonnieren, laden, ansehen", "Rechner, Handy und Uhr", "Nachvertonung mit eigener KI"]
+icon = "../icons/tubevault.svg"
+bild = "bilder/tubevault-geraete.jpg"
+
+[banner_unten]
+name = "Orbit"
+zeile = "Aufbau- und Strategiespiel im Browser"
+punkte = ["Planeten ausbauen, forschen, Flotten lenken", "orbit.antwort42.de"]
+icon = "bilder/orbit-icon.svg"
+bild = "bilder/orbit-start.jpg"

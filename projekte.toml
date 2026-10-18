@@ -1,7 +1,7 @@
-# Einzige Wahrheit für die Projektübersicht im Profil.
-# Nach jeder Änderung: python3 werkzeug/profil.py
+# Einzige Wahrheit für die Projektübersicht im Profil und im Portfolio.
+# Nach jeder Änderung: python3 werkzeug/profil.py (README) und python3 werkzeug/portfolio.py (PDF)
 #
-# Gruppe:   titel, text, projekt = [...]
+# Gruppe:   titel, text (Zeile im Profil), begleittext (Absatz im Portfolio), projekt = [...]
 # Projekt:  name   Beschriftung der Kachel (lange Namen brechen an Leerzeichen oder Bindestrich um)
 #           info   Kurzbeschreibung, erscheint beim Darüberfahren
 #           icon   Datei unter icons/ (freigestellte Icons bevorzugen)
@@ -12,6 +12,7 @@
 [[gruppe]]
 titel = "Video und Audio"
 text = "Ansehen, schneiden, mitschneiden, hören."
+begleittext = "Bewegte Bilder und Klang ohne fremde Dienste dazwischen: Videos und Streams sichern, schneiden und archivieren, Radio hören und mitschneiden, Transkripte synchron abspielen."
 
 [[gruppe.projekt]]
 name = "TubeVault"
@@ -59,6 +60,7 @@ repo = "streamchat-chrome-extention"
 [[gruppe]]
 titel = "Sprache und Text"
 text = "Lokale KI für Sprechen, Hören, Übersetzen und Nachschlagen."
+begleittext = "Lokale KI, die spricht, zuhört und übersetzt. Aus Ton wird Text mit Sprechern, aus Text wird Sprache mit eigenen Stimmen. Alles läuft auf eigener Hardware."
 
 [[gruppe.projekt]]
 name = "Transkription"
@@ -105,6 +107,7 @@ repo = "morf-gpt"
 [[gruppe]]
 titel = "KI-Verbund"
 text = "Der Unterbau: Die Leitstelle vermittelt, Maschinenraum und Stellwerk betreiben Dienste und Apps."
+begleittext = "Der Unterbau für alles mit KI im eigenen Netz. Die Leitstelle vermittelt jede Anfrage, Maschinenraum und Stellwerk starten, messen und überwachen Dienste und Apps auf jedem Rechner."
 
 [[gruppe.projekt]]
 name = "Leitstelle"
@@ -139,6 +142,7 @@ repo = "appkern"
 [[gruppe]]
 titel = "Ordnen und Teilen"
 text = "Dateien, Aufgaben, Bücher und Lesezeichen an einem Ort."
+begleittext = "Dateien, Aufgaben, Bücher und Lesezeichen, geordnet und im eigenen Netz. Die Wolke im Keller ersetzt fremde Speicher, die Fähre bringt Dateien zwischen Rechner und Telefon."
 
 [[gruppe.projekt]]
 name = "Kellerwolke"
@@ -180,6 +184,7 @@ repo = "macos-dev-organizer"
 [[gruppe]]
 titel = "Lernen"
 text = "Üben mit eigenen Aufgaben und Lernkarten."
+begleittext = "Programmieren lernt man durch Tun: ein Trainer mit eigenen Aufgaben und Spielelementen, Lernkarten für mehrere Nutzer und ein Grundgerüst, das eine Webanwendung von innen zeigt."
 
 [[gruppe.projekt]]
 name = "CodeSchmiede"
@@ -202,6 +207,7 @@ repo = "Knospe"
 [[gruppe]]
 titel = "Alltag und Spiel"
 text = "Wetter, Farben und eine Runde Klötze."
+begleittext = "Helfer für jeden Tag: eine eigenständige Wetter-App samt Mini-Wetter im Browser, Farbpaletten aus Bildern ohne Upload und Klotz, das Block-Puzzle für zwischendurch."
 
 [[gruppe.projekt]]
 name = "Wetterwarte"
@@ -232,6 +238,7 @@ link = "https://hallowelt42.github.io/Web-Game-Klotz/"
 [[gruppe]]
 titel = "Hardware und Server"
 text = "Raspberry Pi, Waagen und Server im Blick."
+begleittext = "Software, die Hardware anfasst: Lüfter, LEDs und Display eines Pi-Gehäuses aus dem Browser steuern, Präzisionswaagen ins Netz bringen, Server im Blick behalten."
 
 [[gruppe.projekt]]
 name = "PyroPlus"
@@ -266,6 +273,7 @@ repo = "raspberry_pi_projects"
 [[gruppe]]
 titel = "Für Entwickler"
 text = "Werkzeuge, Vorlagen und Bausteine."
+begleittext = "Werkzeuge aus dem eigenen Arbeitsalltag: Datenformate bildhaft lesen, Icons und reguläre Ausdrücke offline, ein Designsystem in reinem CSS, Vorlagen und Bausteine."
 
 [[gruppe.projekt]]
 name = "Strukturblick"
