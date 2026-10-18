@@ -1,0 +1,463 @@
+# Einzige Wahrheit für die Projektübersicht im Profil.
+# Nach jeder Änderung: python3 werkzeug/profil.py
+#
+# Gruppe:   titel, text, projekt = [...]
+# Projekt:  name   Beschriftung der Kachel (lange Namen brechen an Leerzeichen oder Bindestrich um)
+#           info   Kurzbeschreibung, erscheint beim Darüberfahren
+#           icon   Datei unter icons/ (freigestellte Icons bevorzugen)
+#           repo   Repo im Konto; Ziel des Links, wenn kein link angegeben ist
+#           link   optional: anderes Ziel, etwa Store-Eintrag oder Seite zum Ausprobieren
+# Liste:    titel, eintrag = [{ repo, info }], erscheint aufklappbar unter den Kacheln
+
+[[gruppe]]
+titel = "Video und Audio"
+text = "Ansehen, schneiden, mitschneiden, hören."
+
+[[gruppe.projekt]]
+name = "TubeVault"
+info = "Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"
+icon = "tubevault.svg"
+repo = "TubeVault"
+
+[[gruppe.projekt]]
+name = "CuttOffl"
+info = "Videoschnitt-Studio im Browser"
+icon = "cuttoffl.svg"
+repo = "CuttOffl"
+
+[[gruppe.projekt]]
+name = "StreamREC"
+info = "Videostreams (HLS, DASH, MP4) direkt im Browser speichern"
+icon = "streamrec.png"
+repo = "downlodr-4-hsl-stream-vod-chrome-extention"
+link = "https://chromewebstore.google.com/detail/video-hls-stream-download/pdhppamhikghebahhelhinciheheajaa"
+
+[[gruppe.projekt]]
+name = "Blob Downloadr"
+info = "Medien hinter blob:-Adressen als Datei speichern, auch Streaming-Videos"
+icon = "blob-downloadr.svg"
+repo = "blob-media-downloadr-chrome-extension"
+
+[[gruppe.projekt]]
+name = "RadioHub"
+info = "Internetradio, Podcasts und Aufnahme mit HiFi-Optik"
+icon = "radiohub.svg"
+repo = "RadioHub"
+
+[[gruppe.projekt]]
+name = "TransPlay"
+info = "Audio synchron zum Transkript abspielen"
+icon = "transplay.svg"
+repo = "TransPlay"
+
+[[gruppe.projekt]]
+name = "ChatPult"
+info = "Frei belegbare Tastenleiste für den Stream-Chat"
+icon = "chatpult.png"
+repo = "streamchat-chrome-extention"
+
+[[gruppe]]
+titel = "Sprache und Text"
+text = "Lokale KI für Sprechen, Hören, Übersetzen und Nachschlagen."
+
+[[gruppe.projekt]]
+name = "Transkription"
+info = "Aus Ton und Video wird Text mit Wortzeiten und Sprechern"
+icon = "transkription.svg"
+repo = "transkription"
+
+[[gruppe.projekt]]
+name = "Vertonung"
+info = "Aus Text wird Sprache: Vorlesen, Dialoge mit Rollen, zeitgenau nach Transkript"
+icon = "vertonung.svg"
+repo = "vertonung"
+
+[[gruppe.projekt]]
+name = "Klangwerk"
+info = "Sprachdienste: Sprechen, Stimmklon, Hören, Sprechertrennung"
+icon = "klangwerk.svg"
+repo = "klangwerk"
+
+[[gruppe.projekt]]
+name = "Pappagei"
+info = "Liest kopierten oder markierten Text lokal auf dem Mac vor"
+icon = "pappagei.png"
+repo = "Pappagei-TTS-PlapperApp-fuer-MacOS"
+
+[[gruppe.projekt]]
+name = "Translatr"
+info = "Übersetzt Webseiten mit lokaler KI und freier Übersetzungsmaschine"
+icon = "translatr.png"
+repo = "translatr-chrome-extention"
+
+[[gruppe.projekt]]
+name = "Federflink"
+info = "Rechtschreibprüfung im eigenen Netz"
+icon = "federflink.svg"
+repo = "Federflink"
+
+[[gruppe.projekt]]
+name = "morf-gpt"
+info = "Wissensbibliothek und Chat über Erklärvideos"
+icon = "morf-gpt.svg"
+repo = "morf-gpt"
+
+[[gruppe]]
+titel = "KI-Verbund"
+text = "Der Unterbau: Die Leitstelle vermittelt, Maschinenraum und Stellwerk betreiben Dienste und Apps."
+
+[[gruppe.projekt]]
+name = "Leitstelle"
+info = "Vermittlung zwischen Anwendungen und KI-Diensten: Warteschlange, Speicher, Hauptregler"
+icon = "leitstelle.svg"
+repo = "leitstelle"
+
+[[gruppe.projekt]]
+name = "Maschinenraum"
+info = "Alle KI-Dienste eines Rechners: starten, anhalten, messen"
+icon = "maschinenraum.svg"
+repo = "maschinenraum"
+
+[[gruppe.projekt]]
+name = "Stellwerk"
+info = "Startet und stoppt die eigenen Webapps eines Rechners"
+icon = "stellwerk.svg"
+repo = "stellwerk"
+
+[[gruppe.projekt]]
+name = "Dienstkern"
+info = "Gemeinsame Dienststeuerung für Maschinenraum und Stellwerk"
+icon = "dienstkern.svg"
+repo = "dienstkern"
+
+[[gruppe.projekt]]
+name = "Appkern"
+info = "Gemeinsame Bausteine der eigenen Apps"
+icon = "appkern.svg"
+repo = "appkern"
+
+[[gruppe]]
+titel = "Ordnen und Teilen"
+text = "Dateien, Aufgaben, Bücher und Lesezeichen an einem Ort."
+
+[[gruppe.projekt]]
+name = "Kellerwolke"
+info = "Die eigene Wolke im Keller: Dateispeicher für Familie und Haushalt"
+icon = "kellerwolke.svg"
+repo = "kellerwolke"
+
+[[gruppe.projekt]]
+name = "Pinnwand"
+info = "Modulare Kanban-Plattform"
+icon = "pinnwand.svg"
+repo = "Pinnwand"
+
+[[gruppe.projekt]]
+name = "BücherFreunde"
+info = "Buchverwaltung für 50.000+ Bücher"
+icon = "buecherfreunde.svg"
+repo = "BuecherFreunde"
+
+[[gruppe.projekt]]
+name = "Fähre"
+info = "Dateiaustausch zwischen Mac und Android-Telefon im Browser"
+icon = "faehre.svg"
+repo = "faehre"
+
+[[gruppe.projekt]]
+name = "FavManager"
+info = "Startseite mit Schnellwahl-Kacheln für den Browser"
+icon = "favmanager.svg"
+repo = "chrome-favoriten-manager"
+link = "https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejnpkdghbagijcpenmpaggcpbcancg"
+
+[[gruppe.projekt]]
+name = "DevRadar"
+info = "Lokale Projekte auf dem Mac finden und ordnen"
+icon = "devradar.svg"
+repo = "macos-dev-organizer"
+
+[[gruppe]]
+titel = "Lernen"
+text = "Üben mit eigenen Aufgaben und Lernkarten."
+
+[[gruppe.projekt]]
+name = "CodeSchmiede"
+info = "Programmier-Trainer mit Spielelementen und eigenen Aufgaben"
+icon = "codeschmiede.svg"
+repo = "CodeSchmiede"
+
+[[gruppe.projekt]]
+name = "Learning-By-Tooling"
+info = "Lernkarten-Plattform für mehrere Nutzer"
+icon = "learning-by-tooling.svg"
+repo = "Learning-By-Tooling"
+
+[[gruppe.projekt]]
+name = "Knospe"
+info = "Lehr-Grundgerüst: PHP 8.5 ohne Framework, Svelte 5, PostgreSQL"
+icon = "knospe.svg"
+repo = "Knospe"
+
+[[gruppe]]
+titel = "Alltag und Spiel"
+text = "Wetter, Farben und eine Runde Klötze."
+
+[[gruppe.projekt]]
+name = "Wetterwarte"
+info = "Eigenständige Wetter-App für Rechner und Handy"
+icon = "wetterwarte.svg"
+repo = "Wetterwarte"
+
+[[gruppe.projekt]]
+name = "Mini-Wetter"
+info = "Wetter weltweit in der Werkzeugleiste des Browsers"
+icon = "mini-wetter.png"
+repo = "free-mini-weather-chrome-extention"
+
+[[gruppe.projekt]]
+name = "PaläddyFix"
+info = "Farbanalyse und Paletten aus Bildern, läuft im Browser ohne Upload"
+icon = "palaeddyfix.svg"
+repo = "PalaeddyFix"
+link = "https://hallowelt42.github.io/PalaeddyFix/"
+
+[[gruppe.projekt]]
+name = "Klotz"
+info = "Block-Puzzle, offline und ohne Tracker, direkt im Browser spielbar"
+icon = "klotz.svg"
+repo = "Web-Game-Klotz"
+link = "https://hallowelt42.github.io/Web-Game-Klotz/"
+
+[[gruppe]]
+titel = "Hardware und Server"
+text = "Raspberry Pi, Waagen und Server im Blick."
+
+[[gruppe.projekt]]
+name = "PyroPlus"
+info = "Lüfter, LEDs und Display eines Pi-5-Gehäuses aus dem Browser steuern"
+icon = "pyroplus.svg"
+repo = "PyroPlus"
+
+[[gruppe.projekt]]
+name = "Waage"
+info = "Präzisionswaagen per REST, WebSocket und Weboberfläche"
+icon = "waage.svg"
+repo = "RS232-to-USB-Waagen-REST-API"
+
+[[gruppe.projekt]]
+name = "ServerPulse"
+info = "Linux-Server per SSH überwachen, als Mac-App"
+icon = "serverpulse.png"
+repo = "ServerPulse"
+
+[[gruppe.projekt]]
+name = "Caddy Manager"
+info = "Webserver mit automatischem HTTPS vom Mac aus verwalten"
+icon = "caddy-manager.svg"
+repo = "Caddy-UI-Client"
+
+[[gruppe.projekt]]
+name = "Pi-Projekte"
+info = "Einrichtungsanleitungen für Dienste auf dem Raspberry Pi 5"
+icon = "pi-projekte.svg"
+repo = "raspberry_pi_projects"
+
+[[gruppe]]
+titel = "Für Entwickler"
+text = "Werkzeuge, Vorlagen und Bausteine."
+
+[[gruppe.projekt]]
+name = "Strukturblick"
+info = "JSON, XML, CSV, YAML und Tabellen bildhaft darstellen"
+icon = "strukturblick.svg"
+repo = "Strukturblick"
+
+[[gruppe.projekt]]
+name = "Iconify"
+info = "Icon-Katalog: durchsuchen, kuratieren, als SVG, Sprite oder Schrift ausgeben"
+icon = "iconify.svg"
+repo = "Iconify"
+
+[[gruppe.projekt]]
+name = "Regex404"
+info = "Reguläre Ausdrücke testen, offline im Browser"
+icon = "regex404.svg"
+repo = "regex404-offline"
+link = "https://hallowelt42.github.io/regex404-offline/"
+
+[[gruppe.projekt]]
+name = "Kiste Designsystem"
+info = "Designsystem in reinem CSS: Papier, Tinte, Messing"
+icon = "kiste-designsystem.svg"
+repo = "kiste-designsystem"
+link = "https://hallowelt42.github.io/kiste-designsystem/"
+
+[[gruppe.projekt]]
+name = "Pixel Editor"
+info = "Pixel-Art-Editor für macOS, Windows und Linux"
+icon = "pixel-editor.svg"
+repo = "pixel-edit-pro"
+
+[[gruppe.projekt]]
+name = "Svelte-Plugin"
+info = "Svelte-5-Unterstützung für die IDE"
+icon = "svelte-plugin.svg"
+repo = "svelte5-4jb-plugin"
+
+[[gruppe.projekt]]
+name = "ClaudeLimit"
+info = "Zeigt das Nutzungslimit des KI-Assistenten im Browser"
+icon = "claudelimit.png"
+repo = "claude-limit-chrome-addon"
+link = "https://chromewebstore.google.com/detail/dashboard-for-claude/iiimpoehijcfemfgpngdogcnaaooajhf"
+
+[[gruppe.projekt]]
+name = "Qt-Komponenten"
+info = "Reaktives Komponenten-Framework für Qt-Anwendungen in Python"
+icon = "qt-komponenten.svg"
+repo = "PyQt6ComponentFramework"
+
+[[gruppe.projekt]]
+name = "Hilfe-Fenster"
+info = "Freischwebende Hilfe als Svelte-5-Baustein"
+icon = "hilfe-fenster.svg"
+repo = "hilfe-fenster-demo"
+
+[[gruppe.projekt]]
+name = "PHP-Docker"
+info = "PHP 8.4 mit MariaDB und Xdebug in Docker"
+icon = "php-docker.svg"
+repo = "docker-php-8.4-mariadb-xdebug-phpstorm-macos"
+
+[[gruppe.projekt]]
+name = "Redaxo-Docker"
+info = "Entwicklungsumgebung für Redaxo in Docker"
+icon = "redaxo-docker.svg"
+repo = "redaxo_new_workaround"
+
+[[liste]]
+titel = "Weitere Projekte"
+
+[[liste.eintrag]]
+repo = "libre-web-translator"
+info = "Vorgänger von Translatr"
+
+[[liste.eintrag]]
+repo = "firefox-favoriten-manager"
+info = "FavManager für Firefox"
+
+[[liste.eintrag]]
+repo = "PwnedPasswordsDownloader"
+info = "Passwörter offline gegen bekannte Datenlecks prüfen"
+
+[[liste.eintrag]]
+repo = "YTDownLodr"
+info = "Playlist-Downloader für automatisierte Abläufe"
+
+[[liste.eintrag]]
+repo = "Discord_Jellyfin"
+info = "Gerade laufende Musik als Chat-Status"
+
+[[liste.eintrag]]
+repo = "balkonsolar"
+info = "Meldungen der Balkon-Solaranlage"
+
+[[liste.eintrag]]
+repo = "WordCloudGen"
+info = "Wortanalyse und Wortwolken"
+
+[[liste.eintrag]]
+repo = "PiGen"
+info = "Kreiszahl fortlaufend berechnen, mit Zwischenständen"
+
+[[liste.eintrag]]
+repo = "clipboardmanager"
+info = "Verlauf der Zwischenablage"
+
+[[liste.eintrag]]
+repo = "browser_todo_app"
+info = "Kleine Aufgabenliste im Browser"
+
+[[liste.eintrag]]
+repo = "game_block"
+info = "Kleines Blockspiel in Python"
+
+[[liste.eintrag]]
+repo = "RKIParserCoronaVirus"
+info = "Fallzahlen zum Coronavirus (2020)"
+
+[[liste]]
+titel = "Lernen und Üben"
+
+[[liste.eintrag]]
+repo = "Advent-Of-Code"
+info = "Rätsellösungen in PHP"
+
+[[liste.eintrag]]
+repo = "AoC24"
+info = "Docker-Symfony-Stack für Advent of Code 2024"
+
+[[liste.eintrag]]
+repo = "Autoloader-PSR-4"
+info = "Startvorlage mit Autoloader nach PSR-4"
+
+[[liste.eintrag]]
+repo = "ExampleDI"
+info = "Dependency Injection"
+
+[[liste.eintrag]]
+repo = "ExampleWithClass"
+info = "Beispielklassen und Codeexperimente"
+
+[[liste.eintrag]]
+repo = "Examples"
+info = "Beispielcodes"
+
+[[liste.eintrag]]
+repo = "SimpleTypes"
+info = "Einfache Datentypen objektorientiert"
+
+[[liste.eintrag]]
+repo = "LinkedList"
+info = "Verkettete Liste"
+
+[[liste.eintrag]]
+repo = "Tree"
+info = "Baumstruktur am Beispiel von Gehältern"
+
+[[liste.eintrag]]
+repo = "SkillsTraining"
+info = "Code-Challenges ausführen"
+
+[[liste.eintrag]]
+repo = "StreamChainingTestProject"
+info = "Verkettete Datenströme"
+
+[[liste.eintrag]]
+repo = "bankservice"
+info = "Bankleitzahlen per WSDL abrufen"
+
+[[liste.eintrag]]
+repo = "memtest"
+info = "Speicherverbrauch von DOM und SimpleXML"
+
+[[liste.eintrag]]
+repo = "xml_old"
+info = "XML-Verarbeitung"
+
+[[liste.eintrag]]
+repo = "VersionierungTestAnbieter"
+info = "Versionierung eines Pakets testen (Anbieter)"
+
+[[liste.eintrag]]
+repo = "VersionierungTestBenutzer"
+info = "Versionierung eines Pakets testen (Benutzer)"
+
+[[liste.eintrag]]
+repo = "WebFaceLifter"
+info = "Experiment"
+
+[[liste.eintrag]]
+repo = "anleitungen"
+info = "Anleitungen"

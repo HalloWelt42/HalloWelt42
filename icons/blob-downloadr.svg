@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Abgerundeter Hintergrund -->
+  <rect width="512" height="512" rx="80" ry="80" fill="url(#bg)"/>
+  <!-- Weisses Symbol: Blob-Tropfen mit integriertem Download-Pfeil -->
+  <!-- Tropfen-Outline als breite Umrandung (weiss) -->
+  <path
+    d="M 256 84
+       C 168 162 120 238 120 306
+       C 120 380 182 432 256 432
+       C 330 432 392 380 392 306
+       C 392 238 344 162 256 84 Z
+       M 256 168
+       C 323 230 352 274 352 306
+       C 352 352 316 384 256 384
+       C 196 384 160 352 160 306
+       C 160 274 189 230 256 168 Z"
+    fill="#ffffff"
+    fill-rule="evenodd"/>
+  <!-- Download-Pfeil in der Tropfenmitte, weiss -->
+  <rect x="236" y="228" width="40" height="80" rx="6" ry="6" fill="#ffffff"/>
+  <path
+    d="M 186 296
+       L 326 296
+       L 256 372 Z"
+    fill="#ffffff"/>
+</svg>
