@@ -2,3 +2,5 @@
 .idea/
 portfolio/node_modules/
 portfolio/ausgabe/
+mockups/profil/ausgabe/
+__pycache__/

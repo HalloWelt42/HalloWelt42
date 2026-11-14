@@ -1,0 +1,72 @@
+# Entwurf: die Top-Projekte für die neue Profilseite.
+# Bei Umsetzung wandert die Auswahl als "top = true" (und "fokus = true") nach projekte.toml.
+#
+# name    Beschriftung        info   Kurzbeschreibung (höchstens 68 Zeichen, zwei Zeilen)
+# repo    Repo im Konto       link   optional anderes Ziel
+# icon    Pfad ab Repo-Wurzel akzent Leuchtfarbe des Projekts (aus dem Icon)
+# technik Schlagworte         punkte nur beim Fokus-Projekt: drei Stärken
+# bild    nur beim Fokus-Projekt: Bildschirmfoto
+
+[[projekt]]
+name = "TubeVault"
+info = "Das eigene Videoarchiv: abonnieren, laden, ansehen, durchsuchen"
+repo = "TubeVault"
+icon = "icons/tubevault.svg"
+akzent = "#4dffd2"
+technik = ["Python", "Svelte", "Docker"]
+fokus = true
+punkte = [
+  "Abos, die sich selbst pflegen",
+  "Suche nach Wort und nach Bedeutung",
+  "Rechner, Handy und Uhr spielen zusammen",
+]
+bild = "mockups/profil/bilder/tubevault.jpg"
+
+[[projekt]]
+name = "RadioHub"
+info = "Internetradio, Podcasts und Aufnahme mit HiFi-Optik"
+repo = "RadioHub"
+icon = "icons/radiohub.svg"
+akzent = "#5b9dff"
+technik = ["Svelte", "Python", "JavaScript"]
+
+[[projekt]]
+name = "HiFi-Regler"
+info = "Regler und Anzeigen im Stil von Effektgeräten, live im Browser"
+repo = "hifi-regler"
+link = "https://hallowelt42.github.io/hifi-regler/"
+icon = "mockups/profil/icons/hifi-regler.svg"
+akzent = "#ffa400"
+technik = ["HTML", "CSS", "JavaScript"]
+
+[[projekt]]
+name = "Leitstelle"
+info = "Vermittelt die Anfragen aller Apps an lokale KI, mit Warteschlange"
+repo = "leitstelle"
+icon = "icons/leitstelle.svg"
+akzent = "#ffb52e"
+technik = ["Python", "Svelte", "MLX"]
+
+[[projekt]]
+name = "Kellerwolke"
+info = "Die eigene Wolke im Keller: Dateien für Familie und Haushalt"
+repo = "kellerwolke"
+icon = "icons/kellerwolke.svg"
+akzent = "#4b95ff"
+technik = ["Python", "Svelte", "Docker"]
+
+[[projekt]]
+name = "BücherFreunde"
+info = "Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"
+repo = "BuecherFreunde"
+icon = "icons/buecherfreunde.svg"
+akzent = "#4f86ff"
+technik = ["Svelte", "Python"]
+
+[technik]
+# Steckfeld bzw. Technikleiste aller Entwürfe
+liste = ["Python", "FastAPI", "Svelte 5", "TypeScript", "Swift", "Docker", "Raspberry Pi", "MLX"]
+
+[links]
+alle = "projekte.md"
+unterstuetzen = "https://ko-fi.com/HalloWelt42"
