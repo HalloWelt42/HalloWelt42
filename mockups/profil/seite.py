@@ -157,7 +157,7 @@ body::before{{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inse
 .readme .pfad{{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;margin-bottom:16px}}
 .readme .inhalt p{{margin:0 0 16px}}
 .readme .inhalt p:last-child{{margin-bottom:0}}
-.readme .inhalt img{{max-width:100%;height:auto;vertical-align:middle}}
+.readme .inhalt img{{max-width:100%;height:auto;box-sizing:content-box;background-color:var(--g-grund)}}
 .readme .inhalt a{{color:#4493f8}}
 .gh h4{{font-size:16px;font-weight:400;margin:24px 0 8px}}
 .pins{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
@@ -175,6 +175,9 @@ body::before{{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inse
 .raster .b1{{background:var(--g-b1)}}.raster .b2{{background:var(--g-b2)}}
 .raster .b3{{background:var(--g-b3)}}.raster .b4{{background:var(--g-b4)}}
 
+/* Schmaler: GitHub bei etwa 1012 px Fensterbreite, schmalere Seitenleiste und README-Spalte */
+.mittel .gh{{max-width:1012px;margin:0 auto}}
+.mittel .gh-rumpf{{grid-template-columns:256px minmax(0,1fr);padding:24px}}
 /* Telefon: GitHub stapelt die Spalten, Profilbild klein neben dem Namen */
 .telefon .telefon-huelle{{display:block;width:390px;margin:0 auto;border-radius:44px;padding:14px;
   background:linear-gradient(#2c3035,#15171a);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 0 0 1px #000,0 20px 40px rgba(0,0,0,.6)}}
@@ -201,7 +204,8 @@ body::before{{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inse
   <div class="gruppe"><span>GITHUB</span><div class="schiene" data-wahl="github">
     <button data-wert="dunkel">Dunkel</button><button data-wert="hell">Hell</button></div></div>
   <div class="gruppe"><span>BREITE</span><div class="schiene" data-wahl="breite">
-    <button data-wert="rechner">Rechner</button><button data-wert="telefon">Telefon</button></div></div>
+    <button data-wert="rechner">Rechner</button><button data-wert="mittel">Schmaler</button>
+    <button data-wert="telefon">Telefon</button></div></div>
 </header>
 <section class="steckbrief">
   <div class="tafel"><h2 id="sb-titel"></h2><p id="sb-idee"></p><ul id="sb-merkmale"></ul></div>
@@ -259,6 +263,7 @@ function zeigen() {{
   for (const id of ["avatar", "avatar-klein"]) document.getElementById(id).src = sb.avatar;
   document.getElementById("gh").classList.toggle("hell", zustand.github === "hell");
   document.getElementById("buehne").classList.toggle("telefon", zustand.breite === "telefon");
+  document.getElementById("buehne").classList.toggle("mittel", zustand.breite === "mittel");
   try {{ history.replaceState(null, "", "#" + ANKER[zustand.entwurf]); }} catch (fehler) {{ /* Rahmen ohne Verlauf */ }}
 }}
 for (const schiene of document.querySelectorAll("[data-wahl]")) {{

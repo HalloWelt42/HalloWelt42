@@ -146,13 +146,24 @@ def kern(cx: float, cy: float, r: float, p: str = "k") -> Kern:
     return Kern("".join(teile), "".join(stile), "".join(bewegung))
 
 
-def kern_in_fassung(cx: float, cy: float, r: float, p: str = "k") -> Kern:
-    """Kern hinter Glas in einer Rack-Fassung: Fasenplatte mit vier Schrauben, Riffelring, Mulde.
+def kern_im_ring(cx: float, cy: float, r: float, p: str = "k") -> Kern:
+    """Kern hinter Glas, eingefasst von einem Riffelring; r ist der Außenradius des Rings, nichts ragt darüber."""
+    k = kern(cx, cy, r * .86, p)
+    ring = (
+        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r:g}" fill="url(#knopfmetall)"/>'
+        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r - r * .015:.1f}" fill="none" stroke="#3a3f45" '
+        f'stroke-width="{r * .03:.1f}" stroke-dasharray="{r * .014:.2f} {r * .018:.2f}"/>'
+        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r * .9:g}" fill="#020607"/>'
+        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r * .9:g}" fill="none" stroke="url(#mulde)" stroke-width="{r * .03:.1f}"/>'
+    )
+    return Kern(ring + k.grafik, k.stil, k.bewegung)
 
-    r ist der Radius des Riffelrings; die Fasenplatte reicht etwas weiter."""
+
+def kern_in_fassung(cx: float, cy: float, r: float, p: str = "k") -> Kern:
+    """Kern im Ring auf einer Rack-Fasenplatte mit vier Schrauben; die Platte reicht etwas über den Ring."""
     from material import fase, platte, schraube
 
-    k = kern(cx, cy, r * .86, p)
+    innen = kern_im_ring(cx, cy, r, p)
     halb = r + 14
     fassung = (
         f'<path d="{fase(cx - halb - 2, cy - halb - 2, 2 * halb + 4, 2 * halb + 4, 16)}" fill="#08090a"/>'
@@ -160,20 +171,15 @@ def kern_in_fassung(cx: float, cy: float, r: float, p: str = "k") -> Kern:
         + "".join(schraube(cx + dx * (halb - 12), cy + dy * (halb - 12), 30 + 25 * i, 4.6)
                   for i, (dx, dy) in enumerate(((-1, -1), (1, -1), (1, 1), (-1, 1))))
         + f'<circle cx="{cx:g}" cy="{cy + 2:g}" r="{r + 2:g}" fill="#000" opacity=".7"/>'
-        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r:g}" fill="url(#knopfmetall)"/>'
-        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r - 1.5:g}" fill="none" stroke="#3a3f45" stroke-width="3" '
-        f'stroke-dasharray="1.4 1.8"/>'
-        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r * .9:g}" fill="#020607"/>'
-        f'<circle cx="{cx:g}" cy="{cy:g}" r="{r * .9:g}" fill="none" stroke="url(#mulde)" stroke-width="3"/>'
     )
-    return Kern(fassung + k.grafik, k.stil, k.bewegung)
+    return Kern(fassung + innen.grafik, innen.stil, innen.bewegung)
 
 
 def profilbild_kern() -> str:
-    """Profilbild: der Kern füllt den Kreis, den GitHub ausschneidet; still, weil GitHub dort nur Bilder zeigt."""
+    """Profilbild: nur der Ring mit dem Kern, außen transparent. GitHub schneidet das Bild rund aus und zeigt
+    es still (bewegte Profilbilder unterstützt GitHub nicht), daher keine Bewegung."""
     from material import defs_grund, svg
 
     k, m = 460, 230
-    fassung = kern_in_fassung(m, m, 208, "p")
-    inhalt = (f'<rect width="{k}" height="{k}" fill="#16181b"/>' + fassung.grafik)
-    return svg(k, k, "HalloWelt42", inhalt, defs_grund() + kern_defs("p"), stil=fassung.stil, gewichte=(600,))
+    rund = kern_im_ring(m, m, m, "p")
+    return svg(k, k, "HalloWelt42", rund.grafik, defs_grund() + kern_defs("p"), stil=rund.stil, gewichte=(600,))

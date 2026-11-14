@@ -1,12 +1,12 @@
-"""Entwurf D "Regie": das Studio-Rack aus A als Grundlage, darin der Ortungsschirm aus B, der Fokus aus C
-und der Kern als Logo."""
+"""Entwurf D "Regie": das Studio-Rack aus A als Grundlage, darin der Ortungsschirm aus B im Kopf, der Fokus
+aus C, die Projekte als flache Einschübe und der Kern als Profilbild."""
 from __future__ import annotations
 
 from daten import Auswahl, Projekt
-from entwurf import DRITTEL, HALB, VOLL, Ergebnis, Steckbrief, reihen_teilen
+from entwurf import HALB, VOLL, Ergebnis, Steckbrief
 from entwurf_leitwarte import UMLAUF, defs_glas, ortungsschirm, peilung
-from entwurf_rack import (OHR, abschnitt, defs_rack, einschub, gestell, schild, steckfeld, taste_breit, vu)
-from kern import kern_defs, kern_in_fassung, profilbild_kern
+from entwurf_rack import OHR, abschnitt, defs_rack, gestell, schild, steckfeld, taste_breit, vu
+from kern import profilbild_kern
 from material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEISE, GRAVUR_STUMM, GRUEN, KANTE_DUNKEL,
                       bild, defs_grund, drehknopf, fase, gravurtext, icon, led, mulde, platte, schraube, spiegelung, svg, text,
                       umbrechen)
@@ -14,15 +14,16 @@ from material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEISE, GRA
 STECKBRIEF = Steckbrief(
     kennung="d",
     titel="Regie",
-    idee="Das Studio-Rack aus A als Grundlage, ergänzt um das Beste der anderen: der Ortungsschirm aus B als "
-         "Signalmonitor, die TubeVault-Präsentation aus C als Fokus-Einschub und als Logo ein leuchtender Kern "
-         "mit Drahtkugel, Ringen und der 42 in der Mitte.",
+    idee="Das Studio-Rack aus A als Grundlage, ergänzt um das Beste der anderen: der Ortungsschirm aus B im "
+         "Kopf, die TubeVault-Präsentation aus C als Fokus-Einschub, alle Teile dicht gestapelt wie in einem "
+         "Gestell. Das Profilbild ist der Kern: Drahtkugel, Ringe und die 42 in der Mitte.",
     merkmale=(
-        "Kopf mit dem Kern in einer Rack-Fassung: Ringe und Kugel drehen sich, das Herz pulsiert",
-        "Signalmonitor: Ortungsschirm, Zielliste mit Peilung passend zum Schirm, ein VU-Meter",
+        "Kopf mit Ortungsschirm in Rack-Fassung neben der Bernstein-Anzeige",
+        "Signalmonitor: Zielliste mit Peilung passend zum Schirm, ein VU-Meter",
         "TubeVault im Fokus-Einschub mit Bildschirmfoto im Rack-Fenster",
-        "Weitere Projekte als schmale Module, Steckfeld und Tasten wie in A",
-        "Profilbild: derselbe Kern, still als Bild",
+        "Weitere Projekte als flache Einschübe über die volle Breite, Steckfeld und Tasten wie in A",
+        "Breiten in Prozent: Tasten bleiben bei jeder Fensterbreite nebeneinander",
+        "Profilbild: der Kern rund, außen transparent, still (GitHub zeigt keine bewegten Profilbilder)",
     ),
 )
 
@@ -31,12 +32,12 @@ BEWEGUNG_RACK = (".puls{animation:puls 1.6s steps(2,jump-none) infinite}"
                  "@keyframes puls{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}")
 
 
-def _defs(mit_kern: bool = False) -> str:
-    return defs_grund() + defs_rack() + defs_glas() + (kern_defs("k") if mit_kern else "")
+def _defs() -> str:
+    return defs_grund() + defs_rack() + defs_glas()
 
 
 def _fassungsplatte(x: float, y: float, b: float, h: float) -> str:
-    """Eingesetzte Unterplatte mit vier Schrauben, wie bei der Fassung des Kerns."""
+    """Eingesetzte Unterplatte mit vier Schrauben, etwa für Schirm oder Bildschirmfoto."""
     return (
         f'<path d="{fase(x - 2, y - 2, b + 4, h + 4, 12)}" fill="{KANTE_DUNKEL}"/>'
         + platte(fase(x, y, b, h, 11))
@@ -47,8 +48,9 @@ def _fassungsplatte(x: float, y: float, b: float, h: float) -> str:
 
 def kopf(auswahl: Auswahl) -> str:
     b, h = VOLL, 300
-    k = kern_in_fassung(170, 156, 104, "k")
-    teile = [gestell(b, h), k.grafik]
+    teile = [gestell(b, h), _fassungsplatte(52, 34, 236, 236)]
+    schirm, schirm_bewegung = ortungsschirm(170, 152, 92, auswahl.projekte, kanalnummern=True)
+    teile.append(schirm)
     teile.append(led(70, 24, GRUEN, 2.6))
     teile.append(gravurtext(80, 28, "BETRIEB", 9.5, GRAVUR_STUMM, 700, 2))
     teile.append(gravurtext(b - OHR - 34, 28, "HW-42  ·  REGIE  ·  2026", 9.5, GRAVUR_STUMM, 700, 2, "end"))
@@ -75,8 +77,8 @@ def kopf(auswahl: Auswahl) -> str:
                  'stroke-opacity=".07"/>')
     teile.append(gravurtext(684, 272, f"{auswahl.anzahl_gesamt} PROJEKTE  ·  {auswahl.anzahl_themen} THEMEN",
                             9.5, GRAVUR_STUMM, 700, 1.6, "middle"))
-    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), _defs(True),
-               k.stil, k.bewegung + BEWEGUNG_RACK)
+    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), _defs(),
+               bewegung=schirm_bewegung + BEWEGUNG_RACK)
 
 
 def signalmonitor(auswahl: Auswahl) -> str:
@@ -84,30 +86,31 @@ def signalmonitor(auswahl: Auswahl) -> str:
     teile = [gestell(b, h)]
     teile.append(gravurtext(62, 26, "SIGNALMONITOR", 9.5, GRAVUR_STUMM, 700, 2.5))
     teile.append(gravurtext(b - OHR - 26, 26, "ORTUNG  ·  PEGEL", 9.5, GRAVUR_STUMM, 700, 2.5, "end"))
-    # Ortungsschirm in Fassung
-    teile.append(_fassungsplatte(52, 36, 200, 200))
-    schirm, schirm_bewegung = ortungsschirm(152, 136, 80, auswahl.projekte, kanalnummern=True)
-    teile.append(schirm)
-    # Zielliste, Peilung aus derselben Quelle wie der Schirm
-    liste = fase(272, 38, 238, 196, 5)
-    teile.append(f'<path d="{fase(267, 33, 248, 206, 7)}" fill="#0b0c0e"/>')
+    # Zielliste zum Ortungsschirm im Kopf, Peilung aus derselben Quelle
+    lx, lb = 56, 452
+    links, rechts = lx + 16, lx + lb - 16
+    liste = fase(lx, 38, lb, 196, 5)
+    teile.append(f'<path d="{fase(lx - 5, 33, lb + 10, 206, 7)}" fill="#0b0c0e"/>')
     teile.append(mulde(liste, "#040a0d"))
-    teile.append(text(288, 62, "ORTUNG", 10, CYAN, 700, 3))
-    teile.append(text(494, 62, f"{len(auswahl.projekte):02d} ZIELE", 10, CYAN, 700, 2, "end",
+    teile.append(text(links, 62, "ORTUNG", 10, CYAN, 700, 3))
+    teile.append(text(links + 182, 62, "TECHNIK", 10, CYAN, 700, 3, extra='opacity=".7"'))
+    teile.append(text(rechts, 62, f"{len(auswahl.projekte):02d} ZIELE", 10, CYAN, 700, 2, "end",
                       'opacity=".7"'))
-    teile.append(f'<path d="M288,72H494" stroke="{CYAN}" stroke-opacity=".25"/>')
+    teile.append(f'<path d="M{links},72H{rechts}" stroke="{CYAN}" stroke-opacity=".25"/>')
     stile = []
     zeilenhoehe = min(36, 150 / max(len(auswahl.projekte), 1))
     for n, p in enumerate(auswahl.projekte):
         y = 80 + n * zeilenhoehe
         winkel, _ = peilung(n)
-        teile.append(f'<rect class="zeile{n}" x="280" y="{y:.1f}" width="222" height="{zeilenhoehe - 4:.1f}" rx="2" '
+        teile.append(f'<rect class="zeile{n}" x="{lx + 8}" y="{y:.1f}" width="{lb - 16}" height="{zeilenhoehe - 4:.1f}" rx="2" '
                      f'fill="{p.akzent}" fill-opacity=".1"/>')
         mitte = y + (zeilenhoehe - 4) / 2
-        teile.append(text(290, mitte + 6, f"{n + 1:02d}", 16, "#ffb547", 700, 1, extra='filter="url(#leuchten)"'))
-        teile.append(f'<circle cx="324" cy="{mitte:.1f}" r="3.2" fill="{p.akzent}" filter="url(#leuchten)"/>')
-        teile.append(text(336, mitte + 4.5, p.name.upper(), 12, ZIEL_TINTE, 700, .6))
-        teile.append(text(494, mitte + 4.5, f"{winkel % 360:03.0f}°", 11, CYAN, 600, .5, "end", 'opacity=".8"'))
+        teile.append(text(links + 2, mitte + 6, f"{n + 1:02d}", 16, "#ffb547", 700, 1, extra='filter="url(#leuchten)"'))
+        teile.append(f'<circle cx="{links + 36}" cy="{mitte:.1f}" r="3.2" fill="{p.akzent}" filter="url(#leuchten)"/>')
+        teile.append(text(links + 48, mitte + 4.5, p.name.upper(), 12, ZIEL_TINTE, 700, .6))
+        teile.append(text(links + 182, mitte + 4.5, "  ·  ".join(t.upper() for t in p.technik), 10, GRAVUR_LEISE,
+                          600, 1.2))
+        teile.append(text(rechts, mitte + 4.5, f"{winkel % 360:03.0f}°", 11, CYAN, 600, .5, "end", 'opacity=".8"'))
         stile.append(f".zeile{n}{{animation:zeile {UMLAUF:g}s linear infinite;"
                      f"animation-delay:{winkel % 360 / 360 * UMLAUF - UMLAUF:.2f}s}}")
     teile.append(spiegelung(liste))
@@ -128,7 +131,7 @@ def signalmonitor(auswahl: Auswahl) -> str:
     teile.append(gravurtext(vu_x + vu_breite - 60, led_y + 4, "SPITZE", 9.5, GRAVUR_STUMM, 700, 1.4))
     teile.append(drehknopf(vu_x + vu_breite / 2, led_y + 38, 13, 40))
     bewegung_gesamt = (
-        schirm_bewegung + "".join(bewegung) + "".join(stile)
+        "".join(bewegung) + "".join(stile)
         + "@keyframes zeile{0%{fill-opacity:.32}8%{fill-opacity:.32}50%{fill-opacity:.06}100%{fill-opacity:.32}}"
         + ".spitze{animation:spitze 3.55s steps(1) infinite}"
         "@keyframes spitze{0%{opacity:.15}44%{opacity:1}52%{opacity:.15}100%{opacity:.15}}"
@@ -175,43 +178,45 @@ def fokus(projekt: Projekt) -> str:
     return svg(b, h, f"Im Fokus: {projekt.name}, {projekt.info}", "".join(teile), _defs(), bewegung="")
 
 
-def modul(projekt: Projekt, kanal: int) -> str:
-    """Schmales Modul für Dreierreihen: Icon oben, Text darunter, Taste unten rechts."""
-    b, h = DRITTEL, 240
-    teile = [f'<path d="{fase(0, 0, b, h, 8)}" fill="{KANTE_DUNKEL}"/>', platte(fase(2, 2, b - 4, h - 4, 7))]
-    for x, y, w in ((13, 13, 20), (b - 13, 13, 70), (13, h - 13, 115), (b - 13, h - 13, 160)):
-        teile.append(schraube(x, y, w, 4.4))
-    fenster = fase(26, 30, 78, 78, 6)
-    teile.append(f'<path d="{fase(22, 26, 86, 86, 8)}" fill="#0b0c0e"/>')
+def einschub_flach(projekt: Projekt, kanal: int) -> str:
+    """Flacher Einschub über die volle Breite: Icon, Kanal, Name und Text, rechts Schlagworte und Taste."""
+    b, h = VOLL, 100
+    teile = [gestell(b, h)]
+    teile.append(f'<path d="{fase(56, 10, 80, 80, 7)}" fill="#0b0c0e"/>')
+    fenster = fase(60, 14, 72, 72, 5)
     teile.append(mulde(fenster))
-    teile.append(f'<circle cx="65" cy="69" r="32" fill="{projekt.akzent}" opacity=".08" filter="url(#leuchten_weit)"/>')
-    teile.append(icon(projekt.icon, 39, 43, 52))
+    teile.append(f'<circle cx="96" cy="50" r="30" fill="{projekt.akzent}" opacity=".08" filter="url(#leuchten_weit)"/>')
+    teile.append(icon(projekt.icon, 71, 25, 50))
     teile.append(spiegelung(fenster))
-    kanalfenster = fase(b - 74, 32, 50, 26, 3)
-    teile.append(mulde(kanalfenster))
-    teile.append(text(b - 49, 52, f"{kanal:02d}", 19, "#ffb547", 700, 2, "middle", 'filter="url(#leuchten)"'))
-    teile.append(gravurtext(b - 49, 74, "KANAL", 9.5, GRAVUR_STUMM, 700, 2, "middle"))
-    teile.append(gravurtext(26, 138, projekt.name, 20, GRAVUR, 700))
-    for n, zeile in enumerate(umbrechen(projekt.info, 32, 3)):
-        teile.append(gravurtext(26, 160 + n * 17, zeile, 12.5, GRAVUR_LEISE, 500))
-    taste = fase(b - 82, 200, 58, 26, 3)
-    teile.append(f'<path d="{fase(b - 84, 198, 62, 30, 4)}" fill="#000" opacity=".7"/>')
-    teile.append(f'<path d="{taste}" fill="url(#taste)"/>')
-    teile.append(f'<path d="M{b - 79},202H{b - 27}" stroke="#fff" stroke-opacity=".6"/>')
-    teile.append(f'<path d="M{b - 72},207.5 l7,5.5 l-7,5.5z" fill="#2a1700"/>')
-    teile.append(text(b - 44, 216.5, "ÖFFNEN", 8.5, "#2a1700", 700, .8, "middle"))
-    x = 26.0
-    for wort in projekt.technik:
-        marke, breite = schild(x, 204, wort)
-        if x + breite > b - 92:
+    teile.append(mulde(fase(156, 20, 50, 26, 3)))
+    teile.append(text(181, 40, f"{kanal:02d}", 19, "#ffb547", 700, 2, "middle", 'filter="url(#leuchten)"'))
+    teile.append(gravurtext(181, 66, "KANAL", 9.5, GRAVUR_STUMM, 700, 2, "middle"))
+    teile.append(led(181, 80, BERNSTEIN, 2))
+    teile.append(gravurtext(232, 40, projekt.name, 22, GRAVUR, 700))
+    for n, zeile in enumerate(umbrechen(projekt.info, 56)):
+        teile.append(gravurtext(232, 63 + n * 17, zeile, 13, GRAVUR_LEISE, 500))
+    # Schlagworte rechtsbündig über der Taste
+    rechts = b - OHR - 28
+    marken, x = [], float(rechts)
+    for wort in reversed(projekt.technik):
+        breite = schild(0, 0, wort)[1]
+        if x - breite < 440:  # bis an den Namen heran, nie darüber
             break
-        teile.append(marke)
-        x += breite + 6
+        x -= breite
+        marken.append(schild(x, 18, wort)[0])
+        x -= 6
+    teile += marken
+    taste = fase(rechts - 76, 54, 76, 28, 3)
+    teile.append(f'<path d="{fase(rechts - 78, 52, 80, 32, 4)}" fill="#000" opacity=".7"/>')
+    teile.append(f'<path d="{taste}" fill="url(#taste)"/>')
+    teile.append(f'<path d="M{rechts - 72},56H{rechts - 4}" stroke="#fff" stroke-opacity=".6"/>')
+    teile.append(f'<path d="M{rechts - 64},62.5 l7,5.5 l-7,5.5z" fill="#2a1700"/>')
+    teile.append(text(rechts - 34, 72, "ÖFFNEN", 9, "#2a1700", 700, .8, "middle"))
     return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), _defs())
 
 
 def bauen(auswahl: Auswahl) -> Ergebnis:
-    e = Ergebnis(STECKBRIEF.kennung)
+    e = Ergebnis(STECKBRIEF.kennung, stapeln=True)
     e.dateien["avatar.svg"] = profilbild_kern()
     e.zeile((e.bild("kopf.svg", kopf(auswahl)), VOLL, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", None))
     e.zeile((e.bild("monitor.svg", signalmonitor(auswahl)), VOLL,
@@ -220,15 +225,8 @@ def bauen(auswahl: Auswahl) -> Ergebnis:
              VOLL, "Ausgewählte Projekte", None))
     f = auswahl.fokus
     e.zeile((e.bild(f"{f.schluessel}.svg", fokus(f)), VOLL, f"{f.name}: {f.info}", f.ziel))
-    kanal = 2
-    for reihe in reihen_teilen(auswahl.ohne_fokus):
-        eintraege = []
-        for p in reihe:
-            grafik = modul(p, kanal) if len(reihe) == 3 else einschub(p, kanal)
-            eintraege.append((e.bild(f"{p.schluessel}.svg", grafik), DRITTEL if len(reihe) == 3 else HALB,
-                              f"{p.name}: {p.info}", p.ziel))
-            kanal += 1
-        e.zeile(*eintraege)
+    for kanal, p in enumerate(auswahl.ohne_fokus, start=2):
+        e.zeile((e.bild(f"{p.schluessel}.svg", einschub_flach(p, kanal)), VOLL, f"{p.name}: {p.info}", p.ziel))
     e.zeile((e.bild("technik.svg", steckfeld(auswahl)), VOLL, "Technik: " + ", ".join(auswahl.technik), None))
     e.zeile((e.bild("alle.svg", taste_breit("ALLE PROJEKTE", "pfeil")), HALB, "Alle Projekte", auswahl.link_alle),
             (e.bild("unterstuetzen.svg", taste_breit("UNTERSTÜTZEN", "herz")), HALB, "Unterstützen",

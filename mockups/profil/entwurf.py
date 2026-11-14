@@ -1,7 +1,8 @@
 """Schnittstelle eines Entwurfs: erzeugte Bilder plus der README-Ausschnitt, der sie einbindet.
 
-Der Ausschnitt nutzt nur, was GitHub in einer README zulässt: <p align>, <a>, <img width>. Jede Grafik
-ist ein eigenes Bild mit eigenem Link; zwei Kacheln je Zeile brechen auf schmalen Schirmen von selbst um.
+Der Ausschnitt nutzt nur, was GitHub in einer README zulässt: <p align>, <a>, <br>, <img width>. Jede Grafik
+ist ein eigenes Bild mit eigenem Link. Breiten stehen in Prozent der README-Spalte: Teile einer Zeile bleiben so
+bei jeder Fensterbreite nebeneinander und skalieren gemeinsam.
 """
 from __future__ import annotations
 
@@ -14,9 +15,15 @@ HALB = 412
 DRITTEL = 272
 
 
+def anteil(breite: int) -> str:
+    """Breite als Anteil der README-Spalte; Zwischenräume zwischen Bildern einer Zeile bleiben frei."""
+    return "100%" if breite >= VOLL else f"{breite / VOLL * 100:.1f}%"
+
+
 @dataclass
 class Ergebnis:
     kennung: str
+    stapeln: bool = False  # True: alle Zeilen in einem Absatz, nur durch <br> getrennt (dicht wie ein Rack)
     dateien: dict[str, str] = field(default_factory=dict)
     zeilen: list[str] = field(default_factory=list)
 
@@ -28,13 +35,15 @@ class Ergebnis:
         """Eine zentrierte Zeile aus (pfad, breite, alt, link)."""
         teile = []
         for pfad, breite, alt, link in eintraege:
-            img = f'<img src="{pfad}" width="{breite}" alt="{esc(alt)}">'
+            img = f'<img src="{pfad}" width="{anteil(breite)}" alt="{esc(alt)}">'
             teile.append(f'<a href="{esc(link)}">{img}</a>' if link else img)
-        self.zeilen.append('<p align="center">\n' + "\n".join(teile) + "\n</p>")
+        self.zeilen.append("\n".join(teile))
 
     @property
     def readme(self) -> str:
-        return "\n\n".join(self.zeilen) + "\n"
+        if self.stapeln:
+            return '<p align="center">\n' + "<br>\n".join(self.zeilen) + "\n</p>\n"
+        return "\n\n".join(f'<p align="center">\n{z}\n</p>' for z in self.zeilen) + "\n"
 
 
 @dataclass(frozen=True)
