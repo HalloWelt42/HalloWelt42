@@ -234,7 +234,7 @@ body::before{{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inse
 {vorlagen}
 <script>
 const STECKBRIEFE = {json.dumps(steckbriefe, ensure_ascii=False)};
-const VORGABE = {{entwurf: "a", github: "dunkel", breite: "rechner"}};
+const VORGABE = {{entwurf: Object.keys(STECKBRIEFE)[0], github: "dunkel", breite: "rechner"}};
 // Direktlink je Entwurf über den Anker (#studio-rack, #leitwarte, #signatur)
 const ANKER = Object.fromEntries(Object.entries(STECKBRIEFE).map(([k, sb]) => [k, sb.titel.toLowerCase().replace(/[^a-z0-9]+/g, "-")]));
 const zustand = Object.assign({{}}, VORGABE);

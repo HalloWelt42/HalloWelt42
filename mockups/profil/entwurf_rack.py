@@ -23,8 +23,13 @@ STECKBRIEF = Steckbrief(
 OHR = 36
 
 
-def _defs() -> str:
-    return defs_grund() + (
+def defs() -> str:
+    return defs_grund() + defs_rack()
+
+
+def defs_rack() -> str:
+    """Nur die Rack-Verläufe (Ohren, VU, Tasten), ohne den Grundbestand."""
+    return (
         '<linearGradient id="ohr" x1="0" y1="0" x2="1" y2="0">'
         '<stop offset="0" stop-color="#17191c"/><stop offset=".5" stop-color="#26292d"/>'
         '<stop offset="1" stop-color="#141618"/></linearGradient>'
@@ -40,7 +45,7 @@ def _defs() -> str:
     )
 
 
-def _gestell(breite: int, hoehe: int) -> str:
+def gestell(breite: int, hoehe: int) -> str:
     """Frontplatte mit Rack-Ohren und Langlöchern samt Schrauben."""
     teile = [f'<path d="{fase(0, 0, breite, hoehe, 6)}" fill="{KANTE_DUNKEL}"/>']
     for x in (0, breite - OHR):
@@ -56,20 +61,23 @@ def _gestell(breite: int, hoehe: int) -> str:
     return "".join(teile)
 
 
-def _vu(x: float, y: float, b: float, h: float, kanal: str, nummer: int) -> tuple[str, str, str]:
-    """VU-Meter: liefert Grafik, Grundstil (Ruhelage) und Bewegung (Nadel)."""
+def vu(x: float, y: float, b: float, h: float, kanal: str, nummer: int) -> tuple[str, str, str]:
+    """VU-Meter: liefert Grafik, Grundstil (Ruhelage) und Bewegung (Nadel).
+
+    Schmalere Fenster als hoch stauchen den Ausschlag (f), damit die Skala im Fenster bleibt."""
     px, py = x + b / 2, y + h + 22
     r = h * .98
-    skala = [("20", -44), ("10", -31), ("7", -21), ("5", -12), ("3", -3), ("0", 14), ("3", 48)]
+    f = min(1.0, b / h)
+    skala = [(z, w * f) for z, w in (("20", -44), ("10", -31), ("7", -21), ("5", -12), ("3", -3), ("0", 14), ("3", 48))]
     striche, ziffern = [], []
     for zahl, winkel in skala:
         x1, y1 = polar(px, py, r - 26, winkel)
         x2, y2 = polar(px, py, r - 16, winkel)
         tx, ty = polar(px, py, r - 6, winkel)
-        farbe = "#b3200f" if winkel > 10 else "#2a1803"
+        farbe = "#b3200f" if winkel > 10 * f else "#2a1803"
         striche.append(f'<path d="M{x1:.1f},{y1:.1f}L{x2:.1f},{y2:.1f}" stroke="{farbe}" stroke-width="1.6"/>')
         ziffern.append(text(tx, ty + 3, zahl, 9, farbe, 700, anker="middle"))
-    for winkel in range(-48, 49, 6):
+    for winkel in (w * f for w in range(-48, 49, 6)):
         x1, y1 = polar(px, py, r - 22, winkel)
         x2, y2 = polar(px, py, r - 16, winkel)
         striche.append(f'<path d="M{x1:.1f},{y1:.1f}L{x2:.1f},{y2:.1f}" stroke="#2a1803" stroke-width=".8"/>')
@@ -80,8 +88,8 @@ def _vu(x: float, y: float, b: float, h: float, kanal: str, nummer: int) -> tupl
         f'<path d="{fase(x - 5, y - 5, b + 10, h + 10, 6)}" fill="#0b0c0e"/>'
         f'<path d="{fenster}" fill="url(#vu)"/>'
         f'<g clip-path="url(#vu{nummer})">'
-        f'<path d="{bogen(px, py, r - 18, -48, 14)}" fill="none" stroke="#2a1803" stroke-width="1.4"/>'
-        f'<path d="{bogen(px, py, r - 18, 14, 48)}" fill="none" stroke="#b3200f" stroke-width="4"/>'
+        f'<path d="{bogen(px, py, r - 18, -48 * f, 14 * f)}" fill="none" stroke="#2a1803" stroke-width="1.4"/>'
+        f'<path d="{bogen(px, py, r - 18, 14 * f, 48 * f)}" fill="none" stroke="#b3200f" stroke-width="4"/>'
         + "".join(striche) + "".join(ziffern)
         + text(px, y + h - 30, "VU", 15, "#2a1803", 700, 1, "middle")
         + text(x + 10, y + h - 9, kanal, 10, "#2a1803", 700)
@@ -92,19 +100,19 @@ def _vu(x: float, y: float, b: float, h: float, kanal: str, nummer: int) -> tupl
         f'<path d="{fenster}" fill="none" stroke="url(#mulde)" stroke-width="2.4"/>'
     )
     ursprung = f"transform-box:view-box;transform-origin:{px:g}px {py:g}px"
-    grund = f".nadel{nummer}{{{ursprung};transform:rotate(-18deg)}}"
+    grund = f".nadel{nummer}{{{ursprung};transform:rotate({-18 * f:.1f}deg)}}"
+    stellungen = ((0, -34), (18, -6), (30, -22), (46, 6 + nummer * 3), (60, -14), (78, -2), (100, -34))
     bewegung = (
         f".nadel{nummer}{{animation:pendel{nummer} {3.1 + nummer * .45:.2f}s ease-in-out infinite}}"
-        f"@keyframes pendel{nummer}{{0%{{transform:rotate(-34deg)}}18%{{transform:rotate(-6deg)}}"
-        f"30%{{transform:rotate(-22deg)}}46%{{transform:rotate({6 + nummer * 3}deg)}}60%{{transform:rotate(-14deg)}}"
-        f"78%{{transform:rotate(-2deg)}}100%{{transform:rotate(-34deg)}}}}"
+        f"@keyframes pendel{nummer}{{"
+        + "".join(f"{p}%{{transform:rotate({w * f:.1f}deg)}}" for p, w in stellungen) + "}"
     )
     return grafik, grund, bewegung
 
 
 def kopf(auswahl: Auswahl) -> str:
     b, h = VOLL, 300
-    teile = [_gestell(b, h)]
+    teile = [gestell(b, h)]
     # Typenschild und Betriebsanzeige
     teile.append(led(70, 24, GRUEN, 2.6))
     teile.append(gravurtext(80, 28, "BETRIEB", 9.5, GRAVUR_STUMM, 700, 2))
@@ -122,7 +130,7 @@ def kopf(auswahl: Auswahl) -> str:
     # Zwei VU-Meter
     stile, bewegungen = [], []
     for nummer, (x, kanal) in enumerate(((494, "L"), (650, "R")), start=1):
-        grafik, grund, bewegung = _vu(x, 42, 140, 140, kanal, nummer)
+        grafik, grund, bewegung = vu(x, 42, 140, 140, kanal, nummer)
         teile.append(grafik)
         stile.append(grund)
         bewegungen.append(bewegung)
@@ -142,19 +150,19 @@ def kopf(auswahl: Auswahl) -> str:
     stil = "".join(stile)
     bewegung = "".join(bewegungen) + ".puls{animation:puls 1.6s steps(2,jump-none) infinite}" \
                                      "@keyframes puls{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}"
-    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), _defs(), stil, bewegung)
+    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), defs(), stil, bewegung)
 
 
 def abschnitt(titel: str, rechts: str) -> str:
     b, h = VOLL, 54
-    teile = [_gestell(b, h), gravurtext(62, 33, titel, 13, GRAVUR, 700, 4)]
+    teile = [gestell(b, h), gravurtext(62, 33, titel, 13, GRAVUR, 700, 4)]
     teile.append(gravurtext(b - OHR - 118, 32, rechts, 10, GRAVUR_STUMM, 700, 2, "end"))
     for n in range(6):
         teile.append(led(b - OHR - 100 + n * 13, 28, BERNSTEIN, 2.4, an=n < 6))
-    return svg(b, h, titel, "".join(teile), _defs())
+    return svg(b, h, titel, "".join(teile), defs())
 
 
-def _schild(x: float, y: float, inhalt: str) -> tuple[str, float]:
+def schild(x: float, y: float, inhalt: str) -> tuple[str, float]:
     breite = textbreite(inhalt.upper(), 9.5, 1) + 14
     return (
         f'<rect x="{x:g}" y="{y:g}" width="{breite:.1f}" height="19" rx="2.5" fill="#101215"/>'
@@ -187,10 +195,10 @@ def einschub(projekt: Projekt, kanal: int) -> str:
     # Schlagworte, solange sie vor die Taste passen
     x = 150.0
     for wort in projekt.technik:
-        schild, breite = _schild(x, 128, wort)
+        marke, breite = schild(x, 128, wort)
         if x + breite > b - 92:
             break
-        teile.append(schild)
+        teile.append(marke)
         x += breite + 6
     # Taste
     taste = fase(b - 82, 124, 58, 27, 3)
@@ -200,7 +208,7 @@ def einschub(projekt: Projekt, kanal: int) -> str:
     teile.append(f'<path d="M{b - 72},132 l7,5.5 l-7,5.5z" fill="#2a1700"/>')
     teile.append(text(b - 44, 141.5, "ÖFFNEN", 8.5, "#2a1700", 700, .8, "middle"))
     teile.append(led(b - 53, 166, BERNSTEIN, 1.8))
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), _defs())
+    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), defs())
 
 
 def _buchse(x: float, y: float, gesteckt: str | None) -> str:
@@ -218,7 +226,7 @@ def _buchse(x: float, y: float, gesteckt: str | None) -> str:
 
 def steckfeld(auswahl: Auswahl) -> str:
     b, h = VOLL, 158
-    teile = [_gestell(b, h), gravurtext(62, 34, "TECHNIK", 11, GRAVUR, 700, 4),
+    teile = [gestell(b, h), gravurtext(62, 34, "TECHNIK", 11, GRAVUR, 700, 4),
              gravurtext(b - OHR - 26, 34, "STECKFELD  ·  8 KANÄLE", 10, GRAVUR_STUMM, 700, 2, "end")]
     teile.append(f'<path d="M62,46H{b - OHR - 26}" stroke="#000" stroke-opacity=".6"/>'
                  f'<path d="M62,47H{b - OHR - 26}" stroke="#fff" stroke-opacity=".07"/>')
@@ -238,7 +246,7 @@ def steckfeld(auswahl: Auswahl) -> str:
         teile.append(f'<path d="{d}" fill="none" stroke="{farbe}" stroke-width="5" stroke-linecap="round"/>')
         teile.append(f'<path d="{d}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" '
                      f'transform="translate(-1,-1.5)"/>')
-    return svg(b, h, "Technik: " + ", ".join(auswahl.technik), "".join(teile), _defs())
+    return svg(b, h, "Technik: " + ", ".join(auswahl.technik), "".join(teile), defs())
 
 
 def _herz(x: float, y: float, farbe: str) -> str:
@@ -264,7 +272,7 @@ def taste_breit(beschriftung: str, symbol: str) -> str:
         teile.append(_herz(sx, 33, BERNSTEIN))
     else:
         teile.append(f'<path d="M{sx - 5:g},27 l9,6 l-9,6z" fill="{BERNSTEIN}"/>')
-    return svg(b, h, beschriftung, "".join(teile), _defs())
+    return svg(b, h, beschriftung, "".join(teile), defs())
 
 
 def bauen(auswahl: Auswahl) -> Ergebnis:

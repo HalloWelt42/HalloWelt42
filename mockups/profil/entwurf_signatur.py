@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from daten import Auswahl, Projekt
-from entwurf import DRITTEL, HALB, VOLL, Ergebnis, Steckbrief
+from entwurf import DRITTEL, HALB, VOLL, Ergebnis, Steckbrief, reihen_teilen
 from material import (MESSING, MESSING_HELL, avatar, bild, defs_grund, fase, icon, polar, svg, text,
                       textbreite, umbrechen)
 
@@ -221,11 +221,10 @@ def bauen(auswahl: Auswahl) -> Ergebnis:
     f = auswahl.fokus
     e.zeile((e.bild(f"{f.schluessel}.svg", fokus(f)), VOLL, f"{f.name}: {f.info}", f.ziel))
     uebrige = auswahl.ohne_fokus
-    # Rhythmus: erst zwei breite, dann drei schmale Karten
-    reihen = (uebrige[:2], uebrige[2:5])
+    reihen = reihen_teilen(uebrige)
     nummer = 2
     for reihe in reihen:
-        breite = HALB if len(reihe) == 2 else DRITTEL
+        breite = DRITTEL if len(reihe) == 3 else HALB
         eintraege = []
         for p in reihe:
             eintraege.append((e.bild(f"{p.schluessel}.svg", karte(p, nummer, breite)), breite, f"{p.name}: {p.info}",

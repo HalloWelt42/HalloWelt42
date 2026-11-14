@@ -40,22 +40,6 @@ akzent = "#ffa400"
 technik = ["HTML", "CSS", "JavaScript"]
 
 [[projekt]]
-name = "Leitstelle"
-info = "Vermittelt die Anfragen aller Apps an lokale KI, mit Warteschlange"
-repo = "leitstelle"
-icon = "icons/leitstelle.svg"
-akzent = "#ffb52e"
-technik = ["Python", "Svelte", "MLX"]
-
-[[projekt]]
-name = "Kellerwolke"
-info = "Die eigene Wolke im Keller: Dateien für Familie und Haushalt"
-repo = "kellerwolke"
-icon = "icons/kellerwolke.svg"
-akzent = "#4b95ff"
-technik = ["Python", "Svelte", "Docker"]
-
-[[projekt]]
 name = "BücherFreunde"
 info = "Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"
 repo = "BuecherFreunde"

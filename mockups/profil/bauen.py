@@ -9,11 +9,12 @@ import shutil
 
 import entwurf_leitwarte
 import entwurf_rack
+import entwurf_regie
 import entwurf_signatur
 from daten import ORDNER, laden
 from seite import als_artefakt, seite
 
-ENTWUERFE = (entwurf_rack, entwurf_leitwarte, entwurf_signatur)
+ENTWUERFE = (entwurf_regie, entwurf_rack, entwurf_leitwarte, entwurf_signatur)  # erster = Vorgabe der Vorschau
 AUSGABE = ORDNER / "ausgabe"
 
 

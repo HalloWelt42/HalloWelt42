@@ -24,8 +24,13 @@ LEISE = "#93a8b6"
 STUMM = "#6f8594"
 
 
-def _defs() -> str:
-    return defs_grund() + (
+def defs() -> str:
+    return defs_grund() + defs_glas()
+
+
+def defs_glas() -> str:
+    """Nur die Glas- und Rahmenverläufe dieses Entwurfs, ohne den Grundbestand."""
+    return (
         '<linearGradient id="rahmen" x1="0" y1="0" x2="0" y2="1">'
         '<stop offset="0" stop-color="#50565e"/><stop offset=".18" stop-color="#30353b"/>'
         '<stop offset=".8" stop-color="#1f2226"/><stop offset="1" stop-color="#121417"/></linearGradient>'
@@ -116,12 +121,30 @@ def kopf(auswahl: Auswahl) -> str:
         teile.append(led(x + 15, 224, farbe, 3))
         teile.append(text(x + 27, 228, beschriftung, 11, "#c4e7ec", 700, 1.4))
         x += breite + 10
-    # Ortungsschirm
-    cx, cy, r = 680, 150, 104
-    teile.append(f'<circle cx="{cx}" cy="{cy}" r="{r + 9}" fill="none" stroke="url(#rahmen)" stroke-width="9"/>'
-                 f'<circle cx="{cx}" cy="{cy}" r="{r + 13.5}" fill="none" stroke="#000" stroke-opacity=".7"/>'
-                 f'<circle cx="{cx}" cy="{cy}" r="{r + 4.5}" fill="none" stroke="#000" stroke-opacity=".8"/>'
-                 f'<circle cx="{cx}" cy="{cy}" r="{r + 4}" fill="#03080b"/>')
+    schirm, schirm_bewegung = ortungsschirm(680, 150, 104, auswahl.projekte)
+    teile.append(schirm)
+    teile.append(spiegelung(glas))
+    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), defs(),
+               bewegung=BEWEGUNG_GRUND + schirm_bewegung, gewichte=(500, 600, 700))
+
+
+UMLAUF = 6.0  # Sekunden je Umdrehung des Strahls
+
+
+def peilung(nummer: int) -> tuple[float, float]:
+    """Lage eines Ziels auf dem Schirm: Winkel in Grad und Abstand als Anteil des Radius."""
+    return 25 + nummer * 80, .45 + .13 * (nummer % 3)
+
+
+def ortungsschirm(cx: float, cy: float, r: float, projekte: tuple[Projekt, ...],
+                  kanalnummern: bool = False) -> tuple[str, str]:
+    """Ortungsschirm mit kreisendem Strahl; die Projekte leuchten auf, wenn der Strahl sie streift.
+
+    kanalnummern: Ziele tragen 01, 02 ... statt des Namens (wenn daneben eine Zielliste steht)."""
+    teile = [f'<circle cx="{cx}" cy="{cy}" r="{r + 9}" fill="none" stroke="url(#rahmen)" stroke-width="9"/>'
+             f'<circle cx="{cx}" cy="{cy}" r="{r + 13.5}" fill="none" stroke="#000" stroke-opacity=".7"/>'
+             f'<circle cx="{cx}" cy="{cy}" r="{r + 4.5}" fill="none" stroke="#000" stroke-opacity=".8"/>'
+             f'<circle cx="{cx}" cy="{cy}" r="{r + 4}" fill="#03080b"/>']
     for ring in (r, r * .75, r * .5, r * .25):
         teile.append(f'<circle cx="{cx}" cy="{cy}" r="{ring:g}" fill="none" stroke="{CYAN}" stroke-opacity=".16"/>')
     teile.append(f'<path d="M{cx - r},{cy}H{cx + r}M{cx},{cy - r}V{cy + r}" stroke="{CYAN}" stroke-opacity=".14"/>')
@@ -135,29 +158,27 @@ def kopf(auswahl: Auswahl) -> str:
                  f'fill="url(#strahl)" transform="rotate(-50 {cx} {cy})"/>'
                  f'<path d="M{cx},{cy}L{sx:.1f},{sy:.1f}" stroke="{CYAN}" stroke-width="1.5" filter="url(#leuchten)"/></g>')
     stile = []
-    for n, p in enumerate(auswahl.projekte):
-        winkel = 25 + n * 58
-        abstand = r * (.42 + .1 * (n % 3))
-        px, py = polar(cx, cy, abstand, winkel)
+    for n, p in enumerate(projekte):
+        winkel, anteil = peilung(n)
+        px, py = polar(cx, cy, r * anteil, winkel)
         anker = "start" if px >= cx else "end"
         versatz = 9 if anker == "start" else -9
         teile.append(f'<g class="ziel{n}"><circle cx="{px:.1f}" cy="{py:.1f}" r="3.6" fill="{p.akzent}" '
                      f'filter="url(#leuchten)"/>'
                      f'<circle cx="{px:.1f}" cy="{py:.1f}" r="8" fill="none" stroke="{p.akzent}" stroke-opacity=".5"/></g>')
-        teile.append(text(px + versatz, py + 3.5, p.name.upper(), 9.5, "#bfe3ea", 700, .8, anker))
-        stile.append(f".ziel{n}{{animation:ziel 6s linear infinite;animation-delay:{winkel / 360 * 6 - 6:.2f}s}}")
+        marke = f"{n + 1:02d}" if kanalnummern else p.name.upper()
+        teile.append(text(px + versatz, py + 3.5, marke, 9.5 if not kanalnummern else 11, "#bfe3ea", 700, .8, anker))
+        stile.append(f".ziel{n}{{animation:ziel {UMLAUF:g}s linear infinite;"
+                     f"animation-delay:{winkel % 360 / 360 * UMLAUF - UMLAUF:.2f}s}}")
     teile.append(f'<circle cx="{cx}" cy="{cy}" r="3" fill="{CYAN}"/>')
     teile.append(f'<path d="M{cx - r},{cy} A{r},{r} 0 0 1 {cx + r},{cy} Z" fill="#fff" opacity=".035"/>')
-    teile.append(spiegelung(glas))
     bewegung = (
-        BEWEGUNG_GRUND
-        + f".kreisel{{transform-box:view-box;transform-origin:{cx}px {cy}px;animation:kreisen 6s linear infinite}}"
+        f".kreisel{{transform-box:view-box;transform-origin:{cx}px {cy}px;animation:kreisen {UMLAUF:g}s linear infinite}}"
         "@keyframes kreisen{from{transform:rotate(0)}to{transform:rotate(360deg)}}"
         "@keyframes ziel{0%{opacity:1}6%{opacity:1}60%{opacity:.25}100%{opacity:1}}"
         + "".join(stile)
     )
-    return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), _defs(),
-               bewegung=bewegung, gewichte=(500, 600, 700))
+    return "".join(teile), bewegung
 
 
 def abschnitt(titel: str, rechts: str) -> str:
@@ -174,7 +195,7 @@ def abschnitt(titel: str, rechts: str) -> str:
         teile.append(f'<path d="M{x:.1f},{h / 2 - 3}v6" stroke="{CYAN}" stroke-opacity=".35"/>')
         x += 12
     teile.append(text(b - 26, h / 2 + 4, rechts, 10, CYAN, 700, 2, "end"))
-    return svg(b, h, titel, "".join(teile), _defs(), gewichte=(700,))
+    return svg(b, h, titel, "".join(teile), defs(), gewichte=(700,))
 
 
 def _chip(x: float, y: float, inhalt: str, farbe: str) -> tuple[str, float]:
@@ -225,7 +246,7 @@ def instrument(projekt: Projekt, nummer: int, anzahl: int) -> str:
     teile.append(f'<path d="M{b - 47},158.5h14m-5,-5l5,5l-5,5" fill="none" stroke="{a}" stroke-width="2" '
                  f'stroke-linecap="round" stroke-linejoin="round" filter="url(#leuchten)"/>')
     teile.append(spiegelung(glas))
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), _defs(), bewegung=BEWEGUNG_GRUND,
+    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), defs(), bewegung=BEWEGUNG_GRUND,
                gewichte=(500, 600, 700))
 
 
@@ -241,7 +262,7 @@ def technik(auswahl: Auswahl) -> str:
         chip, _ = _chip(x, 36, wort, CYAN)
         teile.append(chip)
         x += breite + abstand
-    return svg(b, h, "Technik: " + ", ".join(auswahl.technik), "".join(teile), _defs(), gewichte=(700,))
+    return svg(b, h, "Technik: " + ", ".join(auswahl.technik), "".join(teile), defs(), gewichte=(700,))
 
 
 def taste(beschriftung: str, symbol: str) -> str:
@@ -258,7 +279,7 @@ def taste(beschriftung: str, symbol: str) -> str:
     else:
         teile.append(f'<path d="M{sx - 8},{h / 2}h14m-5,-5l5,5l-5,5" fill="none" stroke="{CYAN}" stroke-width="2" '
                      f'stroke-linecap="round" stroke-linejoin="round" filter="url(#leuchten)"/>')
-    return svg(b, h, beschriftung, "".join(teile), _defs(), bewegung=BEWEGUNG_GRUND, gewichte=(700,))
+    return svg(b, h, beschriftung, "".join(teile), defs(), bewegung=BEWEGUNG_GRUND, gewichte=(700,))
 
 
 def bauen(auswahl: Auswahl) -> Ergebnis:
