@@ -58,7 +58,7 @@ def passende_groesse(inhalt: str, groesse: float, breite: float, sperrung: float
     return min(groesse, breite / max(len(inhalt), 1) / (.6 + sperrung / max(groesse, 1)))
 
 
-def kopf(profil: Profil, musik: str | None = None) -> str:
+def kopf(profil: Profil, musik: str | None = None, dauer: str | None = None) -> str:
     """Kopf als Rack-Frontplatte: Themen-Radar in der Fassung, daneben die Bernstein-Anzeige.
 
     musik: Titel für das Abspielfeld in der Freifläche unter der Anzeige; ohne Titel steht dort der Leitsatz."""
@@ -83,7 +83,7 @@ def kopf(profil: Profil, musik: str | None = None) -> str:
     teile.append(gravurtext(282, 184, "Werkzeuge mit Studio-Optik.", 15, GRAVUR, 600))
     musik_bewegung = ""
     if musik:
-        feld, musik_bewegung = abspielfeld(282, 194, 330, musik)
+        feld, musik_bewegung = abspielfeld(282, 194, 330, musik, dauer or "")
         teile.append(feld)
     else:
         teile.append(gravurtext(282, 206, "Die Nummern am Schirm sind die Themen.", 13, GRAVUR_LEISE, 500))
@@ -153,7 +153,9 @@ def liste_md(liste: Liste) -> str:
 def bauen(profil: Profil, ordner: str) -> Ergebnis:
     """ordner: Ablage der Bilder, relativ zu projekte.md (Pfadanfang der Bildadressen)."""
     e = Ergebnis(ordner, stapeln=True)
-    e.zeile((e.bild("kopf.svg", kopf(profil)), VOLL, "Alle Projekte", None))
+    musik = profil.angaben.musik if profil.angaben.musik and profil.angaben.musik.an("katalog") else None
+    e.zeile((e.bild("kopf.svg", kopf(profil, musik.titel.upper() if musik else None, musik.dauer if musik else None)),
+             VOLL, f"Alle Projekte{' - Musik abspielen' if musik else ''}", musik.link if musik else None))
     for gruppe, kennung, farbe in themenleisten(profil):
         e.zeile((e.bild(f"thema-{kennung}.svg", leiste(kennung, gruppe.titel, gruppe.text, len(gruppe.projekte),
                                                         farbe)), VOLL, f"{gruppe.titel}: {gruppe.text}", None))

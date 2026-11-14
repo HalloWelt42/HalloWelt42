@@ -1,7 +1,7 @@
 <!-- Erzeugt aus projekte.toml mit werkzeug/profil.py - nicht von Hand bearbeiten. -->
 
 <p align="center">
-<img src="katalog/kopf.svg" width="100%" alt="Alle Projekte"><br>
+<a href="https://hallowelt42.github.io/HalloWelt42/musik/ki-musik.mp3" title="Alle Projekte - Musik abspielen"><img src="katalog/kopf.svg" width="100%" alt="Alle Projekte - Musik abspielen"></a><br>
 <img src="katalog/thema-01.svg" width="100%" alt="Video und Audio: Ansehen, schneiden, mitschneiden, hören."><br>
 <a href="https://github.com/HalloWelt42/TubeVault" title="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"><img src="katalog/tubevault.svg" width="49.0%" alt="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"></a>
 <a href="https://github.com/HalloWelt42/CuttOffl" title="CuttOffl: Videoschnitt-Studio im Browser"><img src="katalog/cuttoffl.svg" width="49.0%" alt="CuttOffl: Videoschnitt-Studio im Browser"></a><br>

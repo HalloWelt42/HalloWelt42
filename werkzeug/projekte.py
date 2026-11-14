@@ -69,11 +69,30 @@ class Liste:
 
 
 @dataclass(frozen=True)
+class Musik:
+    """Eigene Musik im Kopf der Seiten. Eine Grafik kann keinen Ton abspielen; der Link führt zur MP3 auf GitHub
+    Pages, die der Browser direkt abspielt."""
+    datei: str
+    titel: str
+    dauer: str
+    orte: tuple[str, ...]
+    seiten: str
+
+    @property
+    def link(self) -> str:
+        return self.seiten.rstrip("/") + "/" + self.datei
+
+    def an(self, ort: str) -> bool:
+        return ort in self.orte
+
+
+@dataclass(frozen=True)
 class Angaben:
     """Angaben der Profilseite, die keinem einzelnen Projekt gehören."""
     technik: tuple[str, ...]
     katalog: str
     unterstuetzen: str
+    musik: Musik | None = None
 
 
 @dataclass(frozen=True)
@@ -113,7 +132,11 @@ def laden(pfad: pathlib.Path = DATEN) -> Profil:
         Liste(l["titel"], tuple(Eintrag(**e) for e in l["eintrag"]))
         for l in daten.get("liste", [])
     )
-    return Profil(Angaben(tuple(angaben["technik"]), angaben["katalog"], angaben["unterstuetzen"]), gruppen, listen)
+    musik = angaben.get("musik")
+    musik_angabe = (Musik(musik["datei"], musik["titel"], musik["dauer"], tuple(musik["orte"]), angaben["seiten"])
+                    if musik else None)
+    return Profil(Angaben(tuple(angaben["technik"]), angaben["katalog"], angaben["unterstuetzen"], musik_angabe),
+                  gruppen, listen)
 
 
 def icon_fehler(profil: Profil, formate: set[str]) -> list[str]:

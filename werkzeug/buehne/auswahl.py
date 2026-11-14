@@ -4,7 +4,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import projekte
-from projekte import Profil, Projekt
+from projekte import WURZEL
+from projekte import Musik, Profil, Projekt
 
 
 @dataclass(frozen=True)
@@ -15,6 +16,7 @@ class Auswahl:
     link_unterstuetzen: str
     anzahl_gesamt: int
     anzahl_themen: int
+    musik: Musik | None = None
 
     @property
     def fokus(self) -> Projekt:
@@ -40,6 +42,9 @@ def fehler(profil: Profil) -> list[str]:
     fokus = [p for p in top if p.fokus]
     if len(fokus) != 1:
         meldungen.append(f"Genau ein Top-Projekt braucht fokus = true, gefunden: {len(fokus)}")
+    musik = profil.angaben.musik
+    if musik and not (WURZEL / musik.datei).is_file():
+        meldungen.append(f"Musik: Datei fehlt: {musik.datei}")
     for p in fokus:
         if not p.punkte or not p.bild_pfad or not p.bild_pfad.is_file():
             meldungen.append(f"{p.name}: fokus braucht punkte und ein vorhandenes bild")
@@ -56,4 +61,5 @@ def laden(profil: Profil | None = None) -> Auswahl:
         link_unterstuetzen=profil.angaben.unterstuetzen,
         anzahl_gesamt=sum(len(g.projekte) for g in profil.katalog_gruppen),  # so viele zeigt der Katalog
         anzahl_themen=len(profil.katalog_gruppen),
+        musik=profil.angaben.musik,
     )

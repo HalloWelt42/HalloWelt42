@@ -216,7 +216,7 @@ def abspielfeld(x: float, y: float, b: float, titel: str, zeit: str = "00:00") -
     teile.append(mulde(anzeige))
     teile.append(f'<path d="{anzeige}" fill="url(#punktraster)"/>')
     teile.append(text(ax + 8, y + 21.5, titel, 11, "#ffb547", 700, 1.2, extra='filter="url(#leuchten)"'))
-    if textbreite(titel, 11, 1.2) + textbreite(zeit, 11, 1) + 24 <= ab:  # Zeit nur, wenn sie neben den Titel passt
+    if zeit and textbreite(titel, 11, 1.2) + textbreite(zeit, 11, 1) + 24 <= ab:  # Zeit nur, wenn sie passt
         teile.append(text(ax + ab - 8, y + 21.5, zeit, 11, BERNSTEIN_HELL, 700, 1, "end", 'opacity=".75"'))
     # Pegel: acht Balken, die im Takt wippen
     px = x + b - pegel_b - 6

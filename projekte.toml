@@ -4,6 +4,9 @@
 # Profil:   technik       Beschriftung des Steckfelds im Rack
 #           katalog       Ziel der Taste "Alle Projekte"
 #           unterstuetzen Ziel der Taste "Unterstützen"
+#           seiten        Adresse dieses Repos auf GitHub Pages (dort liegen Dateien, die der Browser abspielt)
+#           musik         datei (MP3 im Repo), titel, dauer, orte ("start", "katalog"): Abspielfeld im Kopf;
+#                         ein Klick auf den Kopf öffnet die MP3 über GitHub Pages, der Browser spielt sie sofort
 # Gruppe:   titel, text (Zeile im Katalog), begleittext (Absatz im Portfolio), projekt = [...]
 # Projekt:  name   Beschriftung der Kachel (lange Namen brechen an Leerzeichen oder Bindestrich um)
 #           info   Kurzbeschreibung, erscheint beim Darüberfahren
@@ -22,6 +25,13 @@
 technik = ["Python", "FastAPI", "Svelte 5", "TypeScript", "Swift", "Docker", "Raspberry Pi", "MLX"]
 katalog = "https://github.com/HalloWelt42/HalloWelt42/blob/master/projekte.md"
 unterstuetzen = "https://ko-fi.com/HalloWelt42"
+seiten = "https://hallowelt42.github.io/HalloWelt42/"
+
+[profil.musik]
+datei = "musik/ki-musik.mp3"
+titel = "Eigene KI-Musik"
+dauer = "04:54"
+orte = ["start", "katalog"]
 
 [[gruppe]]
 titel = "Video und Audio"

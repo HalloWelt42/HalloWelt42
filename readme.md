@@ -1,7 +1,7 @@
 <!-- Erzeugt aus projekte.toml mit werkzeug/profil.py - nicht von Hand bearbeiten. -->
 
 <p align="center">
-<img src="grafik/kopf.svg" width="100%" alt="HalloWelt42: Software, HiFi-Oberflächen, lokale KI"><br>
+<a href="https://hallowelt42.github.io/HalloWelt42/musik/ki-musik.mp3" title="HalloWelt42: Software, HiFi-Oberflächen, lokale KI - Musik abspielen"><img src="grafik/kopf.svg" width="100%" alt="HalloWelt42: Software, HiFi-Oberflächen, lokale KI - Musik abspielen"></a><br>
 <img src="grafik/monitor.svg" width="100%" alt="Signalmonitor: TubeVault, RadioHub, HiFi-Regler, BücherFreunde"><br>
 <img src="grafik/abschnitt.svg" width="100%" alt="Ausgewählte Projekte"><br>
 <a href="https://github.com/HalloWelt42/TubeVault" title="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"><img src="grafik/tubevault.svg" width="100%" alt="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"></a><br>

@@ -25,7 +25,7 @@ def _defs() -> str:
     return defs_grund() + defs_rack() + defs_glas()
 
 
-def kopf(auswahl: Auswahl, musik: str | None = None) -> str:
+def kopf(auswahl: Auswahl, musik: str | None = None, dauer: str | None = None) -> str:
     """musik: Titel für das Abspielfeld unter dem Leitsatz; ohne Titel stehen dort die zwei Zeilen Leitsatz."""
     b, h = VOLL, 300
     teile = [gestell(b, h), fassungsplatte(52, 34, 236, 236)]
@@ -48,7 +48,7 @@ def kopf(auswahl: Auswahl, musik: str | None = None) -> str:
     teile.append(gravurtext(310, 206, "Werkzeuge mit Studio-Optik.", 16, GRAVUR, 600))
     musik_bewegung = ""
     if musik:
-        feld, musik_bewegung = abspielfeld(310, 218, 286, musik)
+        feld, musik_bewegung = abspielfeld(310, 218, 286, musik, dauer or "")
         teile.append(feld)
     else:
         teile.append(gravurtext(310, 230, "Selbst gehostet, ohne Cloud,", 13, GRAVUR_LEISE, 500))
@@ -204,7 +204,10 @@ def bauen(auswahl: Auswahl, ordner: str) -> Ergebnis:
     """ordner: Ablage der Bilder, relativ zur README (Pfadanfang der Bildadressen)."""
     e = Ergebnis(ordner, stapeln=True)
     e.dateien["avatar.svg"] = profilbild_kern()
-    e.zeile((e.bild("kopf.svg", kopf(auswahl)), VOLL, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", None))
+    musik = auswahl.musik if auswahl.musik and auswahl.musik.an("start") else None
+    e.zeile((e.bild("kopf.svg", kopf(auswahl, musik.titel.upper() if musik else None, musik.dauer if musik else None)),
+             VOLL, f"HalloWelt42: Software, HiFi-Oberflächen, lokale KI{' - Musik abspielen' if musik else ''}",
+             musik.link if musik else None))
     e.zeile((e.bild("monitor.svg", signalmonitor(auswahl)), VOLL,
              "Signalmonitor: " + ", ".join(p.name for p in auswahl.projekte), None))
     e.zeile((e.bild("abschnitt.svg", abschnitt("AUSGEWÄHLTE PROJEKTE", f"{len(auswahl.projekte):02d} KANÄLE")),
