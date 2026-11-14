@@ -5,13 +5,17 @@ Aufruf: python3 mockups/profil/bauen.py
 """
 from __future__ import annotations
 
+import pathlib
 import shutil
 
 import entwurf_leitwarte
 import entwurf_rack
 import entwurf_regie
 import entwurf_signatur
-from daten import ORDNER, laden
+import pfad  # noqa: F401  (macht werkzeug/ importierbar)
+from buehne.auswahl import laden
+
+ORDNER = pathlib.Path(__file__).resolve().parent
 from seite import als_artefakt, seite
 
 ENTWUERFE = (entwurf_regie, entwurf_rack, entwurf_leitwarte, entwurf_signatur)  # erster = Vorgabe der Vorschau

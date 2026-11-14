@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Erzeugt die Projektkacheln und readme.md aus projekte.toml und vorlage.md.
+"""Erzeugt die Profilseite (readme.md mit dem Rack "Regie") und den Katalog aller Projekte (projekte.md).
 
-Aufruf: python3 werkzeug/profil.py
+Aufruf: python3 werkzeug/profil.py               Profilseite, Katalog, Kacheln
+        python3 werkzeug/profil.py --profilbild  zusätzlich Profilbild als PNG und GIF (nur Mac)
 
-Je Projekt entstehen zwei Kacheln (kacheln/hell, kacheln/dunkel). Die README wählt per
-<picture> die zum Farbschema des Betrachters passende. Jede Kachel bettet ihr Icon ein,
-weil ein als Bild geladenes SVG keine weiteren Dateien nachladen darf.
+Das Rack besteht aus SVG-Grafiken unter grafik/, gebaut von werkzeug/buehne aus den Top-Projekten in
+projekte.toml. Im Katalog entstehen je Projekt zwei Kacheln (kacheln/hell, kacheln/dunkel); per <picture>
+wählt GitHub die zum Farbschema passende. Jede Grafik bettet Icons und Schrift ein, weil ein als Bild
+geladenes SVG keine weiteren Dateien nachladen darf.
 """
 from __future__ import annotations
 
@@ -15,14 +17,17 @@ import pathlib
 import sys
 from dataclasses import dataclass
 
+from buehne import auswahl, regie
 from projekte import WURZEL, Gruppe, Liste, Profil, Projekt, icon_fehler, laden, repo_adresse, ungenutzte_icons
 
 VORLAGE = WURZEL / "vorlage.md"
+KATALOG = WURZEL / "projekte.md"
 README = WURZEL / "readme.md"
 KACHELN = WURZEL / "kacheln"
+GRAFIK = "grafik"  # Ablage der Rack-Grafiken, relativ zur README
 
 PLATZHALTER = "{{projekte}}"
-HINWEIS = "<!-- Erzeugt aus projekte.toml und vorlage.md mit werkzeug/profil.py - nicht von Hand bearbeiten. -->"
+HINWEIS = "<!-- Erzeugt aus projekte.toml mit werkzeug/profil.py - nicht von Hand bearbeiten. -->"
 
 KACHEL_BREITE = 100
 KACHEL_HOEHE = 104
@@ -131,25 +136,54 @@ def kacheln_schreiben(profil: Profil) -> None:
             (WURZEL / kachel_pfad(projekt, schema)).write_text(kachel_svg(projekt, schema), encoding="utf-8")
 
 
-def readme_schreiben(profil: Profil) -> None:
+def katalog_schreiben(profil: Profil) -> None:
     vorlage = VORLAGE.read_text(encoding="utf-8")
     if vorlage.count(PLATZHALTER) != 1:
         raise SystemExit(f"vorlage.md muss den Platzhalter {PLATZHALTER} genau einmal enthalten")
-    README.write_text(f"{HINWEIS}\n\n{vorlage.replace(PLATZHALTER, projekte_abschnitt(profil))}", encoding="utf-8")
+    KATALOG.write_text(f"{HINWEIS}\n\n{vorlage.replace(PLATZHALTER, projekte_abschnitt(profil))}", encoding="utf-8")
+
+
+def readme_schreiben(profil: Profil) -> int:
+    """Rack als README; alte Grafiken werden ersetzt. Liefert die Zahl der Grafiken."""
+    ergebnis = regie.bauen(auswahl.laden(profil), GRAFIK)
+    ordner = WURZEL / GRAFIK
+    ordner.mkdir(exist_ok=True)
+    for alt in ordner.glob("*.svg"):
+        alt.unlink()
+    for name, inhalt in ergebnis.dateien.items():
+        if name.endswith(".svg") and name != "avatar.svg":
+            (ordner / name).write_text(inhalt, encoding="utf-8")
+    README.write_text(f"{HINWEIS}\n\n{ergebnis.readme}", encoding="utf-8")
+    return sum(1 for n in ergebnis.dateien if n != "avatar.svg")
+
+
+def profilbild_schreiben() -> str:
+    from buehne import profilbild  # braucht Pillow und die Schnellansicht von macOS
+
+    ordner = WURZEL / GRAFIK
+    profilbild.png_schreiben(ordner / "profilbild.png")
+    kante, farben, groesse = profilbild.gif_schreiben(ordner / "profilbild.gif")
+    return (f"Profilbild: {GRAFIK}/profilbild.png (still) und {GRAFIK}/profilbild.gif "
+            f"({kante} px, {farben} Farben, {groesse // 1024} KB)")
 
 
 def main() -> int:
     profil = laden()
-    fehler = icon_fehler(profil, set(MEDIENTYPEN))
+    fehler = icon_fehler(profil, set(MEDIENTYPEN)) + auswahl.fehler(profil)
     if fehler:
         print("\n".join(fehler), file=sys.stderr)
         return 1
     kacheln_schreiben(profil)
-    readme_schreiben(profil)
+    katalog_schreiben(profil)
+    grafiken = readme_schreiben(profil)
+    if "--profilbild" in sys.argv[1:]:
+        print(profilbild_schreiben())
     for name in ungenutzte_icons(profil):
         print(f"Hinweis: icons/{name} wird von keinem Projekt genutzt", file=sys.stderr)
     eintraege = sum(len(l.eintraege) for l in profil.listen)
-    print(f"{len(profil.projekte)} Kacheln in {len(profil.gruppen)} Gruppen, {eintraege} Listeneinträge")
+    print(f"Profil: {grafiken} Rack-Grafiken unter {GRAFIK}/, Top-Projekte: "
+          f"{', '.join(p.name for p in auswahl.laden(profil).projekte)}")
+    print(f"Katalog: {len(profil.projekte)} Kacheln in {len(profil.gruppen)} Gruppen, {eintraege} Listeneinträge")
     return 0
 
 

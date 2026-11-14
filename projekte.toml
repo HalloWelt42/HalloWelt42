@@ -1,13 +1,26 @@
-# Einzige Wahrheit für die Projektübersicht im Profil und im Portfolio.
-# Nach jeder Änderung: python3 werkzeug/profil.py (README) und python3 werkzeug/portfolio.py (PDF)
+# Einzige Wahrheit für die Profilseite (readme.md), den Katalog aller Projekte (projekte.md) und das Portfolio.
+# Nach jeder Änderung: python3 werkzeug/profil.py (Profil und Katalog) und python3 werkzeug/portfolio.py (PDF)
 #
-# Gruppe:   titel, text (Zeile im Profil), begleittext (Absatz im Portfolio), projekt = [...]
+# Profil:   technik       Beschriftung des Steckfelds im Rack
+#           katalog       Ziel der Taste "Alle Projekte"
+#           unterstuetzen Ziel der Taste "Unterstützen"
+# Gruppe:   titel, text (Zeile im Katalog), begleittext (Absatz im Portfolio), projekt = [...]
 # Projekt:  name   Beschriftung der Kachel (lange Namen brechen an Leerzeichen oder Bindestrich um)
 #           info   Kurzbeschreibung, erscheint beim Darüberfahren
 #           icon   Datei unter icons/ (freigestellte Icons bevorzugen)
 #           repo   Repo im Konto; Ziel des Links, wenn kein link angegeben ist
 #           link   optional: anderes Ziel, etwa Store-Eintrag oder Seite zum Ausprobieren
+#           Nur für die Projekte im Rack der Profilseite:
+#           top     Platz im Rack (1, 2, ...); Projekte ohne top erscheinen nur im Katalog
+#           akzent  Leuchtfarbe des Projekts, passend zum Icon
+#           technik Schlagworte auf dem Einschub
+#           fokus   true für das eine Projekt im großen Fokus-Einschub, dazu punkte (drei Stärken) und bild
 # Liste:    titel, eintrag = [{ repo, info }], erscheint aufklappbar unter den Kacheln
+
+[profil]
+technik = ["Python", "FastAPI", "Svelte 5", "TypeScript", "Swift", "Docker", "Raspberry Pi", "MLX"]
+katalog = "https://github.com/HalloWelt42/HalloWelt42/blob/master/projekte.md"
+unterstuetzen = "https://ko-fi.com/HalloWelt42"
 
 [[gruppe]]
 titel = "Video und Audio"
@@ -19,6 +32,12 @@ name = "TubeVault"
 info = "Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"
 icon = "tubevault.svg"
 repo = "TubeVault"
+top = 1
+akzent = "#4dffd2"
+technik = ["Python", "Svelte", "Docker"]
+fokus = true
+punkte = ["Abos, die sich selbst pflegen", "Suche nach Wort und nach Bedeutung", "Rechner, Handy und Uhr spielen zusammen"]
+bild = "bilder/tubevault-geraete.jpg"
 
 [[gruppe.projekt]]
 name = "CuttOffl"
@@ -44,6 +63,9 @@ name = "RadioHub"
 info = "Internetradio, Podcasts und Aufnahme mit HiFi-Optik"
 icon = "radiohub.svg"
 repo = "RadioHub"
+top = 2
+akzent = "#5b9dff"
+technik = ["Svelte", "Python", "JavaScript"]
 
 [[gruppe.projekt]]
 name = "TransPlay"
@@ -158,9 +180,12 @@ repo = "Pinnwand"
 
 [[gruppe.projekt]]
 name = "BücherFreunde"
-info = "Buchverwaltung für 50.000+ Bücher"
+info = "Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"
 icon = "buecherfreunde.svg"
 repo = "BuecherFreunde"
+top = 4
+akzent = "#4f86ff"
+technik = ["Svelte", "Python"]
 
 [[gruppe.projekt]]
 name = "Fähre"
@@ -300,6 +325,16 @@ info = "Designsystem in reinem CSS: Papier, Tinte, Messing"
 icon = "kiste-designsystem.svg"
 repo = "kiste-designsystem"
 link = "https://hallowelt42.github.io/kiste-designsystem/"
+
+[[gruppe.projekt]]
+name = "HiFi-Regler"
+info = "Regler und Anzeigen im Stil von Effektgeräten, live im Browser"
+icon = "hifi-regler.svg"
+repo = "hifi-regler"
+link = "https://hallowelt42.github.io/hifi-regler/"
+top = 3
+akzent = "#ffa400"
+technik = ["HTML", "CSS", "JavaScript"]
 
 [[gruppe.projekt]]
 name = "Pixel Editor"

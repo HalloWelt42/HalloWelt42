@@ -1,9 +1,12 @@
 """Entwurf C "Signatur": reduziert wie ein Katalog edler Audiogeräte, Anthrazit mit Messing."""
 from __future__ import annotations
 
-from daten import Auswahl, Projekt
-from entwurf import DRITTEL, HALB, VOLL, Ergebnis, Steckbrief, reihen_teilen
-from material import (MESSING, MESSING_HELL, avatar, bild, defs_grund, fase, icon, polar, svg, text,
+import pfad  # noqa: F401  (macht werkzeug/ importierbar)
+from buehne.auswahl import Auswahl
+from projekte import Projekt
+from buehne.ergebnis import DRITTEL, HALB, VOLL, Ergebnis
+from steckbrief import Steckbrief, reihen_teilen
+from buehne.material import (MESSING, MESSING_HELL, avatar, bild, defs_grund, fase, icon, polar, svg, text,
                       textbreite, umbrechen)
 
 STECKBRIEF = Steckbrief(
@@ -149,14 +152,14 @@ def fokus(projekt: Projekt) -> str:
         teile.append(text(68, y, punkt, 14.5, "#d7dbdf", 400))
     teile.append(text(50, 302, "  ·  ".join(t.upper() for t in projekt.technik), 10, STUMM, 600, 2.5))
     # Bildschirmfoto in gefasstem Rahmen
-    if projekt.bild:
+    if projekt.bild_pfad:
         bx, by, bb, bh = 404, 46, 404, 236
         teile.append(f'<path d="{fase(bx - 8, by - 8, bb + 16, bh + 16, 9)}" fill="#050607"/>')
         teile.append(f'<path d="{fase(bx - 7, by - 7, bb + 14, bh + 14, 8.5)}" fill="#2a2d31"/>')
         teile.append(f'<path d="{fase(bx - 6, by - 6, bb + 12, bh + 12, 8)}" fill="none" stroke="url(#facette)" stroke-width="1.4"/>')
         teile.append(f'<clipPath id="foto"><path d="{fase(bx, by, bb, bh, 5)}"/></clipPath>')
         teile.append(f'<path d="{fase(bx, by, bb, bh, 5)}" fill="#111418"/>')
-        teile.append(bild(projekt.bild, bx, by, bb, bh, "foto"))
+        teile.append(bild(projekt.bild_pfad, bx, by, bb, bh, "foto"))
         teile.append(f'<path d="{fase(bx, by, bb, bh, 5)}" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="1.5"/>')
         teile.append(f'<path d="M{bx},{by} H{bx + bb * .55} L{bx},{by + bh * .7} Z" fill="#fff" opacity=".04"/>')
     teile.append(f'<path d="M{b - 54},300h18m-6,-6l6,6l-6,6" fill="none" stroke="{MESSING}" stroke-width="1.8" '
@@ -171,7 +174,7 @@ def karte(projekt: Projekt, nummer: int, b: int) -> str:
     teile = [_platte(b, h, 12)]
     teile.append(f'<path d="M28,28h34" stroke="{MESSING}" stroke-width="2"/>')
     teile.append(text(b - 28, 34, f"{nummer:02d}", 12, MESSING, 600, 3, "end"))
-    teile.append(icon(projekt.icon, 28, 48, 44))
+    teile.append(icon(projekt.icon_pfad, 28, 48, 44))
     teile.append(text(27, 120, projekt.name, 23 if schmal else 26, TINTE, 300, .3))
     zeichen = int((b - 56) / 7.1)
     for n, zeile in enumerate(umbrechen(projekt.info, zeichen, 3 if schmal else 2)):

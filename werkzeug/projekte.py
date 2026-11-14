@@ -1,4 +1,4 @@
-"""Datenmodell der Projektübersicht: liest projekte.toml, die einzige Wahrheit für Profil und Portfolio."""
+"""Datenmodell der Projektübersicht: liest projekte.toml, die einzige Wahrheit für Profil, Katalog und Portfolio."""
 from __future__ import annotations
 
 import pathlib
@@ -22,6 +22,13 @@ class Projekt:
     icon: str
     repo: str
     link: str | None = None
+    # Nur für die Projekte im Rack der Profilseite (siehe Kopf von projekte.toml)
+    top: int | None = None
+    akzent: str | None = None
+    technik: tuple[str, ...] = ()
+    fokus: bool = False
+    punkte: tuple[str, ...] = ()
+    bild: str | None = None
 
     @property
     def ziel(self) -> str:
@@ -34,6 +41,10 @@ class Projekt:
     @property
     def icon_pfad(self) -> pathlib.Path:
         return ICONS / self.icon
+
+    @property
+    def bild_pfad(self) -> pathlib.Path | None:
+        return WURZEL / self.bild if self.bild else None
 
 
 @dataclass(frozen=True)
@@ -57,7 +68,16 @@ class Liste:
 
 
 @dataclass(frozen=True)
+class Angaben:
+    """Angaben der Profilseite, die keinem einzelnen Projekt gehören."""
+    technik: tuple[str, ...]
+    katalog: str
+    unterstuetzen: str
+
+
+@dataclass(frozen=True)
 class Profil:
+    angaben: Angaben
     gruppen: tuple[Gruppe, ...]
     listen: tuple[Liste, ...]
 
@@ -66,17 +86,26 @@ class Profil:
         return tuple(p for g in self.gruppen for p in g.projekte)
 
 
+def _projekt(roh: dict) -> Projekt:
+    werte = dict(roh)
+    for feld in ("technik", "punkte"):
+        if feld in werte:
+            werte[feld] = tuple(werte[feld])
+    return Projekt(**werte)
+
+
 def laden(pfad: pathlib.Path = DATEN) -> Profil:
     daten = tomllib.loads(pfad.read_text(encoding="utf-8"))
+    angaben = daten["profil"]
     gruppen = tuple(
-        Gruppe(g["titel"], g["text"], g["begleittext"], tuple(Projekt(**p) for p in g["projekt"]))
+        Gruppe(g["titel"], g["text"], g["begleittext"], tuple(_projekt(p) for p in g["projekt"]))
         for g in daten["gruppe"]
     )
     listen = tuple(
         Liste(l["titel"], tuple(Eintrag(**e) for e in l["eintrag"]))
         for l in daten.get("liste", [])
     )
-    return Profil(gruppen, listen)
+    return Profil(Angaben(tuple(angaben["technik"]), angaben["katalog"], angaben["unterstuetzen"]), gruppen, listen)
 
 
 def icon_fehler(profil: Profil, formate: set[str]) -> list[str]:

@@ -10,9 +10,9 @@ import html
 import math
 import pathlib
 
-from daten import REPO
+from projekte import WURZEL
 
-SCHRIFTORDNER = REPO / "portfolio/node_modules/@fontsource/chakra-petch/files"
+SCHRIFTORDNER = WURZEL / "portfolio/node_modules/@fontsource/chakra-petch/files"
 SCHRIFT = "'Chakra Petch',sans-serif"
 MEDIENTYPEN = {".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2"}
 

@@ -8,9 +8,10 @@ from __future__ import annotations
 import base64
 import json
 
-from daten import Auswahl
-from entwurf import Ergebnis, Steckbrief
-from material import esc, schriften
+from buehne.auswahl import Auswahl
+from buehne.ergebnis import Ergebnis
+from steckbrief import Steckbrief
+from buehne.material import esc, schriften
 
 SPRACHFARBEN = {"Python": "#3572A5", "Svelte": "#ff3e00", "HTML": "#e34c26", "JavaScript": "#f1e05a",
                 "TypeScript": "#3178c6", "Swift": "#F05138"}
