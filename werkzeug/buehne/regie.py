@@ -132,8 +132,8 @@ def fokus(projekt: Projekt) -> str:
     teile = [gestell(b, h)]
     teile.append(gravurtext(62, 52, "IM FOKUS  ·  KANAL 01", 10, BERNSTEIN, 700, 3))
     teile.append(gravurtext(60, 100, projekt.name, 40, GRAVUR, 700, .5))
-    for n, zeile in enumerate(umbrechen(projekt.info, 38)):
-        teile.append(gravurtext(62, 130 + n * 20, zeile, 15, GRAVUR_LEISE, 500))
+    for n, zeile in enumerate(umbrechen(projekt.info, 40, 3)):  # bis zu drei Zeilen, bevor die Stärken beginnen
+        teile.append(gravurtext(62, 128 + n * 19, zeile, 15, GRAVUR_LEISE, 500))
     for n, punkt in enumerate(projekt.punkte):
         y = 196 + n * 25
         teile.append(led(68, y - 5, BERNSTEIN, 3))
