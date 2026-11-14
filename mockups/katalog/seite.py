@@ -1,6 +1,7 @@
 """Vorschau der Katalog-Entwürfe im Rahmen der GitHub-Dateiansicht von projekte.md.
 
-Der README-Ausschnitt jedes Entwurfs wird unverändert eingesetzt, die Bilder eingebettet (kein Server nötig).
+Der README-Ausschnitt jedes Entwurfs wird unverändert eingesetzt; lokal mit eingebetteten Bildern (kein Server
+nötig), als geteilte Seite mit den Bilddateien daneben (eingebettet würde sie zu groß).
 Der Anker merkt sich den Entwurf, etwa #instrumente oder #glas-im-rack.
 """
 from __future__ import annotations
@@ -35,10 +36,12 @@ def anker(titel: str) -> str:
     return "-".join("".join(z if z.isascii() and z.isalnum() else " " for z in klein).split())
 
 
-def seite(entwuerfe: list[tuple[Entwurf, Ergebnis]]) -> str:
+def seite(entwuerfe: list[tuple[Entwurf, Ergebnis]], einbetten: bool = True) -> str:
+    """einbetten: Bilder als data:-Adressen (lokal ohne Server); sonst relative Pfade zu den Dateien daneben."""
     steckbriefe = {e.kennung: {"titel": e.titel, "idee": e.idee, "merkmale": list(e.merkmale), "anker": anker(e.titel)}
                    for e, _ in entwuerfe}
-    vorlagen = "".join(f'<template id="readme-{e.kennung}">{_eingebettet(r)}</template>' for e, r in entwuerfe)
+    vorlagen = "".join(f'<template id="readme-{e.kennung}">{_eingebettet(r) if einbetten else r.readme}</template>'
+                       for e, r in entwuerfe)
     knoepfe = "".join(f'<button data-wert="{e.kennung}"><b>{e.kennung.upper()}</b> {esc(e.titel)}</button>'
                       for e, _ in entwuerfe)
     baum = "".join(f'<li class="{"an" if d == "projekte.md" else ""}">{esc(d)}</li>' for d in DATEIEN)

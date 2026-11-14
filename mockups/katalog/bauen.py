@@ -35,9 +35,8 @@ def main() -> None:
         groesse = sum(len(i) for i in ergebnis.dateien.values()) // 1024
         print(f"Entwurf {entwurf.kennung.upper()} {entwurf.titel}: {len(ergebnis.dateien)} Dateien, {groesse} KB")
         fertig.append((entwurf, ergebnis))
-    dokument = seite(fertig)
-    (AUSGABE / "index.html").write_text(dokument, encoding="utf-8")
-    (AUSGABE / "artefakt.html").write_text(als_artefakt(dokument), encoding="utf-8")
+    (AUSGABE / "index.html").write_text(seite(fertig), encoding="utf-8")
+    (AUSGABE / "artefakt.html").write_text(als_artefakt(seite(fertig, einbetten=False)), encoding="utf-8")
     print(f"Vorschau: {AUSGABE / 'index.html'}")
 
 
