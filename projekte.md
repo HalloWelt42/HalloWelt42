@@ -1,98 +1,58 @@
 <!-- Erzeugt aus projekte.toml mit werkzeug/profil.py - nicht von Hand bearbeiten. -->
 
-<h1 align="center">Alle Projekte</h1>
-
 <p align="center">
-  <em>Selbst gehostete Werkzeuge für alle, die wissen wollen, wo ihre Daten liegen.</em><br>
-  Keine Cloud. Kein Tracking. Läuft auf eigener Hardware.
+<img src="katalog/kopf.svg" width="100%" alt="Alle Projekte"><br>
+<img src="katalog/thema-01.svg" width="100%" alt="Video und Audio: Ansehen, schneiden, mitschneiden, hören."><br>
+<a href="https://github.com/HalloWelt42/TubeVault" title="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"><img src="katalog/tubevault.svg" width="49.0%" alt="TubeVault: Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"></a>
+<a href="https://github.com/HalloWelt42/CuttOffl" title="CuttOffl: Videoschnitt-Studio im Browser"><img src="katalog/cuttoffl.svg" width="49.0%" alt="CuttOffl: Videoschnitt-Studio im Browser"></a><br>
+<a href="https://chromewebstore.google.com/detail/video-hls-stream-download/pdhppamhikghebahhelhinciheheajaa" title="StreamREC: Videostreams (HLS, DASH, MP4) direkt im Browser speichern"><img src="katalog/streamrec.svg" width="49.0%" alt="StreamREC: Videostreams (HLS, DASH, MP4) direkt im Browser speichern"></a>
+<a href="https://github.com/HalloWelt42/RadioHub" title="RadioHub: Internetradio, Podcasts und Aufnahme mit HiFi-Optik"><img src="katalog/radiohub.svg" width="49.0%" alt="RadioHub: Internetradio, Podcasts und Aufnahme mit HiFi-Optik"></a><br>
+<a href="https://github.com/HalloWelt42/streamchat-chrome-extention" title="ChatPult: Frei belegbare Tastenleiste für den Stream-Chat"><img src="katalog/chatpult.svg" width="49.0%" alt="ChatPult: Frei belegbare Tastenleiste für den Stream-Chat"></a><br>
+<img src="katalog/thema-02.svg" width="100%" alt="Sprache und Text: Lokale KI für Sprechen, Hören, Übersetzen und Nachschlagen."><br>
+<a href="https://github.com/HalloWelt42/transkription" title="Transkription: Aus Ton und Video wird Text mit Wortzeiten und Sprechern"><img src="katalog/transkription.svg" width="49.0%" alt="Transkription: Aus Ton und Video wird Text mit Wortzeiten und Sprechern"></a>
+<a href="https://github.com/HalloWelt42/vertonung" title="Vertonung: Aus Text wird Sprache: Vorlesen, Dialoge mit Rollen, zeitgenau nach Transkript"><img src="katalog/vertonung.svg" width="49.0%" alt="Vertonung: Aus Text wird Sprache: Vorlesen, Dialoge mit Rollen, zeitgenau nach Transkript"></a><br>
+<a href="https://github.com/HalloWelt42/klangwerk" title="Klangwerk: Sprachdienste: Sprechen, Stimmklon, Hören, Sprechertrennung"><img src="katalog/klangwerk.svg" width="49.0%" alt="Klangwerk: Sprachdienste: Sprechen, Stimmklon, Hören, Sprechertrennung"></a>
+<a href="https://github.com/HalloWelt42/Pappagei-TTS-PlapperApp-fuer-MacOS" title="Pappagei: Liest kopierten oder markierten Text lokal auf dem Mac vor"><img src="katalog/pappagei.svg" width="49.0%" alt="Pappagei: Liest kopierten oder markierten Text lokal auf dem Mac vor"></a><br>
+<a href="https://github.com/HalloWelt42/translatr-chrome-extention" title="Translatr: Übersetzt Webseiten mit lokaler KI und freier Übersetzungsmaschine"><img src="katalog/translatr.svg" width="49.0%" alt="Translatr: Übersetzt Webseiten mit lokaler KI und freier Übersetzungsmaschine"></a>
+<a href="https://github.com/HalloWelt42/morf-gpt" title="morf-gpt: Wissensbibliothek und Chat über Erklärvideos"><img src="katalog/morf-gpt.svg" width="49.0%" alt="morf-gpt: Wissensbibliothek und Chat über Erklärvideos"></a><br>
+<img src="katalog/thema-03.svg" width="100%" alt="KI-Verbund: Der Unterbau: Die Leitstelle vermittelt, Maschinenraum und Stellwerk betreiben Dienste und Apps."><br>
+<a href="https://github.com/HalloWelt42/leitstelle" title="Leitstelle: Vermittlung zwischen Anwendungen und KI-Diensten: Warteschlange, Speicher, Hauptregler"><img src="katalog/leitstelle.svg" width="49.0%" alt="Leitstelle: Vermittlung zwischen Anwendungen und KI-Diensten: Warteschlange, Speicher, Hauptregler"></a>
+<a href="https://github.com/HalloWelt42/maschinenraum" title="Maschinenraum: Alle KI-Dienste eines Rechners: starten, anhalten, messen"><img src="katalog/maschinenraum.svg" width="49.0%" alt="Maschinenraum: Alle KI-Dienste eines Rechners: starten, anhalten, messen"></a><br>
+<a href="https://github.com/HalloWelt42/stellwerk" title="Stellwerk: Startet und stoppt die eigenen Webapps eines Rechners"><img src="katalog/stellwerk.svg" width="49.0%" alt="Stellwerk: Startet und stoppt die eigenen Webapps eines Rechners"></a>
+<a href="https://github.com/HalloWelt42/dienstkern" title="Dienstkern: Gemeinsame Dienststeuerung für Maschinenraum und Stellwerk"><img src="katalog/dienstkern.svg" width="49.0%" alt="Dienstkern: Gemeinsame Dienststeuerung für Maschinenraum und Stellwerk"></a><br>
+<a href="https://github.com/HalloWelt42/appkern" title="Appkern: Gemeinsame Bausteine der eigenen Apps"><img src="katalog/appkern.svg" width="49.0%" alt="Appkern: Gemeinsame Bausteine der eigenen Apps"></a><br>
+<img src="katalog/thema-04.svg" width="100%" alt="Ordnen und Teilen: Dateien, Aufgaben, Bücher und Lesezeichen an einem Ort."><br>
+<a href="https://github.com/HalloWelt42/kellerwolke" title="Kellerwolke: Die eigene Wolke im Keller: Dateispeicher für Familie und Haushalt"><img src="katalog/kellerwolke.svg" width="49.0%" alt="Kellerwolke: Die eigene Wolke im Keller: Dateispeicher für Familie und Haushalt"></a>
+<a href="https://github.com/HalloWelt42/Pinnwand" title="Pinnwand: Modulare Kanban-Plattform"><img src="katalog/pinnwand.svg" width="49.0%" alt="Pinnwand: Modulare Kanban-Plattform"></a><br>
+<a href="https://github.com/HalloWelt42/BuecherFreunde" title="BücherFreunde: Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"><img src="katalog/buecherfreunde.svg" width="49.0%" alt="BücherFreunde: Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"></a>
+<a href="https://github.com/HalloWelt42/faehre" title="Fähre: Dateiaustausch zwischen Mac und Android-Telefon im Browser"><img src="katalog/faehre.svg" width="49.0%" alt="Fähre: Dateiaustausch zwischen Mac und Android-Telefon im Browser"></a><br>
+<a href="https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejnpkdghbagijcpenmpaggcpbcancg" title="FavManager: Startseite mit Schnellwahl-Kacheln für den Browser"><img src="katalog/favmanager.svg" width="49.0%" alt="FavManager: Startseite mit Schnellwahl-Kacheln für den Browser"></a><br>
+<img src="katalog/thema-05.svg" width="100%" alt="Lernen: Üben mit eigenen Aufgaben und Lernkarten."><br>
+<a href="https://github.com/HalloWelt42/CodeSchmiede" title="CodeSchmiede: Programmier-Trainer mit Spielelementen und eigenen Aufgaben"><img src="katalog/codeschmiede.svg" width="49.0%" alt="CodeSchmiede: Programmier-Trainer mit Spielelementen und eigenen Aufgaben"></a>
+<a href="https://github.com/HalloWelt42/Learning-By-Tooling" title="Learning-By-Tooling: Lernkarten-Plattform für mehrere Nutzer"><img src="katalog/learning-by-tooling.svg" width="49.0%" alt="Learning-By-Tooling: Lernkarten-Plattform für mehrere Nutzer"></a><br>
+<a href="https://github.com/HalloWelt42/Knospe" title="Knospe: Lehr-Grundgerüst: PHP 8.5 ohne Framework, Svelte 5, PostgreSQL"><img src="katalog/knospe.svg" width="49.0%" alt="Knospe: Lehr-Grundgerüst: PHP 8.5 ohne Framework, Svelte 5, PostgreSQL"></a><br>
+<img src="katalog/thema-06.svg" width="100%" alt="Alltag und Spiel: Wetter, Farben und eine Runde Klötze."><br>
+<a href="https://github.com/HalloWelt42/Wetterwarte" title="Wetterwarte: Eigenständige Wetter-App für Rechner und Handy"><img src="katalog/wetterwarte.svg" width="49.0%" alt="Wetterwarte: Eigenständige Wetter-App für Rechner und Handy"></a>
+<a href="https://github.com/HalloWelt42/free-mini-weather-chrome-extention" title="Mini-Wetter: Wetter weltweit in der Werkzeugleiste des Browsers"><img src="katalog/mini-wetter.svg" width="49.0%" alt="Mini-Wetter: Wetter weltweit in der Werkzeugleiste des Browsers"></a><br>
+<a href="https://hallowelt42.github.io/PalaeddyFix/" title="PaläddyFix: Farbanalyse und Paletten aus Bildern, läuft im Browser ohne Upload"><img src="katalog/palaeddyfix.svg" width="49.0%" alt="PaläddyFix: Farbanalyse und Paletten aus Bildern, läuft im Browser ohne Upload"></a>
+<a href="https://hallowelt42.github.io/Web-Game-Klotz/" title="Klotz: Block-Puzzle, offline und ohne Tracker, direkt im Browser spielbar"><img src="katalog/klotz.svg" width="49.0%" alt="Klotz: Block-Puzzle, offline und ohne Tracker, direkt im Browser spielbar"></a><br>
+<img src="katalog/thema-07.svg" width="100%" alt="Hardware und Server: Raspberry Pi, Waagen und Server im Blick."><br>
+<a href="https://github.com/HalloWelt42/PyroPlus" title="PyroPlus: Lüfter, LEDs und Display eines Pi-5-Gehäuses aus dem Browser steuern"><img src="katalog/pyroplus.svg" width="49.0%" alt="PyroPlus: Lüfter, LEDs und Display eines Pi-5-Gehäuses aus dem Browser steuern"></a>
+<a href="https://github.com/HalloWelt42/RS232-to-USB-Waagen-REST-API" title="Waage: Präzisionswaagen per REST, WebSocket und Weboberfläche"><img src="katalog/waage.svg" width="49.0%" alt="Waage: Präzisionswaagen per REST, WebSocket und Weboberfläche"></a><br>
+<a href="https://github.com/HalloWelt42/ServerPulse" title="ServerPulse: Linux-Server per SSH überwachen, als Mac-App"><img src="katalog/serverpulse.svg" width="49.0%" alt="ServerPulse: Linux-Server per SSH überwachen, als Mac-App"></a><br>
+<img src="katalog/thema-08.svg" width="100%" alt="Für Entwickler: Werkzeuge, Vorlagen und Bausteine."><br>
+<a href="https://github.com/HalloWelt42/Strukturblick" title="Strukturblick: JSON, XML, CSV, YAML und Tabellen bildhaft darstellen"><img src="katalog/strukturblick.svg" width="49.0%" alt="Strukturblick: JSON, XML, CSV, YAML und Tabellen bildhaft darstellen"></a>
+<a href="https://github.com/HalloWelt42/Iconify" title="Iconify: Icon-Katalog: durchsuchen, kuratieren, als SVG, Sprite oder Schrift ausgeben"><img src="katalog/iconify.svg" width="49.0%" alt="Iconify: Icon-Katalog: durchsuchen, kuratieren, als SVG, Sprite oder Schrift ausgeben"></a><br>
+<a href="https://hallowelt42.github.io/kiste-designsystem/" title="Kiste Designsystem: Designsystem in reinem CSS: Papier, Tinte, Messing"><img src="katalog/kiste-designsystem.svg" width="49.0%" alt="Kiste Designsystem: Designsystem in reinem CSS: Papier, Tinte, Messing"></a>
+<a href="https://hallowelt42.github.io/hifi-regler/" title="HiFi-Regler: Regler und Anzeigen im Stil von Effektgeräten, live im Browser"><img src="katalog/hifi-regler.svg" width="49.0%" alt="HiFi-Regler: Regler und Anzeigen im Stil von Effektgeräten, live im Browser"></a><br>
+<a href="https://github.com/HalloWelt42/pixel-edit-pro" title="Pixel Editor: Pixel-Art-Editor für macOS, Windows und Linux"><img src="katalog/pixel-editor.svg" width="49.0%" alt="Pixel Editor: Pixel-Art-Editor für macOS, Windows und Linux"></a>
+<a href="https://github.com/HalloWelt42/svelte5-4jb-plugin" title="Svelte-Plugin: Svelte-5-Unterstützung für die IDE"><img src="katalog/svelte-plugin.svg" width="49.0%" alt="Svelte-Plugin: Svelte-5-Unterstützung für die IDE"></a><br>
+<a href="https://chromewebstore.google.com/detail/dashboard-for-claude/iiimpoehijcfemfgpngdogcnaaooajhf" title="ClaudeLimit: Zeigt das Nutzungslimit des KI-Assistenten im Browser"><img src="katalog/claudelimit.svg" width="49.0%" alt="ClaudeLimit: Zeigt das Nutzungslimit des KI-Assistenten im Browser"></a>
+<a href="https://github.com/HalloWelt42/hilfe-fenster-demo" title="Hilfe-Fenster: Freischwebende Hilfe als Svelte-5-Baustein"><img src="katalog/hilfe-fenster.svg" width="49.0%" alt="Hilfe-Fenster: Freischwebende Hilfe als Svelte-5-Baustein"></a><br>
+<a href="https://github.com/HalloWelt42/docker-php-8.4-mariadb-xdebug-phpstorm-macos" title="PHP-Docker: PHP 8.4 mit MariaDB und Xdebug in Docker"><img src="katalog/php-docker.svg" width="49.0%" alt="PHP-Docker: PHP 8.4 mit MariaDB und Xdebug in Docker"></a>
+<a href="https://github.com/HalloWelt42/redaxo_new_workaround" title="Redaxo-Docker: Entwicklungsumgebung für Redaxo in Docker"><img src="katalog/redaxo-docker.svg" width="49.0%" alt="Redaxo-Docker: Entwicklungsumgebung für Redaxo in Docker"></a><br>
+<img src="katalog/archiv-1.svg" width="100%" alt="Weitere Projekte">
 </p>
-
-<p align="center">
-  <a href="https://github.com/HalloWelt42">Zurück zum Profil</a>
-</p>
-
-<h3 align="center">Video und Audio</h3>
-<p align="center">Ansehen, schneiden, mitschneiden, hören.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/TubeVault" title="TubeVault - Das eigene Videoarchiv für zu Hause: abonnieren, laden, ansehen, durchsuchen"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/tubevault.svg"><img src="kacheln/hell/tubevault.svg" width="100" height="104" alt="TubeVault"></picture></a>
-<a href="https://github.com/HalloWelt42/CuttOffl" title="CuttOffl - Videoschnitt-Studio im Browser"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/cuttoffl.svg"><img src="kacheln/hell/cuttoffl.svg" width="100" height="104" alt="CuttOffl"></picture></a>
-<a href="https://chromewebstore.google.com/detail/video-hls-stream-download/pdhppamhikghebahhelhinciheheajaa" title="StreamREC - Videostreams (HLS, DASH, MP4) direkt im Browser speichern"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/streamrec.svg"><img src="kacheln/hell/streamrec.svg" width="100" height="104" alt="StreamREC"></picture></a>
-<a href="https://github.com/HalloWelt42/RadioHub" title="RadioHub - Internetradio, Podcasts und Aufnahme mit HiFi-Optik"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/radiohub.svg"><img src="kacheln/hell/radiohub.svg" width="100" height="104" alt="RadioHub"></picture></a>
-<a href="https://github.com/HalloWelt42/streamchat-chrome-extention" title="ChatPult - Frei belegbare Tastenleiste für den Stream-Chat"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/chatpult.svg"><img src="kacheln/hell/chatpult.svg" width="100" height="104" alt="ChatPult"></picture></a>
-</p>
-
-<h3 align="center">Sprache und Text</h3>
-<p align="center">Lokale KI für Sprechen, Hören, Übersetzen und Nachschlagen.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/transkription" title="Transkription - Aus Ton und Video wird Text mit Wortzeiten und Sprechern"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/transkription.svg"><img src="kacheln/hell/transkription.svg" width="100" height="104" alt="Transkription"></picture></a>
-<a href="https://github.com/HalloWelt42/vertonung" title="Vertonung - Aus Text wird Sprache: Vorlesen, Dialoge mit Rollen, zeitgenau nach Transkript"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/vertonung.svg"><img src="kacheln/hell/vertonung.svg" width="100" height="104" alt="Vertonung"></picture></a>
-<a href="https://github.com/HalloWelt42/klangwerk" title="Klangwerk - Sprachdienste: Sprechen, Stimmklon, Hören, Sprechertrennung"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/klangwerk.svg"><img src="kacheln/hell/klangwerk.svg" width="100" height="104" alt="Klangwerk"></picture></a>
-<a href="https://github.com/HalloWelt42/Pappagei-TTS-PlapperApp-fuer-MacOS" title="Pappagei - Liest kopierten oder markierten Text lokal auf dem Mac vor"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/pappagei.svg"><img src="kacheln/hell/pappagei.svg" width="100" height="104" alt="Pappagei"></picture></a>
-<a href="https://github.com/HalloWelt42/translatr-chrome-extention" title="Translatr - Übersetzt Webseiten mit lokaler KI und freier Übersetzungsmaschine"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/translatr.svg"><img src="kacheln/hell/translatr.svg" width="100" height="104" alt="Translatr"></picture></a>
-<a href="https://github.com/HalloWelt42/morf-gpt" title="morf-gpt - Wissensbibliothek und Chat über Erklärvideos"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/morf-gpt.svg"><img src="kacheln/hell/morf-gpt.svg" width="100" height="104" alt="morf-gpt"></picture></a>
-</p>
-
-<h3 align="center">KI-Verbund</h3>
-<p align="center">Der Unterbau: Die Leitstelle vermittelt, Maschinenraum und Stellwerk betreiben Dienste und Apps.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/leitstelle" title="Leitstelle - Vermittlung zwischen Anwendungen und KI-Diensten: Warteschlange, Speicher, Hauptregler"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/leitstelle.svg"><img src="kacheln/hell/leitstelle.svg" width="100" height="104" alt="Leitstelle"></picture></a>
-<a href="https://github.com/HalloWelt42/maschinenraum" title="Maschinenraum - Alle KI-Dienste eines Rechners: starten, anhalten, messen"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/maschinenraum.svg"><img src="kacheln/hell/maschinenraum.svg" width="100" height="104" alt="Maschinenraum"></picture></a>
-<a href="https://github.com/HalloWelt42/stellwerk" title="Stellwerk - Startet und stoppt die eigenen Webapps eines Rechners"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/stellwerk.svg"><img src="kacheln/hell/stellwerk.svg" width="100" height="104" alt="Stellwerk"></picture></a>
-<a href="https://github.com/HalloWelt42/dienstkern" title="Dienstkern - Gemeinsame Dienststeuerung für Maschinenraum und Stellwerk"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/dienstkern.svg"><img src="kacheln/hell/dienstkern.svg" width="100" height="104" alt="Dienstkern"></picture></a>
-<a href="https://github.com/HalloWelt42/appkern" title="Appkern - Gemeinsame Bausteine der eigenen Apps"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/appkern.svg"><img src="kacheln/hell/appkern.svg" width="100" height="104" alt="Appkern"></picture></a>
-</p>
-
-<h3 align="center">Ordnen und Teilen</h3>
-<p align="center">Dateien, Aufgaben, Bücher und Lesezeichen an einem Ort.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/kellerwolke" title="Kellerwolke - Die eigene Wolke im Keller: Dateispeicher für Familie und Haushalt"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/kellerwolke.svg"><img src="kacheln/hell/kellerwolke.svg" width="100" height="104" alt="Kellerwolke"></picture></a>
-<a href="https://github.com/HalloWelt42/Pinnwand" title="Pinnwand - Modulare Kanban-Plattform"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/pinnwand.svg"><img src="kacheln/hell/pinnwand.svg" width="100" height="104" alt="Pinnwand"></picture></a>
-<a href="https://github.com/HalloWelt42/BuecherFreunde" title="BücherFreunde - Buchverwaltung für über 50.000 Bücher: suchen, lesen, ordnen"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/buecherfreunde.svg"><img src="kacheln/hell/buecherfreunde.svg" width="100" height="104" alt="BücherFreunde"></picture></a>
-<a href="https://github.com/HalloWelt42/faehre" title="Fähre - Dateiaustausch zwischen Mac und Android-Telefon im Browser"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/faehre.svg"><img src="kacheln/hell/faehre.svg" width="100" height="104" alt="Fähre"></picture></a>
-<a href="https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejnpkdghbagijcpenmpaggcpbcancg" title="FavManager - Startseite mit Schnellwahl-Kacheln für den Browser"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/favmanager.svg"><img src="kacheln/hell/favmanager.svg" width="100" height="104" alt="FavManager"></picture></a>
-</p>
-
-<h3 align="center">Lernen</h3>
-<p align="center">Üben mit eigenen Aufgaben und Lernkarten.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/CodeSchmiede" title="CodeSchmiede - Programmier-Trainer mit Spielelementen und eigenen Aufgaben"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/codeschmiede.svg"><img src="kacheln/hell/codeschmiede.svg" width="100" height="104" alt="CodeSchmiede"></picture></a>
-<a href="https://github.com/HalloWelt42/Learning-By-Tooling" title="Learning-By-Tooling - Lernkarten-Plattform für mehrere Nutzer"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/learning-by-tooling.svg"><img src="kacheln/hell/learning-by-tooling.svg" width="100" height="104" alt="Learning-By-Tooling"></picture></a>
-<a href="https://github.com/HalloWelt42/Knospe" title="Knospe - Lehr-Grundgerüst: PHP 8.5 ohne Framework, Svelte 5, PostgreSQL"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/knospe.svg"><img src="kacheln/hell/knospe.svg" width="100" height="104" alt="Knospe"></picture></a>
-</p>
-
-<h3 align="center">Alltag und Spiel</h3>
-<p align="center">Wetter, Farben und eine Runde Klötze.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/Wetterwarte" title="Wetterwarte - Eigenständige Wetter-App für Rechner und Handy"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/wetterwarte.svg"><img src="kacheln/hell/wetterwarte.svg" width="100" height="104" alt="Wetterwarte"></picture></a>
-<a href="https://github.com/HalloWelt42/free-mini-weather-chrome-extention" title="Mini-Wetter - Wetter weltweit in der Werkzeugleiste des Browsers"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/mini-wetter.svg"><img src="kacheln/hell/mini-wetter.svg" width="100" height="104" alt="Mini-Wetter"></picture></a>
-<a href="https://hallowelt42.github.io/PalaeddyFix/" title="PaläddyFix - Farbanalyse und Paletten aus Bildern, läuft im Browser ohne Upload"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/palaeddyfix.svg"><img src="kacheln/hell/palaeddyfix.svg" width="100" height="104" alt="PaläddyFix"></picture></a>
-<a href="https://hallowelt42.github.io/Web-Game-Klotz/" title="Klotz - Block-Puzzle, offline und ohne Tracker, direkt im Browser spielbar"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/klotz.svg"><img src="kacheln/hell/klotz.svg" width="100" height="104" alt="Klotz"></picture></a>
-</p>
-
-<h3 align="center">Hardware und Server</h3>
-<p align="center">Raspberry Pi, Waagen und Server im Blick.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/PyroPlus" title="PyroPlus - Lüfter, LEDs und Display eines Pi-5-Gehäuses aus dem Browser steuern"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/pyroplus.svg"><img src="kacheln/hell/pyroplus.svg" width="100" height="104" alt="PyroPlus"></picture></a>
-<a href="https://github.com/HalloWelt42/RS232-to-USB-Waagen-REST-API" title="Waage - Präzisionswaagen per REST, WebSocket und Weboberfläche"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/waage.svg"><img src="kacheln/hell/waage.svg" width="100" height="104" alt="Waage"></picture></a>
-<a href="https://github.com/HalloWelt42/ServerPulse" title="ServerPulse - Linux-Server per SSH überwachen, als Mac-App"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/serverpulse.svg"><img src="kacheln/hell/serverpulse.svg" width="100" height="104" alt="ServerPulse"></picture></a>
-</p>
-
-<h3 align="center">Für Entwickler</h3>
-<p align="center">Werkzeuge, Vorlagen und Bausteine.</p>
-<p align="center">
-<a href="https://github.com/HalloWelt42/Strukturblick" title="Strukturblick - JSON, XML, CSV, YAML und Tabellen bildhaft darstellen"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/strukturblick.svg"><img src="kacheln/hell/strukturblick.svg" width="100" height="104" alt="Strukturblick"></picture></a>
-<a href="https://github.com/HalloWelt42/Iconify" title="Iconify - Icon-Katalog: durchsuchen, kuratieren, als SVG, Sprite oder Schrift ausgeben"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/iconify.svg"><img src="kacheln/hell/iconify.svg" width="100" height="104" alt="Iconify"></picture></a>
-<a href="https://hallowelt42.github.io/kiste-designsystem/" title="Kiste Designsystem - Designsystem in reinem CSS: Papier, Tinte, Messing"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/kiste-designsystem.svg"><img src="kacheln/hell/kiste-designsystem.svg" width="100" height="104" alt="Kiste Designsystem"></picture></a>
-<a href="https://hallowelt42.github.io/hifi-regler/" title="HiFi-Regler - Regler und Anzeigen im Stil von Effektgeräten, live im Browser"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/hifi-regler.svg"><img src="kacheln/hell/hifi-regler.svg" width="100" height="104" alt="HiFi-Regler"></picture></a>
-<a href="https://github.com/HalloWelt42/pixel-edit-pro" title="Pixel Editor - Pixel-Art-Editor für macOS, Windows und Linux"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/pixel-editor.svg"><img src="kacheln/hell/pixel-editor.svg" width="100" height="104" alt="Pixel Editor"></picture></a>
-<a href="https://github.com/HalloWelt42/svelte5-4jb-plugin" title="Svelte-Plugin - Svelte-5-Unterstützung für die IDE"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/svelte-plugin.svg"><img src="kacheln/hell/svelte-plugin.svg" width="100" height="104" alt="Svelte-Plugin"></picture></a>
-<a href="https://chromewebstore.google.com/detail/dashboard-for-claude/iiimpoehijcfemfgpngdogcnaaooajhf" title="ClaudeLimit - Zeigt das Nutzungslimit des KI-Assistenten im Browser"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/claudelimit.svg"><img src="kacheln/hell/claudelimit.svg" width="100" height="104" alt="ClaudeLimit"></picture></a>
-<a href="https://github.com/HalloWelt42/hilfe-fenster-demo" title="Hilfe-Fenster - Freischwebende Hilfe als Svelte-5-Baustein"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/hilfe-fenster.svg"><img src="kacheln/hell/hilfe-fenster.svg" width="100" height="104" alt="Hilfe-Fenster"></picture></a>
-<a href="https://github.com/HalloWelt42/docker-php-8.4-mariadb-xdebug-phpstorm-macos" title="PHP-Docker - PHP 8.4 mit MariaDB und Xdebug in Docker"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/php-docker.svg"><img src="kacheln/hell/php-docker.svg" width="100" height="104" alt="PHP-Docker"></picture></a>
-<a href="https://github.com/HalloWelt42/redaxo_new_workaround" title="Redaxo-Docker - Entwicklungsumgebung für Redaxo in Docker"><picture><source media="(prefers-color-scheme: dark)" srcset="kacheln/dunkel/redaxo-docker.svg"><img src="kacheln/hell/redaxo-docker.svg" width="100" height="104" alt="Redaxo-Docker"></picture></a>
-</p>
-
-<br>
 
 <details>
 <summary><b>Weitere Projekte</b> (12)</summary>
@@ -111,6 +71,10 @@
 - [RKIParserCoronaVirus](https://github.com/HalloWelt42/RKIParserCoronaVirus) - Fallzahlen zum Coronavirus (2020)
 
 </details>
+
+<p align="center">
+<img src="katalog/archiv-2.svg" width="100%" alt="Lernen und Üben">
+</p>
 
 <details>
 <summary><b>Lernen und Üben</b> (18)</summary>
@@ -136,9 +100,7 @@
 
 </details>
 
----
-
 <p align="center">
-  Alle Projekte sind kostenlos und werbefrei. Wenn dir gefällt, was ich mache:
-  <a href="https://ko-fi.com/HalloWelt42">Unterstützen</a>
+<a href="https://github.com/HalloWelt42" title="Zurück zum Profil"><img src="katalog/profil.svg" width="49.0%" alt="Zurück zum Profil"></a>
+<a href="https://ko-fi.com/HalloWelt42" title="Unterstützen"><img src="katalog/unterstuetzen.svg" width="49.0%" alt="Unterstützen"></a>
 </p>

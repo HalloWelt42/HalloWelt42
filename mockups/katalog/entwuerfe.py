@@ -6,6 +6,7 @@ import pathlib
 from dataclasses import dataclass
 from typing import Callable
 
+import glasteile
 from buehne import katalog
 from buehne.akzent import akzent
 from buehne.ergebnis import DRITTEL, FUENFTEL, HALB, VIERTEL, VOLL, Ergebnis
@@ -13,7 +14,6 @@ from buehne.glas import BEWEGUNG_GLAS, GLAS_LEISE, GLAS_TINTE, kantenlicht, klam
 from buehne.material import (GRAVUR, GRAVUR_LEISE, GRAVUR_STUMM, KANTE_DUNKEL, bogen, drehknopf, fase, gravurtext, icon,
                              led, mulde, platte, polar, schraube, spiegelung, svg, text, textbreite, umbrechen)
 from buehne.rack import taste_breit
-from profil import liste_md
 from projekte import Profil, Projekt
 
 
@@ -27,6 +27,7 @@ class Entwurf:
     breite: int
     je_zeile: int
     fassung: str = "glas"  # "glas": Kopf und Leisten im Leitwarten-Stil, "rack": wie die Profilseite
+    vom_werkzeug: bool = False  # True: die echte Seite, gebaut von werkzeug/buehne/katalog.py
 
 
 def _ring(cx: float, cy: float, r: float, farbe: str, kante: float, bild: pathlib.Path) -> str:
@@ -126,21 +127,6 @@ def _hash(text_: str) -> int:
     return wert
 
 
-def _passend(inhalt: str, groesse: float, breite: float, sperrung: float = 0) -> float:
-    """Schriftgröße, bei der inhalt in breite passt (höchstens groesse)."""
-    return min(groesse, breite / max(len(inhalt), 1) / (.6 + sperrung / max(groesse, 1)))
-
-
-def _taste_klein(x: float, y: float, b: float, h: float, beschriftung: str) -> str:
-    return (
-        f'<path d="{fase(x - 2, y - 2, b + 4, h + 4, 4)}" fill="#000" opacity=".7"/>'
-        f'<path d="{fase(x, y, b, h, 3)}" fill="url(#taste)"/>'
-        f'<path d="M{x + 4},{y + 2}H{x + b - 4}" stroke="#fff" stroke-opacity=".6"/>'
-        f'<path d="M{x + 8},{y + h / 2 - 5} l6,5 l-6,5z" fill="#2a1700"/>'
-        + text(x + b / 2 + 6, y + h / 2 + 3.5, beschriftung, 9, "#2a1700", 700, .8, "middle")
-    )
-
-
 # ---------- K4 Modulwand: hochkant wie Studio-Module, fünf je Zeile ----------
 
 def kachel_modul(projekt: Projekt, nummer: str) -> str:
@@ -151,7 +137,7 @@ def kachel_modul(projekt: Projekt, nummer: str) -> str:
         teile.append(f'<rect x="3" y="{y}" width="{b - 6}" height="16" fill="#000" opacity=".25"/>')
     for x, y, w in ((16, 11, 20), (b - 16, 11, 70), (16, h - 11, 115), (b - 16, h - 11, 160)):
         teile.append(schraube(x, y, w, 4))
-    groesse = _passend(projekt.name, 14, b - 24, 1)
+    groesse = katalog.passende_groesse(projekt.name, 14, b - 24, 1)
     teile.append(gravurtext(b / 2, 40, projekt.name.upper(), groesse, GRAVUR, 700, 1, "middle"))
     teile.append(gravurtext(b / 2, 55, katalog.zielart(projekt.ziel), 9.5, GRAVUR_STUMM, 700, 2, "middle"))
     teile.append(_ring(b / 2, 104, 27, a, 36, projekt.icon_pfad))
@@ -160,33 +146,7 @@ def kachel_modul(projekt: Projekt, nummer: str) -> str:
         teile.append(gravurtext(b / 2, 198 + n * 13, zeile, 10.5, GRAVUR_LEISE, 500, 0, "middle"))
     teile.append(mulde(fase(b / 2 - 30, 236, 60, 20, 3)))
     teile.append(text(b / 2, 251, nummer, 13, "#ffb547", 700, 1, "middle", 'filter="url(#leuchten)"'))
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs_rack_glas(),
-               gewichte=(500, 700))
-
-
-# ---------- K5 Einschübe: halbe Rack-Breite, zwei je Zeile ----------
-
-def kachel_einschub(projekt: Projekt, nummer: str) -> str:
-    b, h = HALB, 104
-    a = akzent(projekt)
-    teile = [f'<path d="{fase(0, 0, b, h, 7)}" fill="{KANTE_DUNKEL}"/>', platte(fase(2, 2, b - 4, h - 4, 6))]
-    for x, y, w in ((13, 13, 20), (b - 13, 13, 70), (13, h - 13, 115), (b - 13, h - 13, 160)):
-        teile.append(schraube(x, y, w, 4))
-    teile.append(f'<path d="{fase(26, 18, 68, 68, 7)}" fill="#0b0c0e"/>')
-    fenster = fase(29, 21, 62, 62, 5)
-    teile.append(mulde(fenster))
-    teile.append(f'<circle cx="60" cy="52" r="26" fill="{a}" opacity=".12" filter="url(#leuchten_weit)"/>')
-    teile.append(icon(projekt.icon_pfad, 39, 31, 42))
-    teile.append(spiegelung(fenster))
-    teile.append(mulde(fase(108, 16, 58, 22, 3)))
-    teile.append(text(137, 32, nummer, 13, "#ffb547", 700, 1, "middle", 'filter="url(#leuchten)"'))
-    teile.append(led(178, 27, a, 3))
-    teile.append(_taste_klein(b - 92, 14, 66, 24, katalog.zielart(projekt.ziel)))
-    groesse = _passend(projekt.name, 18, b - 130)
-    teile.append(gravurtext(108, 60, projekt.name, groesse, GRAVUR, 700))
-    for n, zeile in enumerate(umbrechen(projekt.info, 44, 2)):
-        teile.append(gravurtext(108, 78 + n * 15, zeile, 12, GRAVUR_LEISE, 500))
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs_rack_glas(),
+    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs(),
                gewichte=(500, 700))
 
 
@@ -207,12 +167,12 @@ def kachel_glasrack(projekt: Projekt, nummer: str) -> str:
     teile.append(_ring(78, 82, 24, a, 30, projekt.icon_pfad))
     teile.append(text(124, 66, nummer, 11, a, 700, 1.5, extra='opacity=".9"'))
     teile.append(text(124, 86, katalog.zielart(projekt.ziel), 10, GLAS_LEISE, 700, 2))
-    groesse = _passend(projekt.name, 18, b - 76)
+    groesse = katalog.passende_groesse(projekt.name, 18, b - 76)
     teile.append(text(40, 150, projekt.name, groesse, GLAS_TINTE, 600, .3, extra='filter="url(#leuchten)"'))
     teile.append(spiegelung(glas))
     for n, zeile in enumerate(umbrechen(projekt.info, 34, 3)):
         teile.append(gravurtext(28, 194 + n * 15, zeile, 12, GRAVUR_LEISE, 500))
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs_rack_glas(),
+    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs(),
                gewichte=(500, 600, 700))
 
 
@@ -249,7 +209,7 @@ def kachel_holo(projekt: Projekt, nummer: str) -> str:
     teile.append(f'<circle cx="{cx}" cy="{cy}" r="22" fill="{a}" opacity=".14" filter="url(#leuchten_weit)"/>')
     teile.append(icon(projekt.icon_pfad, cx - 19, cy - 19, 38))
     teile.append(text(b - 18, 26, f"{nummer}  ·  {katalog.zielart(projekt.ziel)}", 10, a, 700, 1.2, "end"))
-    groesse = _passend(projekt.name, 17, b - 116)
+    groesse = katalog.passende_groesse(projekt.name, 17, b - 116)
     teile.append(text(104, 58, projekt.name, groesse, GLAS_TINTE, 600, .3))
     for n, zeile in enumerate(umbrechen(projekt.info, 27, 4)):
         teile.append(text(104, 78 + n * 15, zeile, 11.5, GLAS_LEISE, 500))
@@ -266,7 +226,7 @@ def kachel_holo(projekt: Projekt, nummer: str) -> str:
                  'stroke-linecap="round" stroke-linejoin="round"/>')
     bewegung = (".schein{animation:schein 7s ease-in-out infinite}"
                 "@keyframes schein{0%{transform:translateX(0)}60%{transform:translateX(560px)}100%{transform:translateX(560px)}}")
-    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), katalog.defs() + HOLO, bewegung=bewegung,
+    return svg(b, h, f"{projekt.name}: {projekt.info}", "".join(teile), glasteile.defs() + HOLO, bewegung=bewegung,
                gewichte=(500, 600, 700))
 
 
@@ -304,13 +264,13 @@ ENTWUERFE = (
              "Am stärksten HiFi, spielerisch und trotzdem aufgeräumt"),
             kachel_modul, FUENFTEL, 5, "rack"),
     Entwurf("k5", "Einschübe",
-            "Die flachen Einschübe der Profilseite in halber Breite, zwei je Zeile: Icon im Glasfenster, "
+            "Gewählt und live. Die flachen Einschübe der Profilseite in halber Breite, zwei je Zeile: Icon im Glasfenster, "
             "Kanalanzeige, LED in der Projektfarbe, Bernstein-Taste mit dem Ziel (REPO, LIVE, STORE).",
             ("Kopf als Rack-Frontplatte mit Themen-Radar, wie die Profilseite",
              "Zwei Einschübe je Zeile, Name und zweizeiliger Text graviert",
              "Gleiche Formensprache wie das Rack der Startseite, Profil und Katalog wirken wie ein Gerät",
              "Gut lesbar, ruhig"),
-            kachel_einschub, HALB, 2, "rack"),
+            katalog.einschub, HALB, 2, "rack", vom_werkzeug=True),
     Entwurf("k6", "Glas im Rack",
             "Metallplatten mit eingesetzter Glasanzeige: oben im Glas Icon im Skalenring, Nummer und leuchtender "
             "Name, darunter der Text graviert auf dem Metall. Die Mischung aus Regie und Leitwarte.",
@@ -331,14 +291,16 @@ ENTWUERFE = (
 
 
 def bauen(entwurf: Entwurf, profil: Profil) -> Ergebnis:
+    if entwurf.vom_werkzeug:
+        return katalog.bauen(profil, entwurf.kennung)
     e = Ergebnis(entwurf.kennung, stapeln=True)
     rack = entwurf.fassung == "rack"
-    kopf = katalog.kopf_rack(profil) if rack else katalog.kopf(profil)
+    kopf = katalog.kopf(profil) if rack else glasteile.kopf(profil)
     e.zeile((e.bild("kopf.svg", kopf), VOLL, "Alle Projekte", None))
     for gruppe, kennung, farbe in katalog.themenleisten(profil):
-        leiste = (katalog.leiste_rack(kennung, gruppe.titel, gruppe.text, len(gruppe.projekte), farbe) if rack else
-                  katalog.themenleiste(kennung, gruppe.titel, gruppe.text, f"{len(gruppe.projekte):02d} PROJEKTE",
-                                       farbe))
+        leiste = (katalog.leiste(kennung, gruppe.titel, gruppe.text, len(gruppe.projekte), farbe) if rack else
+                  glasteile.themenleiste(kennung, gruppe.titel, gruppe.text, f"{len(gruppe.projekte):02d} PROJEKTE",
+                                         farbe))
         e.zeile((e.bild(f"thema-{kennung}.svg", leiste), VOLL, f"{gruppe.titel}: {gruppe.text}", None))
         projekte = gruppe.projekte
         for start in range(0, len(projekte), entwurf.je_zeile):
@@ -347,11 +309,11 @@ def bauen(entwurf: Entwurf, profil: Profil) -> Ergebnis:
                       for n, p in enumerate(projekte[start:start + entwurf.je_zeile])))
     for n, liste in enumerate(profil.listen, start=1):
         zeile = "Kleinere Werkzeuge und Übungen, zum Aufklappen"
-        leiste = (katalog.leiste_rack(f"A{n}", liste.titel, zeile, 0, GLAS_LEISE) if rack else
-                  katalog.themenleiste(f"A{n}", liste.titel, zeile, f"{len(liste.eintraege):02d} REPOS", GLAS_LEISE))
+        leiste = (katalog.leiste(f"A{n}", liste.titel, zeile, 0, GLAS_LEISE) if rack else
+                  glasteile.themenleiste(f"A{n}", liste.titel, zeile, f"{len(liste.eintraege):02d} REPOS", GLAS_LEISE))
         e.zeile((e.bild(f"archiv-{n}.svg", leiste), VOLL, liste.titel, None))
-        e.text(liste_md(liste))
-    taste = taste_breit if rack else katalog.taste
+        e.text(katalog.liste_md(liste))
+    taste = taste_breit if rack else glasteile.taste
     e.zeile((e.bild("profil.svg", taste("ZUM PROFIL", "pfeil" if rack else "zurueck")), HALB, "Zurück zum Profil",
              katalog.PROFIL),
             (e.bild("unterstuetzen.svg", taste("UNTERSTÜTZEN", "herz")), HALB, "Unterstützen",

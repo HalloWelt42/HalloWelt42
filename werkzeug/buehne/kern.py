@@ -13,6 +13,13 @@ from buehne.material import BERNSTEIN, CYAN, bogen, polar, text
 
 KERN_HELL = "#e9fdff"
 
+# Farbvarianten des Logos: Name -> (Leuchtfarbe, Farbe des hellen Herzrands und der 42)
+LOGOFARBEN = {
+    "cyan": (CYAN, KERN_HELL),
+    "rot": ("#ff3b3b", "#ffe3df"),
+    "koralle": ("#ff6f5e", "#ffeae4"),
+}
+
 SCHLEIFE = 6.0  # Sekunden, nach denen alles wieder wie am Anfang steht
 DREHUNG = {"r1": 30, "r2": -60, "r3": 120, "kranz": -36}  # Grad je Schleife, Vielfache der Symmetrie
 LAENGE = 90  # Längengrade, um die sich die Drahtkugel je Schleife dreht (Längenkreise alle 30 Grad)
@@ -26,16 +33,22 @@ class Kern:
     bewegung: str
 
 
-def kern_defs(p: str) -> str:
+def _dunkel(farbe: str, anteil: float) -> str:
+    """Tiefe Tönung der Leuchtfarbe für Herz und Kugel: anteil der Farbe, Rest Schwarz."""
+    werte = (int(farbe[i:i + 2], 16) for i in (1, 3, 5))
+    return "#" + "".join(f"{round(w * anteil):02x}" for w in werte)
+
+
+def kern_defs(p: str, farbe: str = CYAN) -> str:
     return (
         f'<radialGradient id="{p}schein" cx=".5" cy=".5" r=".5">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity=".32"/><stop offset=".55" stop-color="{CYAN}" stop-opacity=".08"/>'
-        f'<stop offset="1" stop-color="{CYAN}" stop-opacity="0"/></radialGradient>'
+        f'<stop offset="0" stop-color="{farbe}" stop-opacity=".32"/><stop offset=".55" stop-color="{farbe}" stop-opacity=".08"/>'
+        f'<stop offset="1" stop-color="{farbe}" stop-opacity="0"/></radialGradient>'
         f'<radialGradient id="{p}herz" cx=".5" cy=".5" r=".5">'
-        f'<stop offset="0" stop-color="#0d3a44"/><stop offset=".7" stop-color="#04161c"/>'
-        f'<stop offset="1" stop-color="{CYAN}" stop-opacity=".9"/></radialGradient>'
+        f'<stop offset="0" stop-color="{_dunkel(farbe, .22)}"/><stop offset=".7" stop-color="{_dunkel(farbe, .07)}"/>'
+        f'<stop offset="1" stop-color="{farbe}" stop-opacity=".9"/></radialGradient>'
         f'<radialGradient id="{p}kugel" cx=".38" cy=".3" r=".75">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity=".22"/><stop offset="1" stop-color="#021015" stop-opacity=".2"/>'
+        f'<stop offset="0" stop-color="{farbe}" stop-opacity=".22"/><stop offset="1" stop-color="{_dunkel(farbe, .05)}" stop-opacity=".2"/>'
         '</radialGradient>'
     )
 
@@ -53,7 +66,8 @@ def _drehung(teil: str, p: str, zeit: float) -> tuple[str, str]:
             f".{p}{teil}{{animation:{p}dreh {dauer:g}s linear infinite{richtung}}}")
 
 
-def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None) -> Kern:
+def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None, farbe: str = CYAN,
+         hell: str = KERN_HELL) -> Kern:
     """r ist der Außenradius der Ringe; alles bleibt innerhalb davon. zeit: Augenblick für ein stilles Bild."""
     t = zeit or 0.0
     teile, stile, bewegung = [], [], []
@@ -66,7 +80,6 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
         lang = n % 6 == 0
         x1, y1 = polar(cx, cy, r * .97, g)
         x2, y2 = polar(cx, cy, r * (.88 if lang else .92), g)
-        farbe = CYAN
         striche.append(f'<path d="M{x1:.1f},{y1:.1f}L{x2:.1f},{y2:.1f}" stroke="{farbe}" '
                        f'stroke-opacity="{.95 if lang else .45}" stroke-width="{r * (.014 if lang else .009):.2f}"/>')
     teile.append(f'<g class="{p}r1">{"".join(striche)}</g>')
@@ -79,7 +92,7 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
     muster = (.09, .015, .03, .015, .012, .03)
     teil = 2 * math.pi * r2 / 6 / sum(muster)
     striche = " ".join(f"{m * teil:.2f}" for m in muster)
-    teile.append(f'<circle class="{p}r2" cx="{cx:g}" cy="{cy:g}" r="{r2:.1f}" fill="none" stroke="{CYAN}" '
+    teile.append(f'<circle class="{p}r2" cx="{cx:g}" cy="{cy:g}" r="{r2:.1f}" fill="none" stroke="{farbe}" '
                  f'stroke-opacity=".75" stroke-width="{r * .035:.2f}" stroke-dasharray="{striche}" '
                  'filter="url(#leuchten)"/>')
     stellung, regel = _drehung("r2", p, t)
@@ -89,7 +102,7 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
     # Ring 3: dünner Kreis mit drei Bögen und Markern, schneller
     r3 = r * .73
     boegen = "".join(
-        f'<path d="{bogen(cx, cy, r3, s, s + 46)}" fill="none" stroke="{CYAN}" stroke-width="{r * .02:.2f}" '
+        f'<path d="{bogen(cx, cy, r3, s, s + 46)}" fill="none" stroke="{farbe}" stroke-width="{r * .02:.2f}" '
         f'stroke-linecap="round"/>' for s in (10, 130, 250)
     )
     marker = "".join(
@@ -98,7 +111,7 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
         f'L{polar(cx, cy, r3 + r * .1, g + 4)[0]:.1f},{polar(cx, cy, r3 + r * .1, g + 4)[1]:.1f}Z" fill="{BERNSTEIN}"/>'
         for g in (80, 200, 320)
     )
-    teile.append(f'<g class="{p}r3"><circle cx="{cx:g}" cy="{cy:g}" r="{r3:.1f}" fill="none" stroke="{CYAN}" '
+    teile.append(f'<g class="{p}r3"><circle cx="{cx:g}" cy="{cy:g}" r="{r3:.1f}" fill="none" stroke="{farbe}" '
                  f'stroke-opacity=".3" stroke-width="{r * .007:.2f}"/>{boegen}{marker}</g>')
     stellung, regel = _drehung("r3", p, t)
     stile.append(f".{p}r3{{{_ursprung(cx, cy)};{stellung}}}")
@@ -111,19 +124,19 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
     for breite in (-60, -35, -12, 12, 35, 60):
         w = math.radians(breite)
         kugel.append(f'<ellipse cx="{cx:g}" cy="{cy + rk * math.sin(w):.1f}" rx="{rk * math.cos(w):.1f}" '
-                     f'ry="{rk * math.cos(w) * .16:.1f}" fill="none" stroke="{CYAN}" stroke-opacity=".28" '
+                     f'ry="{rk * math.cos(w) * .16:.1f}" fill="none" stroke="{farbe}" stroke-opacity=".28" '
                      f'stroke-width="{r * .006:.2f}"/>')
     umlauf = 360 / LAENGE * SCHLEIFE  # Sekunden für eine volle Drehung der Kugel
     for n in range(6):
         phase = n * 30
         stauchung = math.cos(math.radians(phase + LAENGE * t / SCHLEIFE))
         kugel.append(f'<ellipse class="{p}m{n}" cx="{cx:g}" cy="{cy:g}" rx="{rk:.1f}" ry="{rk:.1f}" fill="none" '
-                     f'stroke="{CYAN}" stroke-opacity=".42" stroke-width="{r * .007:.2f}"/>')
+                     f'stroke="{farbe}" stroke-opacity=".42" stroke-width="{r * .007:.2f}"/>')
         stile.append(f".{p}m{n}{{{_ursprung(cx, cy)};transform:scaleX({stauchung:.3f})}}")
         bewegung.append(f".{p}m{n}{{animation:{p}meridian {umlauf:g}s infinite;"
                         f"animation-delay:{-umlauf * phase / 360:.2f}s}}")
     teile.append("".join(kugel))
-    teile.append(f'<circle cx="{cx:g}" cy="{cy:g}" r="{rk:.1f}" fill="none" stroke="{CYAN}" stroke-opacity=".6" '
+    teile.append(f'<circle cx="{cx:g}" cy="{cy:g}" r="{rk:.1f}" fill="none" stroke="{farbe}" stroke-opacity=".6" '
                  f'stroke-width="{r * .012:.2f}" filter="url(#leuchten)"/>')
 
     # Reaktorkranz um das Herz
@@ -135,7 +148,7 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
         pkt = [polar(cx, cy, innen, a1), polar(cx, cy, aussen, a1 + 2), polar(cx, cy, aussen, a2 - 2),
                polar(cx, cy, innen, a2)]
         d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pkt) + "Z"
-        kranz.append(f'<path d="{d}" fill="{CYAN}" fill-opacity=".16" stroke="{CYAN}" stroke-opacity=".85" '
+        kranz.append(f'<path d="{d}" fill="{farbe}" fill-opacity=".16" stroke="{farbe}" stroke-opacity=".85" '
                      f'stroke-width="{r * .008:.2f}"/>')
     teile.append(f'<g class="{p}kranz" filter="url(#leuchten)">{"".join(kranz)}</g>')
     stellung, regel = _drehung("kranz", p, t)
@@ -144,12 +157,12 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
 
     # Herz mit der 42
     rh = r * .25
-    teile.append(f'<circle class="{p}puls" cx="{cx:g}" cy="{cy:g}" r="{rh * 1.18:.1f}" fill="{CYAN}" opacity=".25" '
+    teile.append(f'<circle class="{p}puls" cx="{cx:g}" cy="{cy:g}" r="{rh * 1.18:.1f}" fill="{farbe}" opacity=".25" '
                  f'filter="url(#leuchten_weit)"/>')
     teile.append(f'<circle cx="{cx:g}" cy="{cy:g}" r="{rh:.1f}" fill="url(#{p}herz)"/>')
-    teile.append(f'<circle cx="{cx:g}" cy="{cy:g}" r="{rh:.1f}" fill="none" stroke="{KERN_HELL}" '
+    teile.append(f'<circle cx="{cx:g}" cy="{cy:g}" r="{rh:.1f}" fill="none" stroke="{hell}" '
                  f'stroke-width="{r * .014:.2f}" filter="url(#leuchten)"/>')
-    teile.append(text(cx, cy + rh * .36, "42", rh * 1.02, KERN_HELL, 600, 0, "middle", 'filter="url(#leuchten)"'))
+    teile.append(text(cx, cy + rh * .36, "42", rh * 1.02, hell, 600, 0, "middle", 'filter="url(#leuchten)"'))
     schlag = (1 - math.cos(2 * math.pi * PULSE * t / SCHLEIFE)) / 2
     stile.append(f".{p}puls{{{_ursprung(cx, cy)};opacity:{.18 + .22 * schlag:.3f};transform:scale({1 + .08 * schlag:.3f})}}")
     bewegung.append(f".{p}puls{{animation:{p}puls {SCHLEIFE / PULSE:g}s ease-in-out infinite}}")
@@ -170,9 +183,10 @@ def kern(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None
     return Kern("".join(teile), "".join(stile), "" if zeit is not None else "".join(bewegung))
 
 
-def kern_im_ring(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None) -> Kern:
+def kern_im_ring(cx: float, cy: float, r: float, p: str = "k", zeit: float | None = None, farbe: str = CYAN,
+                 hell: str = KERN_HELL) -> Kern:
     """Kern hinter Glas, eingefasst von einem Riffelring; r ist der Außenradius des Rings, nichts ragt darüber."""
-    k = kern(cx, cy, r * .86, p, zeit)
+    k = kern(cx, cy, r * .86, p, zeit, farbe, hell)
     ring = (
         f'<circle cx="{cx:g}" cy="{cy:g}" r="{r:g}" fill="url(#knopfmetall)"/>'
         f'<circle cx="{cx:g}" cy="{cy:g}" r="{r - r * .015:.1f}" fill="none" stroke="#3a3f45" '
@@ -199,14 +213,14 @@ def kern_in_fassung(cx: float, cy: float, r: float, p: str = "k") -> Kern:
     return Kern(fassung + innen.grafik, innen.stil, innen.bewegung)
 
 
-def profilbild_kern(zeit: float | None = 0.0, grund: str | None = None) -> str:
+def profilbild_kern(zeit: float | None = 0.0, grund: str | None = None, farbe: str = CYAN, hell: str = KERN_HELL) -> str:
     """Profilbild: nur der Ring mit dem Kern. GitHub schneidet es rund aus.
 
     zeit: Augenblick des stillen Bilds (None: per CSS bewegt). grund: Farbe außerhalb des Rings, sonst transparent."""
     from buehne.material import defs_grund, svg
 
     k, m = 460, 230
-    rund = kern_im_ring(m, m, m, "p", zeit)
+    rund = kern_im_ring(m, m, m, "p", zeit, farbe, hell)
     flaeche = f'<rect width="{k}" height="{k}" fill="{grund}"/>' if grund else ""
-    return svg(k, k, "HalloWelt42", flaeche + rund.grafik, defs_grund() + kern_defs("p"), stil=rund.stil,
+    return svg(k, k, "HalloWelt42", flaeche + rund.grafik, defs_grund() + kern_defs("p", farbe), stil=rund.stil,
                bewegung=rund.bewegung, gewichte=(600,))

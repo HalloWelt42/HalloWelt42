@@ -12,7 +12,8 @@ import tempfile
 
 from PIL import Image, ImageDraw
 
-from buehne.kern import SCHLEIFE, profilbild_kern
+from buehne.kern import KERN_HELL, SCHLEIFE, profilbild_kern
+from buehne.material import CYAN
 
 UEBERABTASTUNG = 4  # Kreisrand weich: Maske größer zeichnen, dann verkleinern
 GRENZE = 1_000_000  # Byte, Obergrenze für Profilbilder bei GitHub
@@ -37,8 +38,8 @@ def _rendern(svgs: list[str], kante: int) -> list[Image.Image]:
         return [Image.open(f"{p}.png").convert("RGBA").resize((kante, kante), Image.LANCZOS) for p in pfade]
 
 
-def png_schreiben(ziel: pathlib.Path, kante: int = 920) -> None:
-    bild = _rendern([profilbild_kern(0.0)], kante)[0]
+def png_schreiben(ziel: pathlib.Path, kante: int = 920, farbe: str = CYAN, hell: str = KERN_HELL) -> None:
+    bild = _rendern([profilbild_kern(0.0, farbe=farbe, hell=hell)], kante)[0]
     bild.putalpha(_runde_maske(kante))
     bild.save(ziel, optimize=True)
 
@@ -63,10 +64,11 @@ def _gif(einzelbilder: list[Image.Image], kante: int, farben: int, dauer_ms: int
 STUFEN = ((300, 64), (280, 64), (260, 64), (300, 32), (260, 32), (220, 32))
 
 
-def gif_schreiben(ziel: pathlib.Path, bilder_je_schleife: int = 36) -> tuple[int, int, int]:
+def gif_schreiben(ziel: pathlib.Path, bilder_je_schleife: int = 36, farbe: str = CYAN, hell: str = KERN_HELL
+                  ) -> tuple[int, int, int]:
     """Bewegtes Profilbild; nimmt die beste Stufe unter der Grenze. Liefert (Kante, Farben, Byte)."""
     zeiten = [n * SCHLEIFE / bilder_je_schleife for n in range(bilder_je_schleife)]
-    roh = _rendern([profilbild_kern(t, grund="#000000") for t in zeiten], max(k for k, _ in STUFEN))
+    roh = _rendern([profilbild_kern(t, grund="#000000", farbe=farbe, hell=hell) for t in zeiten], max(k for k, _ in STUFEN))
     dauer = round(SCHLEIFE * 1000 / bilder_je_schleife)
     for kante, farben in STUFEN:
         daten = _gif(roh, kante, farben, dauer)
