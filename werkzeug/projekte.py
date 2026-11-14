@@ -22,6 +22,7 @@ class Projekt:
     icon: str
     repo: str
     link: str | None = None
+    ausblenden: bool = False  # nicht im Katalog zeigen
     # Nur für die Projekte im Rack der Profilseite (siehe Kopf von projekte.toml)
     top: int | None = None
     akzent: str | None = None
@@ -84,6 +85,13 @@ class Profil:
     @property
     def projekte(self) -> tuple[Projekt, ...]:
         return tuple(p for g in self.gruppen for p in g.projekte)
+
+    @property
+    def katalog_gruppen(self) -> tuple[Gruppe, ...]:
+        """Gruppen für den Katalog: ohne ausgeblendete Projekte, leere Gruppen fallen weg."""
+        gruppen = (Gruppe(g.titel, g.text, g.begleittext, tuple(p for p in g.projekte if not p.ausblenden))
+                   for g in self.gruppen)
+        return tuple(g for g in gruppen if g.projekte)
 
 
 def _projekt(roh: dict) -> Projekt:

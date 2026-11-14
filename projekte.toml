@@ -10,6 +10,7 @@
 #           icon   Datei unter icons/ (freigestellte Icons bevorzugen)
 #           repo   Repo im Konto; Ziel des Links, wenn kein link angegeben ist
 #           link   optional: anderes Ziel, etwa Store-Eintrag oder Seite zum Ausprobieren
+#           ausblenden  true: nicht im Katalog (projekte.md); bleibt in den Daten und im Portfolio
 #           Nur für die Projekte im Rack der Profilseite:
 #           top     Platz im Rack (1, 2, ...); Projekte ohne top erscheinen nur im Katalog
 #           akzent  Leuchtfarbe des Projekts, passend zum Icon
@@ -54,6 +55,7 @@ link = "https://chromewebstore.google.com/detail/video-hls-stream-download/pdhpp
 
 [[gruppe.projekt]]
 name = "Blob Downloadr"
+ausblenden = true
 info = "Medien hinter blob:-Adressen als Datei speichern, auch Streaming-Videos"
 icon = "blob-downloadr.svg"
 repo = "blob-media-downloadr-chrome-extension"
@@ -69,6 +71,7 @@ technik = ["Svelte", "Python", "JavaScript"]
 
 [[gruppe.projekt]]
 name = "TransPlay"
+ausblenden = true
 info = "Audio synchron zum Transkript abspielen"
 icon = "transplay.svg"
 repo = "TransPlay"
@@ -116,6 +119,7 @@ repo = "translatr-chrome-extention"
 
 [[gruppe.projekt]]
 name = "Federflink"
+ausblenden = true
 info = "Rechtschreibprüfung im eigenen Netz"
 icon = "federflink.svg"
 repo = "Federflink"
@@ -202,6 +206,7 @@ link = "https://chromewebstore.google.com/detail/favgrid-premium-speed-dia/geejn
 
 [[gruppe.projekt]]
 name = "DevRadar"
+ausblenden = true
 info = "Lokale Projekte auf dem Mac finden und ordnen"
 icon = "devradar.svg"
 repo = "macos-dev-organizer"
@@ -285,12 +290,14 @@ repo = "ServerPulse"
 
 [[gruppe.projekt]]
 name = "Caddy Manager"
+ausblenden = true
 info = "Webserver mit automatischem HTTPS vom Mac aus verwalten"
 icon = "caddy-manager.svg"
 repo = "Caddy-UI-Client"
 
 [[gruppe.projekt]]
 name = "Pi-Projekte"
+ausblenden = true
 info = "Einrichtungsanleitungen für Dienste auf dem Raspberry Pi 5"
 icon = "pi-projekte.svg"
 repo = "raspberry_pi_projects"
@@ -314,6 +321,7 @@ repo = "Iconify"
 
 [[gruppe.projekt]]
 name = "Regex404"
+ausblenden = true
 info = "Reguläre Ausdrücke testen, offline im Browser"
 icon = "regex404.svg"
 repo = "regex404-offline"
@@ -357,6 +365,7 @@ link = "https://chromewebstore.google.com/detail/dashboard-for-claude/iiimpoehij
 
 [[gruppe.projekt]]
 name = "Qt-Komponenten"
+ausblenden = true
 info = "Reaktives Komponenten-Framework für Qt-Anwendungen in Python"
 icon = "qt-komponenten.svg"
 repo = "PyQt6ComponentFramework"

@@ -13,6 +13,8 @@ from buehne.material import esc
 VOLL = 840
 HALB = 412
 DRITTEL = 272
+VIERTEL = 206
+FUENFTEL = 164
 
 
 def anteil(breite: int) -> str:
@@ -23,9 +25,9 @@ def anteil(breite: int) -> str:
 @dataclass
 class Ergebnis:
     kennung: str
-    stapeln: bool = False  # True: alle Zeilen in einem Absatz, nur durch <br> getrennt (dicht wie ein Rack)
+    stapeln: bool = False  # True: aufeinanderfolgende Bildzeilen in einem Absatz, nur durch <br> getrennt (dicht)
     dateien: dict[str, str] = field(default_factory=dict)
-    zeilen: list[str] = field(default_factory=list)
+    zeilen: list[tuple[str, str]] = field(default_factory=list)  # (art, inhalt): "bild" oder "text"
 
     def bild(self, datei: str, inhalt: str) -> str:
         self.dateien[datei] = inhalt
@@ -36,11 +38,32 @@ class Ergebnis:
         teile = []
         for pfad, breite, alt, link in eintraege:
             img = f'<img src="{pfad}" width="{anteil(breite)}" alt="{esc(alt)}">'
-            teile.append(f'<a href="{esc(link)}">{img}</a>' if link else img)
-        self.zeilen.append("\n".join(teile))
+            teile.append(f'<a href="{esc(link)}" title="{esc(alt)}">{img}</a>' if link else img)
+        self.zeilen.append(("bild", "\n".join(teile)))
+
+    def text(self, markdown: str) -> None:
+        """Ein Block Markdown zwischen den Bildern, etwa eine aufklappbare Liste."""
+        self.zeilen.append(("text", markdown.strip()))
 
     @property
     def readme(self) -> str:
-        if self.stapeln:
-            return '<p align="center">\n' + "<br>\n".join(self.zeilen) + "\n</p>\n"
-        return "\n\n".join(f'<p align="center">\n{z}\n</p>' for z in self.zeilen) + "\n"
+        bloecke: list[str] = []
+        bilder: list[str] = []
+
+        def bilder_abschliessen() -> None:
+            if not bilder:
+                return
+            if self.stapeln:
+                bloecke.append('<p align="center">\n' + "<br>\n".join(bilder) + "\n</p>")
+            else:
+                bloecke.extend(f'<p align="center">\n{z}\n</p>' for z in bilder)
+            bilder.clear()
+
+        for art, inhalt in self.zeilen:
+            if art == "bild":
+                bilder.append(inhalt)
+            else:
+                bilder_abschliessen()
+                bloecke.append(inhalt)
+        bilder_abschliessen()
+        return "\n\n".join(bloecke) + "\n"

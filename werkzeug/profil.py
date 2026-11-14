@@ -120,7 +120,7 @@ def liste_md(liste: Liste) -> str:
 
 
 def projekte_abschnitt(profil: Profil) -> str:
-    teile = [gruppe_html(g) for g in profil.gruppen]
+    teile = [gruppe_html(g) for g in profil.katalog_gruppen]
     if profil.listen:
         teile.append("<br>\n\n" + "\n\n".join(liste_md(l) for l in profil.listen))
     return "\n\n".join(teile)
@@ -132,7 +132,7 @@ def kacheln_schreiben(profil: Profil) -> None:
         ordner.mkdir(parents=True, exist_ok=True)
         for alt in ordner.glob("*.svg"):
             alt.unlink()
-        for projekt in profil.projekte:
+        for projekt in (p for g in profil.katalog_gruppen for p in g.projekte):
             (WURZEL / kachel_pfad(projekt, schema)).write_text(kachel_svg(projekt, schema), encoding="utf-8")
 
 
@@ -183,7 +183,9 @@ def main() -> int:
     eintraege = sum(len(l.eintraege) for l in profil.listen)
     print(f"Profil: {grafiken} Rack-Grafiken unter {GRAFIK}/, Top-Projekte: "
           f"{', '.join(p.name for p in auswahl.laden(profil).projekte)}")
-    print(f"Katalog: {len(profil.projekte)} Kacheln in {len(profil.gruppen)} Gruppen, {eintraege} Listeneinträge")
+    gezeigt = sum(len(g.projekte) for g in profil.katalog_gruppen)
+    print(f"Katalog: {gezeigt} Kacheln in {len(profil.katalog_gruppen)} Gruppen "
+          f"({len(profil.projekte) - gezeigt} ausgeblendet), {eintraege} Listeneinträge")
     return 0
 
 

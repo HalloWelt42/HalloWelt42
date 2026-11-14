@@ -1,32 +1,8 @@
-"""Ortungsschirm: kreisender Strahl, die Projekte als Ziele; dazu die Glas- und Rahmenverläufe, die er braucht."""
+"""Ortungsschirm: kreisender Strahl, die Projekte als Ziele. Braucht die Verläufe aus buehne.glas.defs_glas."""
 from __future__ import annotations
 
 from buehne.material import CYAN, polar, text
 from projekte import Projekt
-
-def defs_glas() -> str:
-    """Nur die Glas- und Rahmenverläufe dieses Entwurfs, ohne den Grundbestand."""
-    return (
-        '<linearGradient id="rahmen" x1="0" y1="0" x2="0" y2="1">'
-        '<stop offset="0" stop-color="#50565e"/><stop offset=".18" stop-color="#30353b"/>'
-        '<stop offset=".8" stop-color="#1f2226"/><stop offset="1" stop-color="#121417"/></linearGradient>'
-        '<linearGradient id="tiefglas" x1="0" y1="0" x2="0" y2="1">'
-        '<stop offset="0" stop-color="#0b141b"/><stop offset="1" stop-color="#04080b"/></linearGradient>'
-        '<pattern id="gitter" width="24" height="24" patternUnits="userSpaceOnUse">'
-        f'<path d="M24,0V24M0,24H24" fill="none" stroke="{CYAN}" stroke-opacity=".05"/></pattern>'
-        '<radialGradient id="vignette" cx=".5" cy=".45" r=".75">'
-        '<stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/>'
-        '</radialGradient>'
-        '<linearGradient id="lauflicht" x1="0" y1="0" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity="0"/><stop offset=".5" stop-color="{CYAN}" stop-opacity="1"/>'
-        f'<stop offset="1" stop-color="{CYAN}" stop-opacity="0"/></linearGradient>'
-        '<linearGradient id="abtastung" x1="0" y1="0" x2="0" y2="1">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity="0"/><stop offset=".85" stop-color="{CYAN}" stop-opacity=".06"/>'
-        f'<stop offset="1" stop-color="{CYAN}" stop-opacity=".18"/></linearGradient>'
-        '<linearGradient id="strahl" x1="0" y1="1" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity="0"/><stop offset="1" stop-color="{CYAN}" stop-opacity=".45"/>'
-        '</linearGradient>'
-    )
 
 
 UMLAUF = 6.0  # Sekunden je Umdrehung des Strahls

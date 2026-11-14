@@ -8,7 +8,8 @@ from buehne.kern import profilbild_kern
 from buehne.material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEISE, GRAVUR_STUMM, GRUEN,
                              KANTE_DUNKEL, bild, defs_grund, drehknopf, fase, gravurtext, icon, led, mulde, platte,
                              schraube, spiegelung, svg, text, umbrechen)
-from buehne.ortung import UMLAUF, defs_glas, ortungsschirm, peilung
+from buehne.glas import defs_glas
+from buehne.ortung import UMLAUF, ortungsschirm, peilung
 from buehne.rack import OHR, abschnitt, defs_rack, gestell, schild, steckfeld, taste_breit, vu
 from projekte import Projekt
 

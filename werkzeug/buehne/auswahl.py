@@ -54,6 +54,6 @@ def laden(profil: Profil | None = None) -> Auswahl:
         technik=profil.angaben.technik,
         link_alle=profil.angaben.katalog,
         link_unterstuetzen=profil.angaben.unterstuetzen,
-        anzahl_gesamt=len(profil.projekte),
-        anzahl_themen=len(profil.gruppen),
+        anzahl_gesamt=sum(len(g.projekte) for g in profil.katalog_gruppen),  # so viele zeigt der Katalog
+        anzahl_themen=len(profil.katalog_gruppen),
     )
