@@ -103,3 +103,62 @@ def zielart(link: str) -> str:
     if "chromewebstore" in link or "addons.mozilla" in link:
         return "STORE"
     return "REPO"
+
+
+# ---------- Rack-Fassung: Kopf und Themenleiste im Stil der Profilseite ----------
+
+def defs_rack_glas() -> str:
+    from buehne.rack import defs_rack
+
+    return defs_grund() + defs_rack() + defs_glas()
+
+
+def kopf_rack(profil: Profil) -> str:
+    """Kopf als Rack-Frontplatte: Themen-Radar in der Fassung, daneben die Bernstein-Anzeige."""
+    from buehne.material import BERNSTEIN_HELL, GRAVUR, GRAVUR_LEISE, GRAVUR_STUMM, gravurtext, mulde
+    from buehne.rack import OHR, fassungsplatte, gestell
+
+    b, h = VOLL, 240
+    gruppen = profil.katalog_gruppen
+    anzahl = sum(len(g.projekte) for g in gruppen)
+    teile = [gestell(b, h), fassungsplatte(52, 26, 200, 200)]
+    ziele = tuple(Ziel(g.titel, farbe) for g, farbe in zip(gruppen, _themenfarben(len(gruppen))))
+    schirm, bewegung = ortungsschirm(152, 126, 76, ziele, kanalnummern=True)
+    teile.append(schirm)
+    teile.append(led(282, 28, GRUEN, 2.6))
+    teile.append(gravurtext(292, 32, "KATALOG", 9.5, GRAVUR_STUMM, 700, 2))
+    teile.append(gravurtext(b - OHR - 26, 32, "HW-42  ·  ALLE KANÄLE", 9.5, GRAVUR_STUMM, 700, 2, "end"))
+    anzeige = fase(282, 44, 494, 104, 5)
+    teile.append(f'<path d="{fase(276, 38, 506, 116, 7)}" fill="#0b0c0e"/>')
+    teile.append(mulde(anzeige))
+    teile.append(f'<path d="{anzeige}" fill="url(#punktraster)"/>')
+    teile.append(text(302, 106, "ALLE PROJEKTE", 42, "#ffb547", 700, 3, extra='filter="url(#leuchten)"'))
+    teile.append(text(304, 134, f"{anzahl} PROJEKTE  ·  {len(gruppen)} THEMEN  ·  SELBST GEHOSTET", 12, BERNSTEIN_HELL,
+                      600, 1.6, extra='opacity=".7"'))
+    teile.append(spiegelung(anzeige))
+    teile.append(gravurtext(282, 184, "Werkzeuge mit Studio-Optik.", 15, GRAVUR, 600))
+    teile.append(gravurtext(282, 206, "Die Nummern am Schirm sind die Themen.", 13, GRAVUR_LEISE, 500))
+    for n, (beschriftung, farbe) in enumerate((("LOKAL", GRUEN), ("OFFEN", BERNSTEIN), ("SIGNAL", CYAN))):
+        x = 650 + n * 54
+        teile.append(led(x, 184, farbe, 3.2, blinken="puls" if farbe == CYAN else None))
+        teile.append(gravurtext(x, 206, beschriftung, 9.5, GRAVUR_STUMM, 700, 1.2, "middle"))
+    puls = ".puls{animation:puls 1.6s steps(2,jump-none) infinite}@keyframes puls{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}"
+    return svg(b, h, f"Alle Projekte: {anzahl} Projekte in {len(gruppen)} Themen", "".join(teile), defs_rack_glas(),
+               bewegung=bewegung + puls)
+
+
+def leiste_rack(kennung: str, titel: str, zeile: str, anzahl: int, farbe: str) -> str:
+    """Themenleiste als flache Rack-Platte: Kanalanzeige, Gravur, je Projekt eine LED."""
+    from buehne.material import GRAVUR, GRAVUR_LEISE, gravurtext, mulde
+    from buehne.rack import OHR, gestell
+
+    b, h = VOLL, 64
+    teile = [gestell(b, h)]
+    teile.append(mulde(fase(56, 14, 54, 36, 4)))
+    teile.append(text(83, 40, kennung, 22, farbe, 700, 1.5, "middle", 'filter="url(#leuchten)"'))
+    teile.append(gravurtext(128, 30, titel.upper(), 15, GRAVUR, 700, 3))
+    teile.append(gravurtext(128, 50, zeile, 12.5, GRAVUR_LEISE, 500))
+    rechts = b - OHR - 30
+    for n in range(anzahl):
+        teile.append(led(rechts - n * 13, 32, farbe, 2.6))
+    return svg(b, h, f"{titel}: {zeile}", "".join(teile), defs_rack_glas(), gewichte=(500, 700))

@@ -1,7 +1,7 @@
 """Vorschau der Katalog-Entwürfe im Rahmen der GitHub-Dateiansicht von projekte.md.
 
 Der README-Ausschnitt jedes Entwurfs wird unverändert eingesetzt, die Bilder eingebettet (kein Server nötig).
-Der Anker merkt sich den Entwurf: #instrumente, #konsole, #matrix.
+Der Anker merkt sich den Entwurf, etwa #instrumente oder #glas-im-rack.
 """
 from __future__ import annotations
 
@@ -28,8 +28,16 @@ DATEIEN = ("bilder", "grafik", "icons", "kacheln", "mockups", "portfolio", "werk
            "projekte.toml", "readme.md", "vorlage.md")
 
 
+def anker(titel: str) -> str:
+    """Direktlink-Anker nur aus ASCII-Buchstaben, Ziffern und Bindestrichen."""
+    ersatz = {"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss"}
+    klein = "".join(ersatz.get(z, z) for z in titel.lower())
+    return "-".join("".join(z if z.isascii() and z.isalnum() else " " for z in klein).split())
+
+
 def seite(entwuerfe: list[tuple[Entwurf, Ergebnis]]) -> str:
-    steckbriefe = {e.kennung: {"titel": e.titel, "idee": e.idee, "merkmale": list(e.merkmale)} for e, _ in entwuerfe}
+    steckbriefe = {e.kennung: {"titel": e.titel, "idee": e.idee, "merkmale": list(e.merkmale), "anker": anker(e.titel)}
+                   for e, _ in entwuerfe}
     vorlagen = "".join(f'<template id="readme-{e.kennung}">{_eingebettet(r)}</template>' for e, r in entwuerfe)
     knoepfe = "".join(f'<button data-wert="{e.kennung}"><b>{e.kennung.upper()}</b> {esc(e.titel)}</button>'
                       for e, _ in entwuerfe)
@@ -149,7 +157,7 @@ body::before{{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inse
 <script>
 const STECKBRIEFE = {json.dumps(steckbriefe, ensure_ascii=False)};
 const VORGABE = {{entwurf: Object.keys(STECKBRIEFE)[0], github: "dunkel", breite: "rechner"}};
-const ANKER = Object.fromEntries(Object.entries(STECKBRIEFE).map(([k, sb]) => [k, sb.titel.toLowerCase()]));
+const ANKER = Object.fromEntries(Object.entries(STECKBRIEFE).map(([k, sb]) => [k, sb.anker]));
 const zustand = Object.assign({{}}, VORGABE);
 function ankerLesen() {{
   const treffer = Object.keys(ANKER).find(k => ANKER[k] === location.hash.slice(1));

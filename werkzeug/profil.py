@@ -18,6 +18,7 @@ import sys
 from dataclasses import dataclass
 
 from buehne import auswahl, regie
+from buehne.kern import profilbild_kern
 from projekte import WURZEL, Gruppe, Liste, Profil, Projekt, icon_fehler, laden, repo_adresse, ungenutzte_icons
 
 VORLAGE = WURZEL / "vorlage.md"
@@ -154,6 +155,9 @@ def readme_schreiben(profil: Profil) -> int:
         if name.endswith(".svg") and name != "avatar.svg":
             (ordner / name).write_text(inhalt, encoding="utf-8")
     README.write_text(f"{HINWEIS}\n\n{ergebnis.readme}", encoding="utf-8")
+    # Das Logo als bewegtes SVG (außen transparent): für READMEs und Seiten; als Profilbild nimmt GitHub nur
+    # PNG, JPG und GIF, dafür gibt es --profilbild
+    (ordner / "logo.svg").write_text(profilbild_kern(None), encoding="utf-8")
     return sum(1 for n in ergebnis.dateien if n != "avatar.svg")
 
 

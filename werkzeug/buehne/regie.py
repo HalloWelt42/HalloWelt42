@@ -10,7 +10,7 @@ from buehne.material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEI
                              schraube, spiegelung, svg, text, umbrechen)
 from buehne.glas import defs_glas
 from buehne.ortung import UMLAUF, ortungsschirm, peilung
-from buehne.rack import OHR, abschnitt, defs_rack, gestell, schild, steckfeld, taste_breit, vu
+from buehne.rack import OHR, abschnitt, defs_rack, fassungsplatte, gestell, schild, steckfeld, taste_breit, vu
 from projekte import Projekt
 
 ZIEL_TINTE = "#d8f4f8"
@@ -24,19 +24,9 @@ def _defs() -> str:
     return defs_grund() + defs_rack() + defs_glas()
 
 
-def _fassungsplatte(x: float, y: float, b: float, h: float) -> str:
-    """Eingesetzte Unterplatte mit vier Schrauben, etwa für Schirm oder Bildschirmfoto."""
-    return (
-        f'<path d="{fase(x - 2, y - 2, b + 4, h + 4, 12)}" fill="{KANTE_DUNKEL}"/>'
-        + platte(fase(x, y, b, h, 11))
-        + "".join(schraube(sx, sy, 20 + 30 * i, 4.4) for i, (sx, sy) in enumerate(
-            ((x + 12, y + 12), (x + b - 12, y + 12), (x + b - 12, y + h - 12), (x + 12, y + h - 12))))
-    )
-
-
 def kopf(auswahl: Auswahl) -> str:
     b, h = VOLL, 300
-    teile = [gestell(b, h), _fassungsplatte(52, 34, 236, 236)]
+    teile = [gestell(b, h), fassungsplatte(52, 34, 236, 236)]
     schirm, schirm_bewegung = ortungsschirm(170, 152, 92, auswahl.projekte, kanalnummern=True)
     teile.append(schirm)
     teile.append(led(70, 24, GRUEN, 2.6))
@@ -152,7 +142,7 @@ def fokus(projekt: Projekt) -> str:
     teile.append(text(x + 52, 283.5, "ÖFFNEN", 8.5, "#2a1700", 700, .8, "middle"))
     # Bildschirmfoto im Rack-Fenster
     if projekt.bild_pfad:
-        teile.append(_fassungsplatte(394, 30, 394, 252))
+        teile.append(fassungsplatte(394, 30, 394, 252))
         fx, fy, fb, fh = 410, 46, 362, 211
         fenster = fase(fx, fy, fb, fh, 5)
         teile.append(f'<path d="{fase(fx - 4, fy - 4, fb + 8, fh + 8, 7)}" fill="#0b0c0e"/>')

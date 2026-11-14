@@ -177,3 +177,13 @@ def taste_breit(beschriftung: str, symbol: str) -> str:
     else:
         teile.append(f'<path d="M{sx - 5:g},27 l9,6 l-9,6z" fill="{BERNSTEIN}"/>')
     return svg(b, h, beschriftung, "".join(teile), defs())
+
+
+def fassungsplatte(x: float, y: float, b: float, h: float) -> str:
+    """Eingesetzte Unterplatte mit vier Schrauben, etwa für Schirm oder Bildschirmfoto."""
+    return (
+        f'<path d="{fase(x - 2, y - 2, b + 4, h + 4, 12)}" fill="{KANTE_DUNKEL}"/>'
+        + platte(fase(x, y, b, h, 11))
+        + "".join(schraube(sx, sy, 20 + 30 * i, 4.4) for i, (sx, sy) in enumerate(
+            ((x + 12, y + 12), (x + b - 12, y + 12), (x + b - 12, y + h - 12), (x + 12, y + h - 12))))
+    )
