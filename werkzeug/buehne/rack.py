@@ -4,7 +4,7 @@ from __future__ import annotations
 from buehne.auswahl import Auswahl
 from buehne.ergebnis import HALB, VOLL
 from buehne.material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEISE, GRAVUR_STUMM, KANTE_DUNKEL,
-                             bogen, defs_grund, fase, gravurtext, led, platte, polar, schraube, svg, text,
+                             bogen, defs_grund, fase, gravurtext, led, mulde, platte, polar, schraube, svg, text,
                              textbreite)
 
 OHR = 36
@@ -25,6 +25,10 @@ def defs_rack() -> str:
         '<stop offset="1" stop-color="#9c5f08"/></radialGradient>'
         '<linearGradient id="taste" x1="0" y1="0" x2="0" y2="1">'
         f'<stop offset="0" stop-color="{BERNSTEIN_HELL}"/><stop offset="1" stop-color="#e08600"/></linearGradient>'
+        # Play: sattes, dunkles Warmgrün (kein Mint), leuchtet leicht und hebt sich vom Bernstein ab
+        '<linearGradient id="taste_gruen" x1="0" y1="0" x2="0" y2="1">'
+        '<stop offset="0" stop-color="#4f9a22"/><stop offset=".55" stop-color="#2f6d12"/>'
+        '<stop offset="1" stop-color="#1d4a0b"/></linearGradient>'
         '<linearGradient id="taste_dunkel" x1="0" y1="0" x2="0" y2="1">'
         '<stop offset="0" stop-color="#40454b"/><stop offset="1" stop-color="#25282c"/></linearGradient>'
         '<pattern id="punktraster" width="4" height="4" patternUnits="userSpaceOnUse">'
@@ -187,3 +191,42 @@ def fassungsplatte(x: float, y: float, b: float, h: float) -> str:
         + "".join(schraube(sx, sy, 20 + 30 * i, 4.4) for i, (sx, sy) in enumerate(
             ((x + 12, y + 12), (x + b - 12, y + 12), (x + b - 12, y + h - 12), (x + 12, y + h - 12))))
     )
+
+
+def abspielfeld(x: float, y: float, b: float, titel: str, zeit: str = "00:00") -> tuple[str, str]:
+    """Kleines Abspielfeld im Rack: Play- und Stopptaste, Bernstein-Anzeige mit Titel und Zeit, Pegelbalken.
+
+    Liefert Grafik und Bewegung (Pegel). Ein Bild in einer README kann selbst keinen Ton abspielen; das Feld
+    zeigt nur, wo die Musik startet, der Link um die ganze Grafik führt zur Abspielseite."""
+    h = 34
+    teile = [mulde(fase(x, y, b, h, 4), "#0a0b0d")]
+    # Play: dunkles Warmgrün mit leichtem Schein, das Dreieck leuchtet hellgrün
+    teile.append(f'<path d="{fase(x + 3, y + 2, 40, 30, 4)}" fill="#6ccf2a" opacity=".22" filter="url(#leuchten_weit)"/>'
+                 f'<path d="{fase(x + 5, y + 4, 36, 26, 3)}" fill="url(#taste_gruen)"/>'
+                 f'<path d="M{x + 9},{y + 6}H{x + 37}" stroke="#c8f59a" stroke-opacity=".45"/>'
+                 f'<path d="M{x + 18},{y + 10} l12,7 l-12,7z" fill="#b6f26a" filter="url(#leuchten)"/>')
+    # Stopp: dunkle Taste
+    teile.append(f'<path d="{fase(x + 45, y + 4, 30, 26, 3)}" fill="url(#taste_dunkel)"/>'
+                 f'<path d="M{x + 49},{y + 6}H{x + 71}" stroke="#fff" stroke-opacity=".25"/>'
+                 f'<rect x="{x + 55}" y="{y + 12}" width="10" height="10" fill="#c9ced3"/>')
+    # Anzeige mit Titel und Zeit
+    pegel_b = 52
+    ax, ab = x + 80, b - 80 - pegel_b - 10
+    anzeige = fase(ax, y + 4, ab, 26, 3)
+    teile.append(mulde(anzeige))
+    teile.append(f'<path d="{anzeige}" fill="url(#punktraster)"/>')
+    teile.append(text(ax + 8, y + 21.5, titel, 11, "#ffb547", 700, 1.2, extra='filter="url(#leuchten)"'))
+    if textbreite(titel, 11, 1.2) + textbreite(zeit, 11, 1) + 24 <= ab:  # Zeit nur, wenn sie neben den Titel passt
+        teile.append(text(ax + ab - 8, y + 21.5, zeit, 11, BERNSTEIN_HELL, 700, 1, "end", 'opacity=".75"'))
+    # Pegel: acht Balken, die im Takt wippen
+    px = x + b - pegel_b - 6
+    bewegung = []
+    for n in range(8):
+        hoehe = 6 + (n * 7 % 5) * 3
+        farbe = "#ff3b30" if n == 7 else BERNSTEIN if n >= 5 else "#36e46f"
+        teile.append(f'<rect class="pegel{n}" x="{px + n * 6.5:.1f}" y="{y + 29 - hoehe}" width="4.5" height="{hoehe}" '
+                     f'fill="{farbe}" filter="url(#leuchten)"/>')
+        bewegung.append(f".pegel{n}{{transform-box:fill-box;transform-origin:bottom;"
+                        f"animation:pegel {.7 + n * .09:.2f}s ease-in-out infinite alternate}}")
+    bewegung.append("@keyframes pegel{from{transform:scaleY(.25)}to{transform:scaleY(1)}}")
+    return "".join(teile), "".join(bewegung)

@@ -10,7 +10,8 @@ from buehne.material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEI
                              schraube, spiegelung, svg, text, umbrechen)
 from buehne.glas import defs_glas
 from buehne.ortung import UMLAUF, ortungsschirm, peilung
-from buehne.rack import OHR, abschnitt, defs_rack, fassungsplatte, gestell, schild, steckfeld, taste_breit, vu
+from buehne.rack import (OHR, abschnitt, abspielfeld, defs_rack, fassungsplatte, gestell, schild, steckfeld,
+                         taste_breit, vu)
 from projekte import Projekt
 
 ZIEL_TINTE = "#d8f4f8"
@@ -24,7 +25,8 @@ def _defs() -> str:
     return defs_grund() + defs_rack() + defs_glas()
 
 
-def kopf(auswahl: Auswahl) -> str:
+def kopf(auswahl: Auswahl, musik: str | None = None) -> str:
+    """musik: Titel für das Abspielfeld unter dem Leitsatz; ohne Titel stehen dort die zwei Zeilen Leitsatz."""
     b, h = VOLL, 300
     teile = [gestell(b, h), fassungsplatte(52, 34, 236, 236)]
     schirm, schirm_bewegung = ortungsschirm(170, 152, 92, auswahl.projekte, kanalnummern=True)
@@ -44,8 +46,13 @@ def kopf(auswahl: Auswahl) -> str:
     teile.append(spiegelung(anzeige))
     # Leitsatz und Anzeigen
     teile.append(gravurtext(310, 206, "Werkzeuge mit Studio-Optik.", 16, GRAVUR, 600))
-    teile.append(gravurtext(310, 230, "Selbst gehostet, ohne Cloud,", 13, GRAVUR_LEISE, 500))
-    teile.append(gravurtext(310, 248, "ohne Tracking, auf eigener Hardware.", 13, GRAVUR_LEISE, 500))
+    musik_bewegung = ""
+    if musik:
+        feld, musik_bewegung = abspielfeld(310, 218, 286, musik)
+        teile.append(feld)
+    else:
+        teile.append(gravurtext(310, 230, "Selbst gehostet, ohne Cloud,", 13, GRAVUR_LEISE, 500))
+        teile.append(gravurtext(310, 248, "ohne Tracking, auf eigener Hardware.", 13, GRAVUR_LEISE, 500))
     for n, (beschriftung, farbe, blinken) in enumerate((("LOKAL", GRUEN, None), ("OFFEN", BERNSTEIN, None),
                                                          ("SIGNAL", CYAN, "puls"))):
         x = 622 + n * 66
@@ -56,7 +63,7 @@ def kopf(auswahl: Auswahl) -> str:
     teile.append(gravurtext(684, 272, f"{auswahl.anzahl_gesamt} PROJEKTE  ·  {auswahl.anzahl_themen} THEMEN",
                             9.5, GRAVUR_STUMM, 700, 1.6, "middle"))
     return svg(b, h, "HalloWelt42: Software, HiFi-Oberflächen, lokale KI", "".join(teile), _defs(),
-               bewegung=schirm_bewegung + BEWEGUNG_RACK)
+               bewegung=schirm_bewegung + BEWEGUNG_RACK + musik_bewegung)
 
 
 def signalmonitor(auswahl: Auswahl) -> str:

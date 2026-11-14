@@ -16,7 +16,7 @@ from buehne.material import (BERNSTEIN, BERNSTEIN_HELL, CYAN, GRAVUR, GRAVUR_LEI
                              KANTE_DUNKEL, defs_grund, fase, gravurtext, icon, led, mulde, platte, schraube,
                              spiegelung, svg, text, umbrechen)
 from buehne.ortung import ortungsschirm
-from buehne.rack import OHR, defs_rack, fassungsplatte, gestell, taste_breit
+from buehne.rack import OHR, abspielfeld, defs_rack, fassungsplatte, gestell, taste_breit
 from projekte import Gruppe, Liste, Profil, Projekt, repo_adresse
 
 PROFIL = "https://github.com/HalloWelt42"
@@ -58,8 +58,10 @@ def passende_groesse(inhalt: str, groesse: float, breite: float, sperrung: float
     return min(groesse, breite / max(len(inhalt), 1) / (.6 + sperrung / max(groesse, 1)))
 
 
-def kopf(profil: Profil) -> str:
-    """Kopf als Rack-Frontplatte: Themen-Radar in der Fassung, daneben die Bernstein-Anzeige."""
+def kopf(profil: Profil, musik: str | None = None) -> str:
+    """Kopf als Rack-Frontplatte: Themen-Radar in der Fassung, daneben die Bernstein-Anzeige.
+
+    musik: Titel für das Abspielfeld in der Freifläche unter der Anzeige; ohne Titel steht dort der Leitsatz."""
     b, h = VOLL, 240
     gruppen = profil.katalog_gruppen
     anzahl = sum(len(g.projekte) for g in gruppen)
@@ -79,13 +81,18 @@ def kopf(profil: Profil) -> str:
                       600, 1.6, extra='opacity=".7"'))
     teile.append(spiegelung(anzeige))
     teile.append(gravurtext(282, 184, "Werkzeuge mit Studio-Optik.", 15, GRAVUR, 600))
-    teile.append(gravurtext(282, 206, "Die Nummern am Schirm sind die Themen.", 13, GRAVUR_LEISE, 500))
+    musik_bewegung = ""
+    if musik:
+        feld, musik_bewegung = abspielfeld(282, 194, 330, musik)
+        teile.append(feld)
+    else:
+        teile.append(gravurtext(282, 206, "Die Nummern am Schirm sind die Themen.", 13, GRAVUR_LEISE, 500))
     for n, (beschriftung, farbe) in enumerate((("LOKAL", GRUEN), ("OFFEN", BERNSTEIN), ("SIGNAL", CYAN))):
         x = 650 + n * 54
         teile.append(led(x, 184, farbe, 3.2, blinken="puls" if farbe == CYAN else None))
         teile.append(gravurtext(x, 206, beschriftung, 9.5, GRAVUR_STUMM, 700, 1.2, "middle"))
     return svg(b, h, f"Alle Projekte: {anzahl} Projekte in {len(gruppen)} Themen", "".join(teile), defs(),
-               bewegung=bewegung + BEWEGUNG_PULS)
+               bewegung=bewegung + BEWEGUNG_PULS + musik_bewegung)
 
 
 def leiste(kennung: str, titel: str, zeile: str, anzahl: int, farbe: str) -> str:
