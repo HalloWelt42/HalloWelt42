@@ -15,9 +15,14 @@ KERN_HELL = "#e9fdff"
 
 # Farbvarianten des Logos: Name -> (Leuchtfarbe, Farbe des hellen Herzrands und der 42)
 LOGOFARBEN = {
-    "cyan": (CYAN, KERN_HELL),
-    "rot": ("#ff3b3b", "#ffe3df"),
-    "koralle": ("#ff6f5e", "#ffeae4"),
+    "cyan": (CYAN, KERN_HELL),          # Leitwarte, kühl und technisch
+    "rot": ("#ff3b3b", "#ffe3df"),      # klares Signalrot
+    "koralle": ("#ff6f5e", "#ffeae4"),  # warmes, helles Rötlich
+    "tiefrot": ("#d1122e", "#ffd2d6"),  # dunkles Karminrot, glüht wie eine Röhre
+    "bernstein": ("#ffae1a", "#fff1d6"),  # wie die Anzeigen im Rack: Profilbild und Seite aus einem Guss
+    "messing": ("#d9b46a", "#fff4dc"),  # edel und ruhig, wie Messing an HiFi-Geräten
+    "violett": ("#a66bff", "#efe4ff"),  # futuristisch, hebt sich von den Rack-Farben ab
+    "smaragd": ("#22e3a4", "#dcfff2"),  # grünes Leuchten wie alte Messgeräte
 }
 
 SCHLEIFE = 6.0  # Sekunden, nach denen alles wieder wie am Anfang steht
